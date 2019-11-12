@@ -1,5 +1,6 @@
+# PROJETO DAD - Grupo do Canto v2
 
-##1 - OBJECTIVE
+## 1 - OBJECTIVE
 
 This project objective is to implement a Single Page Application (SPA) for the "Virtual Wallet" platform, using Vue.js framework for the development of the web client.
 
