@@ -23,6 +23,10 @@ Route::post('users', 'UserControllerAPI@store');
 Route::put('users/{id}', 'UserControllerAPI@update');
 Route::delete('users/{id}', 'UserControllerAPI@destroy');
 
+//PASSPORT
+Route::post('login', 'LoginControllerAPI@login')->name('login');
+Route::middleware('auth:api')->post('logout','LoginControllerAPI@logout');
+
 /*
 Caso prefiram usar Resource Routes para o user, podem implementar antes as rotas:
 NOTA: neste caso, o parâmetro a receber nos métodos do controlador é user e não id
