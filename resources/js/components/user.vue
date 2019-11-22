@@ -10,7 +10,7 @@
 			<button type="button" class="close-btn" v-on:click="showSuccess=false">&times;</button>
 			<strong>{{ successMessage }}</strong>
 		</div>
-		<user-edit :user="currentUser" :departments="departments"  @user-saved="savedUser" @user-canceled="cancelEdit" v-if="currentUser"></user-edit>				
+		<user-edit :user="currentUser"  @user-saved="savedUser" @user-canceled="cancelEdit" v-if="currentUser"></user-edit>				
 	</div>				
 </template>
 

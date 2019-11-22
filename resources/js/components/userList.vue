@@ -5,7 +5,6 @@
 	            <th>Name</th>
 	            <th>Email</th>
 	            <th>Age</th>
-	            <th>Department</th>
 	            <th>Actions</th>
 	        </tr>
 	    </thead>
@@ -14,7 +13,6 @@
 	            <td>{{ user.name }}</td>
 	            <td>{{ user.email }}</td>
 	            <td>{{ user.age }}</td>
-	            <td>{{ user.department }}</td>
 	            <td>
 					<a class="btn btn-sm btn-success" v-on:click.prevent="definePlayer(user,1)">P1</a>
 					<a class="btn btn-sm btn-success" v-on:click.prevent="definePlayer(user,2)">P2</a>

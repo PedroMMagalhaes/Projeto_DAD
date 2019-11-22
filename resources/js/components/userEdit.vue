@@ -22,12 +22,6 @@
 	            name="age" id="inputAge"
 	            placeholder="Age"/>
 	    </div>
-	    <div class="form-group">
-	        <label for="department_id">Department:</label>
-	        <select class="form-control" id="department_id" name="department_id" v-model="user.department_id" >
-	            <option v-for="department in departments" v-bind:value="department.id"> {{ department.name }} </option>
-	        </select>
-	    </div>
 
 	    <div class="form-group">
 	        <a class="btn btn-primary" v-on:click.prevent="saveUser()">Save</a>
