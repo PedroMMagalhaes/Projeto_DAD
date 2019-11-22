@@ -10,7 +10,6 @@
 
 <script type="text/javascript">    
     import userEdit from './userEdit.vue';
-
     export default {
         components: {
             'user-edit': userEdit, 
@@ -42,15 +41,7 @@
         },
         mounted() {
             this.getInformationFromLoggedUser();
-            if (this.$root.departments.length === 0) {
-                axios.get('api/departments')
-                    .then(response=>{
-                        this.$root.departments = response.data.data; 
-                        this.departments = this.$root.departments;
-                    })
-            } else {
-                this.departments = this.$root.departments;
-            }
+            
         }        
     }
 </script>

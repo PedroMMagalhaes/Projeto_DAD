@@ -4,7 +4,8 @@
 	        <tr>
 	            <th>Name</th>
 	            <th>Email</th>
-	            <th>Age</th>
+	            <th>Type</th>
+				<th>Nif</th>
 	            <th>Actions</th>
 	        </tr>
 	    </thead>
@@ -12,10 +13,9 @@
 	        <tr v-for="user in users"  :key="user.id" :class="{activerow: editingUser === user}">
 	            <td>{{ user.name }}</td>
 	            <td>{{ user.email }}</td>
-	            <td>{{ user.age }}</td>
+	            <td>{{ user.type }}</td>
+	            <td>{{ user.nif }}</td>
 	            <td>
-					<a class="btn btn-sm btn-success" v-on:click.prevent="definePlayer(user,1)">P1</a>
-					<a class="btn btn-sm btn-success" v-on:click.prevent="definePlayer(user,2)">P2</a>
 	                <a class="btn btn-sm btn-primary" v-on:click.prevent="editUser(user)">Edit</a>
 	                <a class="btn btn-sm btn-danger" v-on:click.prevent="deleteUser(user)">Delete</a>
 	            </td>
@@ -26,10 +26,10 @@
 
 <script type="text/javascript">
 	// Component code (not registered)
-	module.exports={
+	export default {
 		props: ['users'],
 		data: function(){
-			return { 
+			return {
 				editingUser: null
 			}
 		},
@@ -37,16 +37,12 @@
             editUser: function(user){
                 this.editingUser = user;
                 this.$emit('edit-click', user);
-            },		
+            },
             deleteUser: function(user){
                 this.editingUser = null;
                 this.$emit('delete-click', user);
 			},
-			definePlayer: function(user,player){
-				this.$root.$data['player'+player] = user;
-				this.$emit('message', user.name+' selected as Player'+player);
-			}
-        },		
+        },
 	}
 </script>
 

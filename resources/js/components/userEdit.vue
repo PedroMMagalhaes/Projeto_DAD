@@ -5,7 +5,7 @@
 	        <label for="inputName">Name</label>
 	        <input
 	            type="text" class="form-control" v-model="user.name"
-	            name="name" id="inputName" 
+	            name="name" id="inputName"
 	            placeholder="Fullname"/>
 	    </div>
 	    <div class="form-group">
@@ -22,6 +22,12 @@
 	            name="age" id="inputAge"
 	            placeholder="Age"/>
 	    </div>
+	    <div class="form-group">
+	        <label for="department_id">Department:</label>
+	        <select class="form-control" id="department_id" name="department_id" v-model="user.department_id" >
+	            <option v-for="department in departments" :key="department.id" v-bind:value="department.id"> {{ department.name }} </option>
+	        </select>
+	    </div>
 
 	    <div class="form-group">
 	        <a class="btn btn-primary" v-on:click.prevent="saveUser()">Save</a>
@@ -31,7 +37,7 @@
 </template>
 
 <script type="text/javascript">
-	module.exports={
+	export default {
 		props: ['user', 'departments'],
 	    methods: {
 	        saveUser: function(){
@@ -56,6 +62,6 @@
 	}
 </script>
 
-<style scoped>	
+<style scoped>
 
 </style>
