@@ -1,12 +1,13 @@
 @extends('master')
 
-@section('title', 'Vue.js App')
+@section('title', 'Virtual Wallet')
 
 @section('content')
     <router-link to="/users">Users</router-link> - 
     <router-link to="/profile">Profile</router-link> -
     <router-link to="/login">Login</router-link> -
-    <router-link to="/logout">Logout</router-link>
+    <router-link to="/logout">Logout</router-link> - 
+    <router-link to="/initialpage">InitialPage</router-link> 
     <router-view></router-view>
 @endsection
 
