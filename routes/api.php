@@ -29,6 +29,7 @@ Route::middleware('auth:api')->post('logout','LoginControllerAPI@logout');
 
 //WALLETS
 Route::get('wallets', 'WalletControllerAPI@index');
+Route::get('numwallets', 'WalletControllerAPI@countWallets'); //num -> wallets
 
 /*
 Caso prefiram usar Resource Routes para o user, podem implementar antes as rotas:

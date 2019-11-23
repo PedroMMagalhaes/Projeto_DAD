@@ -1852,14 +1852,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      title: '',
+      showSuccess: false,
+      successMessage: '',
+      currentUser: null,
+      numWallets: ''
+    };
+  },
   methods: {
     login: function login() {
       console.log('InitialPage-GotoLogin');
     },
     register: function register() {
       console.log('InitialPage-GotoRegister');
+    },
+    getNumWallets: function getNumWallets() {
+      var _this = this;
+
+      axios.get('api/numwallets').then(function (response) {
+        _this.numWallets = response.data.data;
+      });
     }
+  },
+  mounted: function mounted() {
+    this.getUsers();
   }
 });
 
@@ -20489,7 +20509,9 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "jumbotron" }, [
-    _c("h2", [_vm._v("Welcome to Virtual Wallet")]),
+    _c("h1", [_vm._v("Welcome to Virtual Wallet")]),
+    _vm._v(" "),
+    _c("h2", [_vm._v(_vm._s(_vm.numWallets))]),
     _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [
       _c(
