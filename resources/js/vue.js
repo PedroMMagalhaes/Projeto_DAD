@@ -19,7 +19,7 @@ const logout = Vue.component('logout', LogoutComponent);
 const initial = Vue.component('initial', InitialPageComponent);
 
 const routes = [
-  { path: '/', redirect: '/users' },
+  { path: '/', redirect: '/initialpage' },
   { path: '/users', component: user },
   { path: '/profile', component: profile },
   { path: '/login', component: login },

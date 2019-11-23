@@ -1853,14 +1853,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       title: '',
       showSuccess: false,
       successMessage: '',
-      currentUser: null,
-      numWallets: ''
+      numWallets: 0
     };
   },
   methods: {
@@ -1874,12 +1875,12 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get('api/numwallets').then(function (response) {
-        _this.numWallets = response.data.data;
-      });
+        _this.numWallets = response.data;
+      }); //console.log(this.numWallets);
     }
   },
   mounted: function mounted() {
-    this.getUsers();
+    this.getNumWallets();
   }
 });
 
@@ -20511,7 +20512,15 @@ var render = function() {
   return _c("div", { staticClass: "jumbotron" }, [
     _c("h1", [_vm._v("Welcome to Virtual Wallet")]),
     _vm._v(" "),
-    _c("h2", [_vm._v(_vm._s(_vm.numWallets))]),
+    _c("br"),
+    _vm._v(" "),
+    _c("br"),
+    _vm._v(" "),
+    _c("h2", [_vm._v(" Total Wallets : " + _vm._s(_vm.numWallets))]),
+    _vm._v(" "),
+    _c("br"),
+    _vm._v(" "),
+    _c("br"),
     _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [
       _c(
@@ -36704,7 +36713,7 @@ var logout = vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('logout', _com
 var initial = vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('initial', _components_initial_vue__WEBPACK_IMPORTED_MODULE_6__["default"]);
 var routes = [{
   path: '/',
-  redirect: '/users'
+  redirect: '/initialpage'
 }, {
   path: '/users',
   component: user

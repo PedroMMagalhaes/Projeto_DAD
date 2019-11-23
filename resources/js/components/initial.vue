@@ -1,14 +1,16 @@
 <template>
     <div class="jumbotron">
         <h1>Welcome to Virtual Wallet</h1>
-        <h2>{{ numWallets }}</h2>
+        <br>
+        <br>
+        <h2> Total Wallets : {{ numWallets }}</h2>
+        <br>
+        <br>
         <div class="form-group">
             <a class="btn btn-primary" v-on:click.prevent="login">Login</a>
             <a class="btn btn-primary" v-on:click.prevent="register">Register</a>
         </div>
-
         <div class="form-group">
-            
         </div>
     </div>
 </template>
@@ -20,8 +22,7 @@
 		        title: '',
 		        showSuccess: false,
 		        successMessage: '',
-		        currentUser: null,
-		        numWallets: '',
+		        numWallets: 0,
 			}
 		},
         methods: {
@@ -32,12 +33,13 @@
                 console.log('InitialPage-GotoRegister')
             },
             getNumWallets: function(){
-                axios.get('api/numwallets')
-	                .then(response=>{this.numWallets = response.data.data; });
+               axios.get('api/numwallets')
+                    .then(response=>{this.numWallets = response.data; });
+                    //console.log(this.numWallets);
             }
         },
         mounted() {
-			this.getUsers();
+			this.getNumWallets();
 		}
     }
 </script>
