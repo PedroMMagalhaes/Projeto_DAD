@@ -32,10 +32,17 @@
         },
         methods: {
             login() {
-                console.log('login clicked')
-
+                 //axios.post('api/login')
+                   // .then(response=>{this.numWallets = response.data; });
+                
+                console.log(this.user.email);
+                console.log(this.user.password);
             }
 
         },
+         mounted() {
+            this.login();
+            
+        }  
     }
 </script>
