@@ -10,7 +10,7 @@ import UserComponent from './components/user.vue';
 import ProfileComponent from './components/profile.vue';
 import LoginComponent from './components/login.vue';
 import LogoutComponent from './components/logout.vue';
-
+import RegisterComponent from './components/register.vue';
 //Pagina Inicial
 import InitialPageComponent from './components/initial.vue';
 
@@ -19,6 +19,7 @@ const profile = Vue.component('profile', ProfileComponent);
 const login = Vue.component('login', LoginComponent);
 const logout = Vue.component('logout', LogoutComponent);
 const initial = Vue.component('initial', InitialPageComponent);
+const register = Vue.component('register', RegisterComponent);
 
 const routes = [
   { path: '/', redirect: '/initialpage', name: 'root' },
@@ -27,6 +28,9 @@ const routes = [
   { path: '/login', component: login , name: 'login' },
   { path: '/logout', component: logout , name:'logout'},
   { path: '/initialpage', component: initial, name: 'initialpage' },
+  { path: '/register', component: register, name: 'register' },
+
+
 ];
 
 const router = new VueRouter({

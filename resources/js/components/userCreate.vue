@@ -1,6 +1,6 @@
 <template>
 	<div class="jumbotron">
-	    <h2>Edit User</h2>
+	    <h2>Create User</h2>
 	    <div class="form-group">
 	        <label for="inputName">Name</label>
 	        <input
