@@ -1917,25 +1917,58 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       user: {
         email: "",
         password: ""
-      }
+      },
+      typeofmsg: "alert-success",
+      showMessage: false,
+      message: ""
     };
   },
   methods: {
     login: function login() {
-      //axios.post('api/login')
-      // .then(response=>{this.numWallets = response.data; });
-      console.log(this.user.email);
-      console.log(this.user.password);
+      var _this = this;
+
+      this.showMessage = false;
+      axios.post("api/login", this.user).then(function (response) {
+        _this.$store.commit("setToken", response.data.access_token);
+
+        console.log("Token:" + response.data.access_token);
+        return axios.get("api/users/me");
+      }).then(function (response) {
+        _this.$store.commit("setUser", response.data.data);
+
+        console.log("User:" + response.data.data);
+        _this.typeofmsg = "alert-success";
+        _this.message = "User authenticated correctly";
+        _this.showMessage = true;
+      })["catch"](function (error) {
+        _this.$store.commit("clearUserAndToken");
+
+        _this.typeofmsg = "alert-danger";
+        _this.message = "Invalid credentials";
+        _this.showMessage = true;
+        console.log(error);
+      });
     }
-  },
-  mounted: function mounted() {
-    this.login();
   }
 });
 
@@ -1959,10 +1992,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      typeofmsg: "alert-success",
+      showMessage: false,
+      message: ""
+    };
+  },
   methods: {
     logout: function logout() {
-      console.log('logout');
+      var _this = this;
+
+      this.showMessage = false;
+      axios.post('api/logout').then(function (response) {
+        _this.$store.commit('clearUserAndToken');
+
+        _this.typeofmsg = "alert-success";
+        _this.message = "User has logged out correctly";
+        _this.showMessage = true;
+      })["catch"](function (error) {
+        _this.$store.commit('clearUserAndToken');
+
+        _this.typeofmsg = "alert-danger";
+        _this.message = "Logout incorrect. But local credentials were discarded";
+        _this.showMessage = true;
+        console.log(error);
+      });
     }
   }
 });
@@ -2010,6 +2072,8 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     getInformationFromLoggedUser: function getInformationFromLoggedUser() {
       console.log('getInformationFromLoggedUser');
+      this.profileUser = this.$store.state.user; //get USER FROM VUEX STORE
+      //DEU **** NO INICIO
     },
     savedUser: function savedUser() {
       this.showSuccess = true;
@@ -20583,80 +20647,102 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "jumbotron" }, [
-    _c("h2", [_vm._v("Login")]),
+  return _c("div", [
+    _vm.showMessage
+      ? _c("div", { staticClass: "alert", class: _vm.typeofmsg }, [
+          _c(
+            "button",
+            {
+              staticClass: "close-btn",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  _vm.showMessage = false
+                }
+              }
+            },
+            [_vm._v("×")]
+          ),
+          _vm._v(" "),
+          _c("strong", [_vm._v(_vm._s(_vm.message))])
+        ])
+      : _vm._e(),
     _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "inputEmail" } }, [_vm._v("Email")]),
+    _c("div", { staticClass: "jumbotron" }, [
+      _c("h2", [_vm._v("Login")]),
       _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.user.email,
-            expression: "user.email"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: {
-          type: "email",
-          name: "email",
-          id: "inputEmail",
-          placeholder: "Email address"
-        },
-        domProps: { value: _vm.user.email },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "inputEmail" } }, [_vm._v("Email")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.user.email,
+              expression: "user.email"
             }
-            _vm.$set(_vm.user, "email", $event.target.value)
-          }
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "inputPassword" } }, [_vm._v("Password")]),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.user.password,
-            expression: "user.password"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: { type: "password", name: "password", id: "inputPassword" },
-        domProps: { value: _vm.user.password },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.user, "password", $event.target.value)
-          }
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c(
-        "a",
-        {
-          staticClass: "btn btn-primary",
+          ],
+          staticClass: "form-control",
+          attrs: {
+            type: "email",
+            name: "email",
+            id: "inputEmail",
+            placeholder: "Email address"
+          },
+          domProps: { value: _vm.user.email },
           on: {
-            click: function($event) {
-              $event.preventDefault()
-              return _vm.login($event)
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.user, "email", $event.target.value)
             }
           }
-        },
-        [_vm._v("Login")]
-      )
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "inputPassword" } }, [_vm._v("Password")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.user.password,
+              expression: "user.password"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { type: "password", name: "password", id: "inputPassword" },
+          domProps: { value: _vm.user.password },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.user, "password", $event.target.value)
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-primary",
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.login($event)
+              }
+            }
+          },
+          [_vm._v("Login")]
+        )
+      ])
     ])
   ])
 }
@@ -20682,23 +20768,45 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "jumbotron" }, [
-    _c("h2", [_vm._v("Confirmar Logout")]),
+  return _c("div", [
+    _vm.showMessage
+      ? _c("div", { staticClass: "alert", class: _vm.typeofmsg }, [
+          _c(
+            "button",
+            {
+              staticClass: "close-btn",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  _vm.showMessage = false
+                }
+              }
+            },
+            [_vm._v("×")]
+          ),
+          _vm._v(" "),
+          _c("strong", [_vm._v(_vm._s(_vm.message))])
+        ])
+      : _vm._e(),
     _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c(
-        "a",
-        {
-          staticClass: "btn btn-primary",
-          on: {
-            click: function($event) {
-              $event.preventDefault()
-              return _vm.logout($event)
+    _c("div", { staticClass: "jumbotron" }, [
+      _c("h2", [_vm._v("Confirmar Logout")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-primary",
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.logout($event)
+              }
             }
-          }
-        },
-        [_vm._v("Logout")]
-      )
+          },
+          [_vm._v("Logout")]
+        )
+      ])
     ])
   ])
 }
@@ -37754,6 +37862,73 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/stores/global-store.js":
+/*!*********************************************!*\
+  !*** ./resources/js/stores/global-store.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/*jshint esversion: 6 */
+
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
+/* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
+  state: {
+    token: "",
+    user: null
+  },
+  mutations: {
+    clearUserAndToken: function clearUserAndToken(state) {
+      state.user = null;
+      state.token = "";
+      sessionStorage.removeItem('user');
+      sessionStorage.removeItem('token');
+      axios.defaults.headers.common.Authorization = undefined;
+    },
+    clearUser: function clearUser(state) {
+      state.user = null;
+      sessionStorage.removeItem('user');
+    },
+    clearToken: function clearToken(state) {
+      state.token = "";
+      sessionStorage.removeItem('token');
+      axios.defaults.headers.common.Authorization = undefined;
+    },
+    setUser: function setUser(state, user) {
+      state.user = user;
+      sessionStorage.setItem('user', JSON.stringify(user));
+    },
+    setToken: function setToken(state, token) {
+      state.token = token;
+      sessionStorage.setItem('token', token);
+      axios.defaults.headers.common.Authorization = "Bearer " + token;
+    },
+    loadTokenAndUserFromSession: function loadTokenAndUserFromSession(state) {
+      state.token = "";
+      state.user = null;
+      var token = sessionStorage.getItem('token');
+      var user = sessionStorage.getItem('user');
+
+      if (token) {
+        state.token = token;
+        axios.defaults.headers.common.Authorization = "Bearer " + token;
+      }
+
+      if (user) {
+        state.user = JSON.parse(user);
+      }
+    }
+  }
+}));
+
+/***/ }),
+
 /***/ "./resources/js/vue.js":
 /*!*****************************!*\
   !*** ./resources/js/vue.js ***!
@@ -37766,7 +37941,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _stores_global_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./stores/global-store */ "./resources/js/stores/global-store.js");
 /* harmony import */ var _components_user_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/user.vue */ "./resources/js/components/user.vue");
 /* harmony import */ var _components_profile_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/profile.vue */ "./resources/js/components/profile.vue");
 /* harmony import */ var _components_login_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/login.vue */ "./resources/js/components/login.vue");
@@ -37779,7 +37954,6 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]); //VUEX
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__["default"]);
 
 
 
@@ -37793,31 +37967,54 @@ var logout = vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('logout', _com
 var initial = vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('initial', _components_initial_vue__WEBPACK_IMPORTED_MODULE_7__["default"]);
 var routes = [{
   path: '/',
-  redirect: '/initialpage'
+  redirect: '/initialpage',
+  name: 'root'
 }, {
   path: '/users',
-  component: user
+  component: user,
+  name: 'users'
 }, {
   path: '/profile',
-  component: profile
+  component: profile,
+  name: 'profile'
 }, {
   path: '/login',
-  component: login
+  component: login,
+  name: 'login'
 }, {
   path: '/logout',
-  component: logout
+  component: logout,
+  name: 'logout'
 }, {
   path: '/initialpage',
-  component: initial
+  component: initial,
+  name: 'initialpage'
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: routes
+});
+router.beforeEach(function (to, from, next) {
+  if (to.name == 'profile' || to.name == 'logout' || to.name == 'users') {
+    if (!_stores_global_store__WEBPACK_IMPORTED_MODULE_2__["default"].state.user) {
+      next("/login");
+      return;
+    }
+  }
+
+  next();
 });
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   router: router,
   data: {
     player1: undefined,
     player2: undefined
+  },
+  store: _stores_global_store__WEBPACK_IMPORTED_MODULE_2__["default"],
+  created: function created() {
+    console.log('-----');
+    console.log(this.$store.state.user);
+    this.$store.commit('loadTokenAndUserFromSession');
+    console.log(this.$store.state.user);
   }
 }).$mount('#app');
 

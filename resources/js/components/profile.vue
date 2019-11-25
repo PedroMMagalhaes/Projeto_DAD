@@ -30,6 +30,8 @@
         methods: {
             getInformationFromLoggedUser() {
                 console.log('getInformationFromLoggedUser')
+                this.profileUser = this.$store.state.user; //get USER FROM VUEX STORE
+                                                            //DEU **** NO INICIO
             },
             savedUser: function(){
                 this.showSuccess = true;

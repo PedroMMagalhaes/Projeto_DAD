@@ -26,6 +26,8 @@ Route::delete('users/{id}', 'UserControllerAPI@destroy');
 //PASSPORT
 Route::post('login', 'LoginControllerAPI@login')->name('login');
 Route::middleware('auth:api')->post('logout','LoginControllerAPI@logout');
+//Route::middleware('auth:api')->get('users/me', 'UserControllerAPI@myProfile'); //NOT VERY GOOD
+Route::middleware('auth:api')->get('users/{id}', 'UserControllerAPI@myProfile');
 
 //WALLETS
 Route::get('wallets', 'WalletControllerAPI@index');
