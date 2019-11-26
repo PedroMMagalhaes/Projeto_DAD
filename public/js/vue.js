@@ -1960,6 +1960,10 @@ __webpack_require__.r(__webpack_exports__);
         _this.typeofmsg = "alert-success";
         _this.message = "User authenticated correctly";
         _this.showMessage = true;
+      }).then(function (response) {
+        _this.$router.push({
+          path: '/'
+        });
       })["catch"](function (error) {
         _this.$store.commit("clearUserAndToken");
 
