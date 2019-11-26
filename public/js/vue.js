@@ -1855,6 +1855,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -20745,7 +20751,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "jumbotron" }, [
-    _c("h1", [_vm._v("Welcome to Virtual Wallet")]),
+    _c("h1", [_vm._v("Welcome to Virtual Wallet ")]),
     _vm._v(" "),
     _c("br"),
     _vm._v(" "),
@@ -38496,7 +38502,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     token: "",
-    user: null
+    user: null,
+    isLogged: false
   },
   mutations: {
     clearUserAndToken: function clearUserAndToken(state) {
@@ -38514,10 +38521,12 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       state.token = "";
       sessionStorage.removeItem('token');
       axios.defaults.headers.common.Authorization = undefined;
+      state.isLogged = false;
     },
     setUser: function setUser(state, user) {
       state.user = user;
       sessionStorage.setItem('user', JSON.stringify(user));
+      state.isLogged = true;
     },
     setToken: function setToken(state, token) {
       state.token = token;
