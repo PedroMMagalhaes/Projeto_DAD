@@ -2133,11 +2133,11 @@ __webpack_require__.r(__webpack_exports__);
       //this.profileUser = this.$store.state.user; //get USER FROM VUEX STORE
       //DEU **** NO INICIO
     },
-    savedUser: function savedUser() {
+    createUser: function createUser() {
       this.showSuccess = true;
       this.successMessage = "User's Profile Created";
     },
-    cancelEdit: function cancelEdit() {
+    cancelCreate: function cancelCreate() {
       this.showSuccess = false;
     }
   },
@@ -2294,6 +2294,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['user'],
   methods: {
@@ -2305,7 +2312,7 @@ __webpack_require__.r(__webpack_exports__);
         // without creating a new reference
         Object.assign(_this.user, response.data.data);
 
-        _this.$emit('user-saved', _this.user);
+        _this.$emit('user-create', _this.user);
       });
     },
     cancelCreate: function cancelCreate() {
@@ -21064,7 +21071,7 @@ var render = function() {
       _vm._v(" "),
       _c("user-create", {
         attrs: { user: _vm.profileUser, departments: _vm.departments },
-        on: { "user-saved": _vm.savedUser, "user-canceled": _vm.cancelEdit }
+        on: { "user-create": _vm.createUser, "user-canceled": _vm.cancelCreate }
       })
     ],
     1
@@ -21221,6 +21228,37 @@ var render = function() {
               return
             }
             _vm.$set(_vm.user, "email", $event.target.value)
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "inputPassword" } }, [_vm._v("Password")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.user.password,
+            expression: "user.password"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: {
+          type: "password",
+          name: "password",
+          id: "inputPassword",
+          placeholder: "Password"
+        },
+        domProps: { value: _vm.user.password },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.$set(_vm.user, "password", $event.target.value)
           }
         }
       })

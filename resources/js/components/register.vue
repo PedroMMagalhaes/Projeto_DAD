@@ -4,7 +4,7 @@
             <button type="button" class="close-btn" v-on:click="showSuccess=false">&times;</button>
             <strong>{{ successMessage }}</strong>
         </div>
-        <user-create :user="profileUser" :departments="departments"  @user-saved="savedUser" @user-canceled="cancelEdit"></user-create>
+        <user-create :user="profileUser" :departments="departments"  @user-create="createUser" @user-canceled="cancelCreate"></user-create>
     </div>              
 </template>
 
@@ -33,11 +33,11 @@
                 //this.profileUser = this.$store.state.user; //get USER FROM VUEX STORE
                                                             //DEU **** NO INICIO
             },
-            savedUser: function(){
+            createUser: function(){
                 this.showSuccess = true;
                 this.successMessage = "User's Profile Created";
             },
-            cancelEdit: function(){
+            cancelCreate: function(){
                 this.showSuccess = false;
             },            
         },

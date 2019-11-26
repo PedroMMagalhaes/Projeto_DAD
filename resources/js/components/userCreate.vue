@@ -15,6 +15,13 @@
 	            name="email" id="inputEmail"
 	            placeholder="Email address"/>
 	    </div>
+		<div class="form-group">
+	        <label for="inputPassword">Password</label>
+	        <input
+	            type="password" class="form-control" v-model="user.password"
+	            name="password" id="inputPassword"
+	            placeholder="Password"/>
+	    </div>
 	    <div class="form-group">
 	        <label for="inputActive">Active</label>
 	        <input
@@ -56,7 +63,7 @@
 	                	// Copy object properties from response.data.data to this.user
 	                	// without creating a new reference
 	                	Object.assign(this.user, response.data.data);
-	                	this.$emit('user-saved', this.user)
+	                	this.$emit('user-create', this.user)
 	                });
 	        },
 	        cancelCreate: function(){
