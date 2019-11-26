@@ -64,6 +64,10 @@ export default {
           this.message = "User authenticated correctly";
           this.showMessage = true;
         })
+        .then(response => {
+          this.$router.push({ path: '/' });
+        })
+        
         .catch(error => {
           this.$store.commit("clearUserAndToken");
           this.typeofmsg = "alert-danger";
