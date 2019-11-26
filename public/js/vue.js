@@ -2285,13 +2285,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['user', 'departments'],
+  props: ['user'],
   methods: {
-    saveUser: function saveUser() {
+    createUser: function createUser() {
       var _this = this;
 
-      axios.put('api/users/' + this.user.id, this.user).then(function (response) {
+      axios.post('api/users', this.user).then(function (response) {
         // Copy object properties from response.data.data to this.user
         // without creating a new reference
         Object.assign(_this.user, response.data.data);
@@ -2299,7 +2308,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.$emit('user-saved', _this.user);
       });
     },
-    cancelEdit: function cancelEdit() {
+    cancelCreate: function cancelCreate() {
       var _this2 = this;
 
       axios.get('api/users/' + this.user.id).then(function (response) {
@@ -2324,6 +2333,14 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -21254,7 +21271,7 @@ var render = function() {
         ],
         staticClass: "form-control",
         attrs: {
-          type: "number",
+          type: "text",
           name: "type",
           id: "inputType",
           placeholder: "Type"
@@ -21272,6 +21289,37 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "inputNif" } }, [_vm._v("Nif")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.user.nif,
+            expression: "user.nif"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: {
+          type: "number",
+          name: "nif",
+          id: "inputNif",
+          placeholder: "99999999"
+        },
+        domProps: { value: _vm.user.nif },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.$set(_vm.user, "nif", $event.target.value)
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group" }, [
       _c(
         "a",
         {
@@ -21279,7 +21327,7 @@ var render = function() {
           on: {
             click: function($event) {
               $event.preventDefault()
-              return _vm.saveUser()
+              return _vm.createUser()
             }
           }
         },
@@ -21293,7 +21341,7 @@ var render = function() {
           on: {
             click: function($event) {
               $event.preventDefault()
-              return _vm.cancelEdit()
+              return _vm.cancelCreate()
             }
           }
         },
@@ -21434,7 +21482,7 @@ var render = function() {
         ],
         staticClass: "form-control",
         attrs: {
-          type: "number",
+          type: "text",
           name: "type",
           id: "inputType",
           placeholder: "Type"
@@ -21446,6 +21494,37 @@ var render = function() {
               return
             }
             _vm.$set(_vm.user, "type", $event.target.value)
+          }
+        }
+      })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "inputNif" } }, [_vm._v("Nif")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.user.nif,
+            expression: "user.nif"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: {
+          type: "number",
+          name: "nif",
+          id: "inputNif",
+          placeholder: "Active"
+        },
+        domProps: { value: _vm.user.nif },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.$set(_vm.user, "nif", $event.target.value)
           }
         }
       })

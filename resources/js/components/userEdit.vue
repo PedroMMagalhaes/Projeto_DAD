@@ -25,9 +25,17 @@
 		<div class="form-group">
 	        <label for="inputType">Type</label>
 	        <input
-	            type="number" class="form-control" v-model="user.type"
+	            type="text" class="form-control" v-model="user.type"
 	            name="type" id="inputType"
 	            placeholder="Type"/>
+	    </div>
+
+		<div class="form-group">
+	        <label for="inputNif">Nif</label>
+	        <input
+	            type="number" class="form-control" v-model="user.nif"
+	            name="nif" id="inputNif"
+	            placeholder="Active"/>
 	    </div>
 	
 	    <div class="form-group">

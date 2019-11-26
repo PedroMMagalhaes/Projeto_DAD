@@ -22,27 +22,36 @@
 	            name="active" id="inputActive"
 	            placeholder="Active"/>
 	    </div>
+		
 		<div class="form-group">
 	        <label for="inputType">Type</label>
 	        <input
-	            type="number" class="form-control" v-model="user.type"
+	            type="text" class="form-control" v-model="user.type"
 	            name="type" id="inputType"
 	            placeholder="Type"/>
 	    </div>
+
+		<div class="form-group">
+	        <label for="inputNif">Nif</label>
+	        <input
+	            type="number" class="form-control" v-model="user.nif"
+	            name="nif" id="inputNif"
+	            placeholder="99999999"/>
+	    </div>
 	
 	    <div class="form-group">
-	        <a class="btn btn-primary" v-on:click.prevent="saveUser()">Save</a>
-	        <a class="btn btn-light" v-on:click.prevent="cancelEdit()">Cancel</a>
+	        <a class="btn btn-primary" v-on:click.prevent="createUser()">Save</a>
+	        <a class="btn btn-light" v-on:click.prevent="cancelCreate()">Cancel</a>
 	    </div>
 	</div>
 </template>
 
 <script type="text/javascript">
 	export default {
-		props: ['user', 'departments'],
+		props: ['user'],
 	    methods: {
-	        saveUser: function(){
-	            axios.put('api/users/'+this.user.id, this.user)
+	        createUser: function(){
+	            axios.post('api/users', this.user)
 	                .then(response=>{
 	                	// Copy object properties from response.data.data to this.user
 	                	// without creating a new reference
@@ -50,7 +59,7 @@
 	                	this.$emit('user-saved', this.user)
 	                });
 	        },
-	        cancelEdit: function(){
+	        cancelCreate: function(){
 	        	axios.get('api/users/'+this.user.id)
 	                .then(response=>{
 	                	// Copy object properties from response.data.data to this.user
