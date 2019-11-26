@@ -1,6 +1,12 @@
 <template>
     <div class="jumbotron">
-        <h1>Welcome to Virtual Wallet</h1>
+      <h1>Welcome to Virtual Wallet </h1>
+      <!--<div v-if="this.$store.state.isLogged"> -->
+      <!--<h1>Welcome {{this.$store.state.user.name}} </h1> -->
+      <!--<h2>Total Virtual Wallets {{wallets.lenght}}</h2> -->
+     <!-- <users></users>
+    </div> -->
+    
         <br>
         <br>
         <h2> Total Wallets : {{ numWallets }}</h2>

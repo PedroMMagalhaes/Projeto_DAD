@@ -8,7 +8,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: { 
         token: "",
-        user: null, 
+        user: null,
+        isLogged: false,
     },  
     mutations: { 
         clearUserAndToken: (state) => {
@@ -26,10 +27,12 @@ export default new Vuex.Store({
             state.token = "";
             sessionStorage.removeItem('token');
             axios.defaults.headers.common.Authorization = undefined;
+            state.isLogged=false;
         },
         setUser: (state, user) => {
             state.user =  user;
             sessionStorage.setItem('user', JSON.stringify(user));
+            state.isLogged=true;
         },
         setToken: (state, token) => {
             state.token= token;
