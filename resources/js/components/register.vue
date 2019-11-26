@@ -4,23 +4,23 @@
             <button type="button" class="close-btn" v-on:click="showSuccess=false">&times;</button>
             <strong>{{ successMessage }}</strong>
         </div>
-        <user-edit :user="profileUser" :departments="departments"  @user-saved="savedUser" @user-canceled="cancelEdit"></user-edit>
+        <user-create :user="profileUser" :departments="departments"  @user-create="createUser" @user-canceled="cancelCreate"></user-create>
     </div>              
 </template>
 
 <script type="text/javascript">    
-    import userEdit from './userEdit.vue';
+    import userCreate from './userCreate.vue';
     export default {
         components: {
-            'user-edit': userEdit, 
+            'user-create': userCreate, 
         },
         data: function(){
             return { 
                 profileUser: {
-                    email:"",
-                    age:"",
                     name:"",
-                    department_id: "1"
+                    email:"",
+                    type:"",
+                    active: "1"
                 },
                 departments: [],
                 successMessage: "",
@@ -29,15 +29,15 @@
         },
         methods: {
             getInformationFromLoggedUser() {
-                console.log('getInformationFromLoggedUser')
-                this.profileUser = this.$store.state.user; //get USER FROM VUEX STORE
+                //console.log('getInformationFromLoggedUser')
+                //this.profileUser = this.$store.state.user; //get USER FROM VUEX STORE
                                                             //DEU **** NO INICIO
             },
-            savedUser: function(){
+            createUser: function(){
                 this.showSuccess = true;
-                this.successMessage = "User's Profile Updated";
+                this.successMessage = "User's Profile Created";
             },
-            cancelEdit: function(){
+            cancelCreate: function(){
                 this.showSuccess = false;
             },            
         },

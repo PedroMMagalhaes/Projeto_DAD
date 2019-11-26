@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 
-class User extends Resource
+class Wallet extends Resource
 {
     /**
      * Transform the resource into an array.
@@ -18,8 +18,7 @@ class User extends Resource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'type' => $this->type,
-            'nif' => $this->nif,
+            'balance' => $this->balance,
         ];
     }
 }

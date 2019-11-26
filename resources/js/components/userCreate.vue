@@ -1,6 +1,6 @@
 <template>
 	<div class="jumbotron">
-	    <h2>Edit User</h2>
+	    <h2>Create User</h2>
 	    <div class="form-group">
 	        <label for="inputName">Name</label>
 	        <input
@@ -15,6 +15,13 @@
 	            name="email" id="inputEmail"
 	            placeholder="Email address"/>
 	    </div>
+		<div class="form-group">
+	        <label for="inputPassword">Password</label>
+	        <input
+	            type="password" class="form-control" v-model="user.password"
+	            name="password" id="inputPassword"
+	            placeholder="Password"/>
+	    </div>
 	    <div class="form-group">
 	        <label for="inputActive">Active</label>
 	        <input
@@ -22,6 +29,7 @@
 	            name="active" id="inputActive"
 	            placeholder="Active"/>
 	    </div>
+		
 		<div class="form-group">
 	        <label for="inputType">Type</label>
 	        <input
@@ -35,30 +43,30 @@
 	        <input
 	            type="number" class="form-control" v-model="user.nif"
 	            name="nif" id="inputNif"
-	            placeholder="Active"/>
+	            placeholder="99999999"/>
 	    </div>
 	
 	    <div class="form-group">
-	        <a class="btn btn-primary" v-on:click.prevent="saveUser()">Save</a>
-	        <a class="btn btn-light" v-on:click.prevent="cancelEdit()">Cancel</a>
+	        <a class="btn btn-primary" v-on:click.prevent="createUser()">Save</a>
+	        <a class="btn btn-light" v-on:click.prevent="cancelCreate()">Cancel</a>
 	    </div>
 	</div>
 </template>
 
 <script type="text/javascript">
 	export default {
-		props: ['user', 'departments'],
+		props: ['user'],
 	    methods: {
-	        saveUser: function(){
-	            axios.put('api/users/'+this.user.id, this.user)
+	        createUser: function(){
+	            axios.post('api/users', this.user)
 	                .then(response=>{
 	                	// Copy object properties from response.data.data to this.user
 	                	// without creating a new reference
 	                	Object.assign(this.user, response.data.data);
-	                	this.$emit('user-saved', this.user)
+	                	this.$emit('user-create', this.user)
 	                });
 	        },
-	        cancelEdit: function(){
+	        cancelCreate: function(){
 	        	axios.get('api/users/'+this.user.id)
 	                .then(response=>{
 	                	// Copy object properties from response.data.data to this.user
