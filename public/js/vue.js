@@ -1838,6 +1838,7 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./user */ "./resources/js/components/user.vue");
 //
 //
 //
@@ -1858,35 +1859,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      title: '',
+      title: "",
       showSuccess: false,
-      successMessage: '',
+      successMessage: "",
       numWallets: 0
     };
   },
   methods: {
     login: function login() {
-      console.log('InitialPage-GotoLogin');
+      console.log("InitialPage-GotoLogin");
     },
     register: function register() {
-      console.log('InitialPage-GotoRegister');
+      console.log("InitialPage-GotoRegister");
     },
     getNumWallets: function getNumWallets() {
       var _this = this;
 
-      axios.get('api/numwallets').then(function (response) {
+      axios.get("api/numwallets").then(function (response) {
         _this.numWallets = response.data;
       }); //console.log(this.numWallets);
     }
   },
   mounted: function mounted() {
     this.getNumWallets();
+  },
+  computed: {
+    isLogged: function isLogged() {
+      return this.$store.state.isLogged;
+    }
   }
 });
 
@@ -20751,13 +20755,25 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "jumbotron" }, [
-    _c("h1", [_vm._v("Welcome to Virtual Wallet ")]),
+    this.$store.state.isLogged
+      ? _c(
+          "div",
+          [
+            _c("h1", [
+              _vm._v("Welcome " + _vm._s(this.$store.state.user.name) + " ")
+            ]),
+            _vm._v(" "),
+            _c("users")
+          ],
+          1
+        )
+      : _vm._e(),
     _vm._v(" "),
     _c("br"),
     _vm._v(" "),
     _c("br"),
     _vm._v(" "),
-    _c("h2", [_vm._v(" Total Wallets : " + _vm._s(_vm.numWallets))]),
+    _c("h2", [_vm._v("Total Wallets : " + _vm._s(_vm.numWallets))]),
     _vm._v(" "),
     _c("br"),
     _vm._v(" "),
