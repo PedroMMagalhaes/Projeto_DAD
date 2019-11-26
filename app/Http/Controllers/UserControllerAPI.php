@@ -40,12 +40,11 @@ class UserControllerAPI extends Controller
         $request->validate([
                 'name' => 'required|min:3|regex:/^[A-Za-záàâãéèêíóôõúçÁÀÂÃÉÈÍÓÔÕÚÇ ]+$/',
                 'email' => 'required|email|unique:users,email',
-                'age' => 'integer|between:18,75',
                 'password' => 'min:3'
             ]);
         $user = new User();
         $user->fill($request->all());
-        $user->password = Hash::make($user->password);
+        $user->password = bcrypt($user->password);
         $user->save();
         return response()->json(new UserResource($user), 201);
     }
@@ -55,7 +54,6 @@ class UserControllerAPI extends Controller
         $request->validate([
                 'name' => 'required|min:3|regex:/^[A-Za-záàâãéèêíóôõúçÁÀÂÃÉÈÍÓÔÕÚÇ ]+$/',
                 'email' => 'required|email|unique:users,email,'.$id,
-                'age' => 'integer|between:18,75'
             ]);
         $user = User::findOrFail($id);
         $user->update($request->all());

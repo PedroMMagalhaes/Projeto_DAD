@@ -3,7 +3,7 @@
     <!--<h1>Welcome to Virtual Wallet</h1> -->
     <div v-if="this.$store.state.isLogged"> 
     <h1>Welcome {{this.$store.state.user.name}} </h1> 
-    <users></users>
+    <!--<user></user>-->
     </div>
     <br />
     <br />

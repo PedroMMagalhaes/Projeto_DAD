@@ -31520,7 +31520,7 @@ var app = new Vue({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/pedromagalhaes/Documents/DAD/Projeto_DAD/resources/js/tictactoe.js */"./resources/js/tictactoe.js");
+module.exports = __webpack_require__(/*! /Users/pedromagalhaes/Documents/Projeto_DAD/resources/js/tictactoe.js */"./resources/js/tictactoe.js");
 
 
 /***/ })
