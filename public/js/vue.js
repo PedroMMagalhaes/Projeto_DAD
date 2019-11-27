@@ -2321,9 +2321,11 @@ __webpack_require__.r(__webpack_exports__);
     createUser: function createUser() {
       var _this = this;
 
+      console.log(this.user);
       axios.post('api/users', this.user).then(function (response) {
-        // Copy object properties from response.data.data to this.user
-        // without creating a new reference
+        console.log(response.data); // Copy object properties from response.data.data to this.user
+        // without creating a new reference 
+
         Object.assign(_this.user, response.data.data);
 
         _this.$emit('user-create', _this.user);
@@ -20756,17 +20758,11 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "jumbotron" }, [
     this.$store.state.isLogged
-      ? _c(
-          "div",
-          [
-            _c("h1", [
-              _vm._v("Welcome " + _vm._s(this.$store.state.user.name) + " ")
-            ]),
-            _vm._v(" "),
-            _c("users")
-          ],
-          1
-        )
+      ? _c("div", [
+          _c("h1", [
+            _vm._v("Welcome " + _vm._s(this.$store.state.user.name) + " ")
+          ])
+        ])
       : _vm._e(),
     _vm._v(" "),
     _c("br"),
@@ -38685,8 +38681,8 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/pedromagalhaes/Documents/DAD/Projeto_DAD/resources/js/vue.js */"./resources/js/vue.js");
-module.exports = __webpack_require__(/*! /Users/pedromagalhaes/Documents/DAD/Projeto_DAD/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/pedromagalhaes/Documents/Projeto_DAD/resources/js/vue.js */"./resources/js/vue.js");
+module.exports = __webpack_require__(/*! /Users/pedromagalhaes/Documents/Projeto_DAD/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

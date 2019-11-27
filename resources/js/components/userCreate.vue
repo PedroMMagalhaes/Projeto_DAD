@@ -58,10 +58,13 @@
 		props: ['user'],
 	    methods: {
 	        createUser: function(){
+      		console.log(this.user);
 	            axios.post('api/users', this.user)
 	                .then(response=>{
+
+				console.log(response.data); 
 	                	// Copy object properties from response.data.data to this.user
-	                	// without creating a new reference
+	                	// without creating a new reference 
 	                	Object.assign(this.user, response.data.data);
 	                	this.$emit('user-create', this.user)
 	                });
