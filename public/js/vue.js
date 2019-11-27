@@ -38521,7 +38521,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
   state: {
     token: "",
     user: null,
-    isLogged: false
+    isLogged: false,
+    currentUser: null
   },
   mutations: {
     clearUserAndToken: function clearUserAndToken(state) {
