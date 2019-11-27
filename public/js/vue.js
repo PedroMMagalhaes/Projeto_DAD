@@ -2074,11 +2074,10 @@ __webpack_require__.r(__webpack_exports__);
     return {
       profileUser: {
         email: "",
-        age: "",
         name: "",
-        department_id: "1"
+        type: "",
+        photo: ""
       },
-      departments: [],
       successMessage: "",
       showSuccess: false
     };
@@ -2403,30 +2402,76 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['user', 'departments'],
+  props: ["user"],
   methods: {
     saveUser: function saveUser() {
       var _this = this;
 
-      axios.put('api/users/' + this.user.id, this.user).then(function (response) {
+      axios.put("api/users/" + this.user.id, this.user).then(function (response) {
         // Copy object properties from response.data.data to this.user
         // without creating a new reference
         Object.assign(_this.user, response.data.data);
 
-        _this.$emit('user-saved', _this.user);
+        _this.$emit("user-saved", _this.user);
       });
     },
     cancelEdit: function cancelEdit() {
       var _this2 = this;
 
-      axios.get('api/users/' + this.user.id).then(function (response) {
+      axios.get("api/users/" + this.user.id).then(function (response) {
         // Copy object properties from response.data.data to this.user
         // without creating a new reference
         Object.assign(_this2.user, response.data.data);
 
-        _this2.$emit('user-canceled', _this2.user);
+        _this2.$emit("user-canceled", _this2.user);
       });
+    },
+    //I CREATE A SYMBOLIC LINK TO PUBLIC/STORAGE , NOW WE CAN ACESS DATA FROM THAT FOLDER
+    getProfilePhoto: function getProfilePhoto() {
+      return "/storage/fotos/" + this.user.photo;
+    },
+    //method to save foto uploadead - TEST ***
+    updateProfile: function updateProfile(e) {
+      var _this3 = this;
+
+      var file = e.target.files[0];
+      var reader = new FileReader();
+      var limit = 1024 * 1024 * 2;
+
+      if (file["size"] > limit) {
+        console.log("File to Large");
+        return false;
+      }
+
+      reader.onloadend = function (file) {
+        _this3.user.photo = reader.result;
+      };
+
+      reader.readAsDataURL(file);
     }
   }
 });
@@ -21039,7 +21084,7 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _c("user-edit", {
-        attrs: { user: _vm.profileUser, departments: _vm.departments },
+        attrs: { user: _vm.profileUser },
         on: { "user-saved": _vm.savedUser, "user-canceled": _vm.cancelEdit }
       })
     ],
@@ -21497,66 +21542,27 @@ var render = function() {
       })
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "inputActive" } }, [_vm._v("Active")]),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.user.active,
-            expression: "user.active"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: {
-          type: "number",
-          name: "active",
-          id: "inputActive",
-          placeholder: "Active"
-        },
-        domProps: { value: _vm.user.active },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.user, "active", $event.target.value)
-          }
-        }
+    _c("div", { staticClass: "widget-user-image" }, [
+      _c("img", {
+        staticClass: "img-circle",
+        attrs: { src: _vm.getProfilePhoto(), alt: "User Avatar" }
       })
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "inputType" } }, [_vm._v("Type")]),
+      _c(
+        "label",
+        { staticClass: "col-sm-2 control-label", attrs: { for: "photo" } },
+        [_vm._v("Profile Photo")]
+      ),
       _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.user.type,
-            expression: "user.type"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: {
-          type: "text",
-          name: "type",
-          id: "inputType",
-          placeholder: "Type"
-        },
-        domProps: { value: _vm.user.type },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.user, "type", $event.target.value)
-          }
-        }
-      })
+      _c("div", { staticClass: "col-sm-12" }, [
+        _c("input", {
+          staticClass: "form-input",
+          attrs: { type: "file", name: "photo" },
+          on: { change: _vm.updateProfile }
+        })
+      ])
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [
@@ -21576,7 +21582,7 @@ var render = function() {
           type: "number",
           name: "nif",
           id: "inputNif",
-          placeholder: "Active"
+          placeholder: "999999999"
         },
         domProps: { value: _vm.user.nif },
         on: {

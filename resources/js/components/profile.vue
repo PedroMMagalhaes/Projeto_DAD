@@ -4,7 +4,7 @@
             <button type="button" class="close-btn" v-on:click="showSuccess=false">&times;</button>
             <strong>{{ successMessage }}</strong>
         </div>
-        <user-edit :user="profileUser" :departments="departments"  @user-saved="savedUser" @user-canceled="cancelEdit"></user-edit>
+        <user-edit :user="profileUser"  @user-saved="savedUser" @user-canceled="cancelEdit"></user-edit>
     </div>              
 </template>
 
@@ -18,11 +18,10 @@
             return { 
                 profileUser: {
                     email:"",
-                    age:"",
                     name:"",
-                    department_id: "1"
+                    type:"",
+                    photo:"",
                 },
-                departments: [],
                 successMessage: "",
                 showSuccess: false
             }
