@@ -10,6 +10,7 @@ export default new Vuex.Store({
         token: "",
         user: null,
         isLogged: false,
+        currentUser: null,
     },  
     mutations: { 
         clearUserAndToken: (state) => {
