@@ -2513,9 +2513,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 // Component code (not registered)
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['users'],
+  props: ["users"],
   data: function data() {
     return {
       editingUser: null
@@ -2524,11 +2528,27 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     editUser: function editUser(user) {
       this.editingUser = user;
-      this.$emit('edit-click', user);
+      this.$emit("edit-click", user);
     },
     deleteUser: function deleteUser(user) {
       this.editingUser = null;
-      this.$emit('delete-click', user);
+      this.$emit("delete-click", user);
+    },
+    getProfilePhoto: function getProfilePhoto(name) {
+      return "/storage/fotos/" + name;
+    },
+    getStringRole: function getStringRole(string) {
+      if (string == "a") {
+        return "Admin";
+      }
+
+      if (string == "o") {
+        return "Operator";
+      }
+
+      if (string == "u") {
+        return "Platform User";
+      }
     }
   }
 });
@@ -2547,7 +2567,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\ntr.activerow[data-v-32d347d4] {\n  \t\tbackground: #123456  !important;\n  \t\tcolor: #fff          !important;\n}\n\n", ""]);
+exports.push([module.i, "\ntr.activerow[data-v-32d347d4] {\n  background: #123456 !important;\n  color: #fff !important;\n}\n", ""]);
 
 // exports
 
@@ -21663,9 +21683,19 @@ var render = function() {
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(user.email))]),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(user.type))]),
+            _c("td", [_vm._v(_vm._s(_vm.getStringRole(user.type)))]),
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(user.nif))]),
+            _vm._v(" "),
+            _c("td", { staticClass: "widget-user-image" }, [
+              _c("img", {
+                staticClass: "img-circle",
+                attrs: {
+                  src: _vm.getProfilePhoto(user.photo),
+                  alt: "User Avatar"
+                }
+              })
+            ]),
             _vm._v(" "),
             _c("td", [
               _c(
@@ -21717,6 +21747,8 @@ var staticRenderFns = [
         _c("th", [_vm._v("Type")]),
         _vm._v(" "),
         _c("th", [_vm._v("Nif")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Photo")]),
         _vm._v(" "),
         _c("th", [_vm._v("Actions")])
       ])
