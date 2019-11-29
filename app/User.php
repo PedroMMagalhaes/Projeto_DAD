@@ -23,6 +23,7 @@ class User extends Authenticatable
         'type',
         'nif',
         'photo',
+        'created_at',
     ];
 
     /**

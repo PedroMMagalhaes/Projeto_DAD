@@ -17,7 +17,7 @@
         <td>{{ getStringRole(user.type)}}</td>
         <td>{{ user.nif }}</td>
         <td class="widget-user-image">
-          <img class="img-circle" :src="getProfilePhoto(user.photo)" alt="User Avatar" />
+          <img class="img-circle" :src="getProfilePhoto(user.photo)" width="40" height="40" alt="User Avatar" />
         </td>
         <td>
           <a class="btn btn-sm btn-primary" v-on:click.prevent="editUser(user)">Edit</a>

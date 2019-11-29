@@ -45,20 +45,24 @@
 	            name="nif" id="inputNif"
 	            placeholder="99999999"/>
 	    </div>
-	
+
 	    <div class="form-group">
 	        <a class="btn btn-primary" v-on:click.prevent="createUser()">Save</a>
 	        <a class="btn btn-light" v-on:click.prevent="cancelCreate()">Cancel</a>
 	    </div>
+
 	</div>
 </template>
 
 <script type="text/javascript">
+import moment from 'moment'
 	export default {
 		props: ['user'],
 	    methods: {
 	        createUser: function(){
-      		console.log(this.user);
+			//this.createdAtDisplay();
+			  
+			  console.log(this.user);
 	            axios.post('api/users', this.user)
 	                .then(response=>{
 
@@ -76,9 +80,18 @@
 	                	// without creating a new reference
 	                	Object.assign(this.user, response.data.data);
 	                	this.$emit('user-canceled', this.user);
-	                });
-	        }
-		}
+					});	
+			},
+
+			createdAtDisplay() {
+				console.log(moment().format('YYYY-MM-DD h:mm '));
+				this.user.created_at = moment().format('YYYY-MM-DD h:mm');
+				//return moment().format('YYYY-MM-DD h:mm A');
+  				}
+		},
+		 mounted() {
+			//this.createdAtDisplay();	
+        } 
 	}
 </script>
 
