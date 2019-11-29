@@ -1972,7 +1972,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.showMessage = true;
       }).then(function (response) {
         _this.$router.push({
-          path: '/'
+          path: "/"
         });
       })["catch"](function (error) {
         _this.$store.commit("clearUserAndToken");
@@ -2317,41 +2317,91 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['user'],
+  props: ["user"],
+  data: function data() {
+    return {
+      photoFile: null
+    };
+  },
   methods: {
     createUser: function createUser() {
       var _this = this;
 
       //this.createdAtDisplay();
       console.log(this.user);
-      axios.post('api/users', this.user).then(function (response) {
+      var formData = new FormData(); //formData.append('user',this.user);
+
+      formData.append('name', this.user.name);
+      formData.append('email', this.user.email);
+      formData.append('password', this.user.password);
+      formData.append('nif', this.user.nif);
+      formData.append('active', this.user.active);
+      formData.append('photoFile', this.photoFile);
+      axios.post("api/users", formData).then(function (response) {
         console.log(response.data); // Copy object properties from response.data.data to this.user
-        // without creating a new reference 
+        // without creating a new reference
 
         Object.assign(_this.user, response.data.data);
 
-        _this.$emit('user-create', _this.user);
+        _this.$emit("user-create", _this.user);
       });
     },
     cancelCreate: function cancelCreate() {
       var _this2 = this;
 
-      axios.get('api/users/' + this.user.id).then(function (response) {
+      axios.get("api/users/" + this.user.id).then(function (response) {
         // Copy object properties from response.data.data to this.user
         // without creating a new reference
         Object.assign(_this2.user, response.data.data);
 
-        _this2.$emit('user-canceled', _this2.user);
+        _this2.$emit("user-canceled", _this2.user);
       });
     },
     createdAtDisplay: function createdAtDisplay() {
-      console.log(moment__WEBPACK_IMPORTED_MODULE_0___default()().format('YYYY-MM-DD h:mm '));
-      this.user.created_at = moment__WEBPACK_IMPORTED_MODULE_0___default()().format('YYYY-MM-DD h:mm'); //return moment().format('YYYY-MM-DD h:mm A');
+      console.log(moment__WEBPACK_IMPORTED_MODULE_0___default()().format("YYYY-MM-DD h:mm "));
+      this.user.created_at = moment__WEBPACK_IMPORTED_MODULE_0___default()().format("YYYY-MM-DD h:mm"); //return moment().format('YYYY-MM-DD h:mm A');
+    },
+    uploadPicture: function uploadPicture(event) {
+      var input = event.target;
+
+      if (input.files && input.files) {
+        this.photoFile = input.files[0];
+      }
     }
   },
-  mounted: function mounted() {//this.createdAtDisplay();	
+  mounted: function mounted() {//this.createdAtDisplay();
   }
 });
 
@@ -2479,7 +2529,8 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       reader.onloadend = function (file) {
-        _this3.user.photo = reader.result;
+        // this.user.photo = reader.result;
+        _this3.user.photo = file.name;
       };
 
       reader.readAsDataURL(file);
@@ -39058,6 +39109,22 @@ var render = function() {
           }
         }
       })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group" }, [
+      _c(
+        "label",
+        { staticClass: "col-sm-2 control-label", attrs: { for: "photo" } },
+        [_vm._v("Profile Photo")]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-12" }, [
+        _c("input", {
+          staticClass: "form-input",
+          attrs: { type: "file", name: "photo" },
+          on: { change: _vm.uploadPicture }
+        })
+      ])
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [

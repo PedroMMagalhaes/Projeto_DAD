@@ -96,6 +96,7 @@ export default {
     //method to save foto uploadead - TEST ***
     updateProfile(e) {
       let file = e.target.files[0];
+      
       let reader = new FileReader();
       let limit = 1024 * 1024 * 2;
       if (file["size"] > limit) {
@@ -103,7 +104,8 @@ export default {
         return false;
       }
       reader.onloadend = file => {
-        this.user.photo = reader.result;
+       // this.user.photo = reader.result;
+       this.user.photo = file.name;
       };
       reader.readAsDataURL(file);
     }

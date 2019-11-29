@@ -1,100 +1,150 @@
 <template>
-	<div class="jumbotron">
-	    <h2>Create User</h2>
-	    <div class="form-group">
-	        <label for="inputName">Name</label>
-	        <input
-	            type="text" class="form-control" v-model="user.name"
-	            name="name" id="inputName"
-	            placeholder="Fullname"/>
-	    </div>
-	    <div class="form-group">
-	        <label for="inputEmail">Email</label>
-	        <input
-	            type="email" class="form-control" v-model="user.email"
-	            name="email" id="inputEmail"
-	            placeholder="Email address"/>
-	    </div>
-		<div class="form-group">
-	        <label for="inputPassword">Password</label>
-	        <input
-	            type="password" class="form-control" v-model="user.password"
-	            name="password" id="inputPassword"
-	            placeholder="Password"/>
-	    </div>
-	    <div class="form-group">
-	        <label for="inputActive">Active</label>
-	        <input
-	            type="number" class="form-control" v-model="user.active"
-	            name="active" id="inputActive"
-	            placeholder="Active"/>
-	    </div>
-		
-		<div class="form-group">
-	        <label for="inputType">Type</label>
-	        <input
-	            type="text" class="form-control" v-model="user.type"
-	            name="type" id="inputType"
-	            placeholder="Type"/>
-	    </div>
+  <div class="jumbotron">
+    <h2>Create User</h2>
+    <div class="form-group">
+      <label for="inputName">Name</label>
+      <input
+        type="text"
+        class="form-control"
+        v-model="user.name"
+        name="name"
+        id="inputName"
+        placeholder="Fullname"
+      />
+    </div>
+    <div class="form-group">
+      <label for="inputEmail">Email</label>
+      <input
+        type="email"
+        class="form-control"
+        v-model="user.email"
+        name="email"
+        id="inputEmail"
+        placeholder="Email address"
+      />
+    </div>
+    <div class="form-group">
+      <label for="inputPassword">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        v-model="user.password"
+        name="password"
+        id="inputPassword"
+        placeholder="Password"
+      />
+    </div>
+    <div class="form-group">
+      <label for="inputActive">Active</label>
+      <input
+        type="number"
+        class="form-control"
+        v-model="user.active"
+        name="active"
+        id="inputActive"
+        placeholder="Active"
+      />
+    </div>
 
-		<div class="form-group">
-	        <label for="inputNif">Nif</label>
-	        <input
-	            type="number" class="form-control" v-model="user.nif"
-	            name="nif" id="inputNif"
-	            placeholder="99999999"/>
-	    </div>
+    <div class="form-group">
+      <label for="inputType">Type</label>
+      <input
+        type="text"
+        class="form-control"
+        v-model="user.type"
+        name="type"
+        id="inputType"
+        placeholder="Type"
+      />
+    </div>
 
-	    <div class="form-group">
-	        <a class="btn btn-primary" v-on:click.prevent="createUser()">Save</a>
-	        <a class="btn btn-light" v-on:click.prevent="cancelCreate()">Cancel</a>
-	    </div>
+    <div class="form-group">
+      <label for="inputNif">Nif</label>
+      <input
+        type="number"
+        class="form-control"
+        v-model="user.nif"
+        name="nif"
+        id="inputNif"
+        placeholder="99999999"
+      />
+    </div>
 
-	</div>
+    <div class="form-group">
+      <label for="photo" class="col-sm-2 control-label">Profile Photo</label>
+      <div class="col-sm-12">
+        <input type="file" @change="uploadPicture" name="photo" class="form-input" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <a class="btn btn-primary" v-on:click.prevent="createUser()">Save</a>
+      <a class="btn btn-light" v-on:click.prevent="cancelCreate()">Cancel</a>
+    </div>
+  </div>
 </template>
 
 <script type="text/javascript">
-import moment from 'moment'
-	export default {
-		props: ['user'],
-	    methods: {
-	        createUser: function(){
-			//this.createdAtDisplay();
-			  
-			  console.log(this.user);
-	            axios.post('api/users', this.user)
-	                .then(response=>{
+import moment from "moment";
+export default {
+  props: ["user"],
+  data: function(){
+    return {
+      photoFile : null
+    }
+  },
+  methods: {
+    createUser: function() {
+      //this.createdAtDisplay();
+		
+      console.log(this.user);
+      var formData = new FormData();
 
-				console.log(response.data); 
-	                	// Copy object properties from response.data.data to this.user
-	                	// without creating a new reference 
-	                	Object.assign(this.user, response.data.data);
-	                	this.$emit('user-create', this.user)
-	                });
-	        },
-	        cancelCreate: function(){
-	        	axios.get('api/users/'+this.user.id)
-	                .then(response=>{
-	                	// Copy object properties from response.data.data to this.user
-	                	// without creating a new reference
-	                	Object.assign(this.user, response.data.data);
-	                	this.$emit('user-canceled', this.user);
-					});	
-			},
+      //formData.append('user',this.user);
 
-			createdAtDisplay() {
-				console.log(moment().format('YYYY-MM-DD h:mm '));
-				this.user.created_at = moment().format('YYYY-MM-DD h:mm');
-				//return moment().format('YYYY-MM-DD h:mm A');
-  				}
-		},
-		 mounted() {
-			//this.createdAtDisplay();	
-        } 
-	}
+      formData.append('name', this.user.name);
+      formData.append('email', this.user.email);
+      formData.append('password', this.user.password);
+      formData.append('nif', this.user.nif);
+      formData.append('active', this.user.active);
+
+      formData.append('photoFile',this.photoFile);
+      axios.post("api/users", formData).then(response => {
+        console.log(response.data);
+        // Copy object properties from response.data.data to this.user
+        // without creating a new reference
+        Object.assign(this.user, response.data.data);
+        this.$emit("user-create", this.user);
+      });
+    },
+    cancelCreate: function() {
+      axios.get("api/users/" + this.user.id).then(response => {
+        // Copy object properties from response.data.data to this.user
+        // without creating a new reference
+        Object.assign(this.user, response.data.data);
+        this.$emit("user-canceled", this.user);
+      });
+    },
+
+    createdAtDisplay() {
+      console.log(moment().format("YYYY-MM-DD h:mm "));
+      this.user.created_at = moment().format("YYYY-MM-DD h:mm");
+      //return moment().format('YYYY-MM-DD h:mm A');
+    },
+
+    uploadPicture: function(event) {
+      
+      var input = event.target;
+      if (input.files && input.files){
+        this.photoFile = input.files[0];
+      }
+    },
+  },
+  mounted() {
+    //this.createdAtDisplay();
+  }
+};
 </script>
 
 <style scoped>
-
 </style>

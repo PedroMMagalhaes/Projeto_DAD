@@ -37,6 +37,7 @@ class UserControllerAPI extends Controller
 
     public function store(Request $request)
     {
+        //dd($request->photoFile);
         $request->validate([
                 'name' => 'required|min:3|regex:/^[A-Za-záàâãéèêíóôõúçÁÀÂÃÉÈÍÓÔÕÚÇ ]+$/',
                 'email' => 'required|email|unique:users,email',
@@ -45,6 +46,12 @@ class UserControllerAPI extends Controller
         $user = new User();
         $user->fill($request->all());
         $user->password = bcrypt($user->password);
+        if($request->hasFile('photoFile')){
+            $file = $request->photoFile;
+            $fileNew = \Storage::putFile('public/fotos', $file);
+            $filename = basename($fileNew);
+            $user->photo=$filename;
+        }
         $user->save();
         return response()->json(new UserResource($user), 201);
     }
