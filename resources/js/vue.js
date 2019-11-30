@@ -3,8 +3,10 @@ require('./bootstrap');
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from './stores/global-store';
+import Vuelidate from 'vuelidate'
+
 Vue.use(VueRouter);
-//VUEX
+Vue.use(Vuelidate);
 
 import UserComponent from './components/user.vue';
 import ProfileComponent from './components/profile.vue';

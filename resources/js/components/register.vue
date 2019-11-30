@@ -4,12 +4,13 @@
             <button type="button" class="close-btn" v-on:click="showSuccess=false">&times;</button>
             <strong>{{ successMessage }}</strong>
         </div>
-        <user-create :user="profileUser" :departments="departments"  @user-create="createUser" @user-canceled="cancelCreate"></user-create>
+        <user-create :user="profileUser" @user-create="createUser" @user-canceled="cancelCreate"></user-create>
     </div>              
 </template>
 
 <script type="text/javascript">    
     import userCreate from './userCreate.vue';
+    
     export default {
         components: {
             'user-create': userCreate, 
