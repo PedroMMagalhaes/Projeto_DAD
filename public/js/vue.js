@@ -2136,15 +2136,15 @@ __webpack_require__.r(__webpack_exports__);
         type: "",
         active: "1"
       },
-      departments: [],
       successMessage: "",
       showSuccess: false
     };
   },
   methods: {
-    getInformationFromLoggedUser: function getInformationFromLoggedUser() {//console.log('getInformationFromLoggedUser')
-      //this.profileUser = this.$store.state.user; //get USER FROM VUEX STORE
-      //DEU **** NO INICIO
+    getInformationFromLoggedUser: function getInformationFromLoggedUser() {
+      this.profileUser = this.$store.state.user; //get USER FROM VUEX STORE
+
+      console.log(this.$store.state.user); //DEU **** NO INICIO
     },
     createUser: function createUser() {
       this.showSuccess = true;
@@ -2188,17 +2188,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      title: 'List Users',
+      title: "List Users",
       showSuccess: false,
-      successMessage: '',
+      successMessage: "",
       currentUser: null,
-      users: [],
-      departments: []
+      users: []
     };
   },
   methods: {
@@ -2209,9 +2216,9 @@ __webpack_require__.r(__webpack_exports__);
     deleteUser: function deleteUser(user) {
       var _this = this;
 
-      axios["delete"]('api/users/' + user.id).then(function (response) {
+      axios["delete"]("api/users/" + user.id).then(function (response) {
         _this.showSuccess = true;
-        _this.successMessage = 'User Deleted';
+        _this.successMessage = "User Deleted";
 
         _this.getUsers();
       });
@@ -2220,7 +2227,7 @@ __webpack_require__.r(__webpack_exports__);
       this.currentUser = null;
       this.$refs.usersListRef.editingUser = null;
       this.showSuccess = true;
-      this.successMessage = 'User Saved';
+      this.successMessage = "User Saved";
     },
     cancelEdit: function cancelEdit() {
       this.currentUser = null;
@@ -2230,7 +2237,7 @@ __webpack_require__.r(__webpack_exports__);
     getUsers: function getUsers() {
       var _this2 = this;
 
-      axios.get('api/users').then(function (response) {
+      axios.get("api/users").then(function (response) {
         _this2.users = response.data.data;
       });
     },
@@ -2240,8 +2247,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   components: {
-    'user-list': _userList_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    'user-edit': _userEdit_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    "user-list": _userList_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    "user-edit": _userEdit_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   mounted: function mounted() {
     this.getUsers();
@@ -2263,18 +2270,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -2421,7 +2416,6 @@ __webpack_require__.r(__webpack_exports__);
       password_confirmation: "",
       nif: "",
       active: "",
-      type: "",
       userTest: []
     };
   },
@@ -2566,16 +2560,34 @@ __webpack_require__.r(__webpack_exports__);
       required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
     }
   },
+  data: function data() {
+    return {
+      photoFile: null,
+      name: "",
+      email: "",
+      password: "",
+      password_confirmation: "",
+      nif: "",
+      active: "",
+      editingUser: this.user
+    };
+  },
   methods: {
     saveUser: function saveUser() {
       var _this = this;
 
-      axios.put("api/users/" + this.user.id, this.user).then(function (response) {
-        // Copy object properties from response.data.data to this.user
-        // without creating a new reference
-        Object.assign(_this.user, response.data.data);
+      var formData = new FormData();
+      formData.append("photoFile", this.photoFile); //editing user aqui  tem a photo atual
 
-        _this.$emit("user-saved", _this.user);
+      axios.post('/api/users/me/photo', this.user).then(function (response) {
+        _this.user.photo = response.data;
+        axios.put("/api/users/me", _this.user).then(function (response) {
+          _this.$store.commit("setUser", response.data.data);
+
+          _this.$emit("user-saved", _this.user);
+        })["catch"](function (error) {
+          console.log("error update");
+        });
       });
     },
     cancelEdit: function cancelEdit() {
@@ -2592,7 +2604,15 @@ __webpack_require__.r(__webpack_exports__);
     //I CREATE A SYMBOLIC LINK TO PUBLIC/STORAGE , NOW WE CAN ACESS DATA FROM THAT FOLDER
     getProfilePhoto: function getProfilePhoto() {
       return "/storage/fotos/" + this.user.photo;
-    }
+    },
+    uploadPicture: function uploadPicture(event) {
+      var input = event.target;
+
+      if (input.files && input.files) {
+        this.photoFile = input.files[0];
+      }
+    },
+    mounted: function mounted() {}
   }
 });
 
@@ -38999,7 +39019,7 @@ var render = function() {
       _vm._v(" "),
       _vm.currentUser
         ? _c("user-edit", {
-            attrs: { user: _vm.currentUser, departments: _vm.departments },
+            attrs: { user: _vm.currentUser },
             on: { "user-saved": _vm.savedUser, "user-canceled": _vm.cancelEdit }
           })
         : _vm._e()
@@ -39250,41 +39270,6 @@ var render = function() {
       2
     ),
     _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "inputType" } }, [_vm._v("Type")]),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model.trim",
-            value: _vm.type,
-            expression: "type",
-            modifiers: { trim: true }
-          }
-        ],
-        staticClass: "form-control",
-        attrs: {
-          type: "text",
-          name: "type",
-          id: "inputType",
-          placeholder: "Type"
-        },
-        domProps: { value: _vm.type },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.type = $event.target.value.trim()
-          },
-          blur: function($event) {
-            return _vm.$forceUpdate()
-          }
-        }
-      })
-    ]),
-    _vm._v(" "),
     _c(
       "div",
       { staticClass: "form-group" },
@@ -39495,7 +39480,7 @@ var render = function() {
           _c("input", {
             staticClass: "form-input",
             attrs: { type: "file", name: "photo" },
-            on: { change: function($event) {} }
+            on: { change: _vm.uploadPicture }
           })
         ])
       ]),

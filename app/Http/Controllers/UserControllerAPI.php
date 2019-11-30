@@ -63,9 +63,31 @@ class UserControllerAPI extends Controller
                 'email' => 'required|email|unique:users,email,'.$id,
             ]);
         $user = User::findOrFail($id);
+        
+        if($request->hasFile('photoFile')){
+            $file = $request->photoFile;
+            $fileNew = \Storage::putFile('public/fotos', $file);
+            $filename = basename($fileNew);
+            $user->photo=$filename;
+        }
+        
         $user->update($request->all());
         return new UserResource($user);
     }
+
+    public function save(Request $request)
+    {
+        $user = User::where('email', $request->input('email'))->first();
+        if ($request->has('name') && !empty($request->input('name')))
+            $user->name = $request->input('name');
+        if ($request->has('nif') && !empty($request->input('nif')))
+            $user->nif = $request->input('nif');
+        if ($request->has('photo') && !empty($request->input('photo')))
+            $user->photo = $request->input('photo');
+        $user->save();
+        return new UserResource($user);
+    }
+
 
     public function destroy($id)
     {

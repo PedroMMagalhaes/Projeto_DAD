@@ -79,18 +79,6 @@
     </div>-->
 
     <div class="form-group">
-      <label for="inputType">Type</label>
-      <input
-        type="text"
-        class="form-control"
-        v-model.trim="type"
-        name="type"
-        id="inputType"
-        placeholder="Type"
-      />
-    </div>
-
-    <div class="form-group">
       <label for="inputNif">Nif</label>
       <input
         type="number"
@@ -152,7 +140,6 @@ export default {
       password_confirmation: "",
       nif: "",
       active: "",
-      type: "",
       userTest: []
     };
   },

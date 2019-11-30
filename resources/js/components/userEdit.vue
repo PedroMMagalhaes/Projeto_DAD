@@ -35,7 +35,7 @@
       <div class="form-group">
         <label for="photo" class="col-sm-2 control-label">Profile Photo</label>
         <div class="col-sm-12">
-          <input type="file" @change="" name="photo" class="form-input" />
+          <input type="file" @change="uploadPicture" name="photo" class="form-input" />
         </div>
       </div>
 
@@ -68,13 +68,37 @@ export default {
     name: { required },
     password: { required }
   },
+  data: function() {
+    return {
+      photoFile: null,
+      name: "",
+      email: "",
+      password: "",
+      password_confirmation: "",
+      nif: "",
+      active: "",
+      editingUser: this.user
+    };
+  },
   methods: {
     saveUser: function() {
-      axios.put("api/users/" + this.user.id, this.user).then(response => {
-        // Copy object properties from response.data.data to this.user
-        // without creating a new reference
-        Object.assign(this.user, response.data.data);
-        this.$emit("user-saved", this.user);
+
+      let formData = new FormData();
+      formData.append("photoFile", this.photoFile);
+  
+      //editing user aqui  tem a photo atual
+     axios.post('/api/users/me/photo', this.user).then(response => {
+       this.user.photo = response.data;
+
+      axios
+       .put("/api/users/me", this.user)
+        .then(response => {
+          this.$store.commit("setUser", response.data.data);
+          this.$emit("user-saved", this.user);
+        })
+        .catch(error => {
+          console.log("error update");
+        }); 
       });
     },
     cancelEdit: function() {
@@ -88,7 +112,15 @@ export default {
     //I CREATE A SYMBOLIC LINK TO PUBLIC/STORAGE , NOW WE CAN ACESS DATA FROM THAT FOLDER
     getProfilePhoto: function() {
       return "/storage/fotos/" + this.user.photo;
-    }
+    },
+
+    uploadPicture: function(event) {
+      var input = event.target;
+      if (input.files && input.files) {
+        this.photoFile = input.files[0];
+      }
+    },
+    mounted() {}
   }
 };
 </script>

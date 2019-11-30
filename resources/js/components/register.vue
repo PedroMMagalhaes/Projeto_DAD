@@ -23,16 +23,14 @@
                     type:"",
                     active: "1"
                 },
-                departments: [],
                 successMessage: "",
                 showSuccess: false
             }
         },
         methods: {
             getInformationFromLoggedUser() {
-                //console.log('getInformationFromLoggedUser')
-                //this.profileUser = this.$store.state.user; //get USER FROM VUEX STORE
-                                                            //DEU **** NO INICIO
+                this.profileUser = this.$store.state.user; //get USER FROM VUEX STORE
+                console.log(this.$store.state.user);                                        //DEU **** NO INICIO
             },
             createUser: function(){
                 this.showSuccess = true;
