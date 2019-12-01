@@ -19,7 +19,7 @@
 </template>
 
 <script type="text/javascript">
-import UsersComponent from "./user";
+import UsersComponent from "./users/user";
 export default {
   data: function() {
     return {

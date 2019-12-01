@@ -8,11 +8,11 @@ import Vuelidate from 'vuelidate'
 Vue.use(VueRouter);
 Vue.use(Vuelidate);
 
-import UserComponent from './components/user.vue';
-import ProfileComponent from './components/profile.vue';
-import LoginComponent from './components/login.vue';
-import LogoutComponent from './components/logout.vue';
-import RegisterComponent from './components/register.vue';
+import UserComponent from './components/users/user.vue';
+import ProfileComponent from './components/users/profile.vue';
+import LoginComponent from './components/users/login.vue';
+import LogoutComponent from './components/users/logout.vue';
+import RegisterComponent from './components/users/register.vue';
 //Pagina Inicial
 import InitialPageComponent from './components/initial.vue';
 

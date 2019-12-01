@@ -82,23 +82,22 @@ export default {
   },
   methods: {
     saveUser: function() {
-
       let formData = new FormData();
       formData.append("photoFile", this.photoFile);
-  
-      //editing user aqui  tem a photo atual
-     axios.post('/api/users/me/photo', this.user).then(response => {
-       this.user.photo = response.data;
 
-      axios
-       .put("/api/users/me", this.user)
-        .then(response => {
-          this.$store.commit("setUser", response.data.data);
-          this.$emit("user-saved", this.user);
-        })
-        .catch(error => {
-          console.log("error update");
-        }); 
+      //editing user aqui  tem a photo atual
+      axios.post("/api/users/me/photo", this.user).then(response => {
+        this.user.photo = response.data;
+
+        axios
+          .put("/api/users/me", this.user)
+          .then(response => {
+            this.$store.commit("setUser", response.data.data);
+            this.$emit("user-saved", this.user);
+          })
+          .catch(error => {
+            console.log("error update");
+          });
       });
     },
     cancelEdit: function() {
