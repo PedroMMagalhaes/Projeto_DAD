@@ -7,7 +7,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: { 
-        token: "",
+        token: localStorage.getItem('token') || null,
         user: null,
         isLogged: false,
         currentUser: null,
