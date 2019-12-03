@@ -4,46 +4,43 @@
             <button type="button" class="close-btn" v-on:click="showSuccess=false">&times;</button>
             <strong>{{ successMessage }}</strong>
         </div>
-        <user-create :user="profileUser" :departments="departments"  @user-create="createUser" @user-canceled="cancelCreate"></user-create>
+        <user-edit :user="profileUser"  @user-saved="savedUser" @user-canceled="cancelEdit"></user-edit>
     </div>              
 </template>
 
 <script type="text/javascript">    
-    import userCreate from './userCreate.vue';
+    import userEdit from './userEdit.vue';
     export default {
         components: {
-            'user-create': userCreate, 
+            'user-edit': userEdit, 
         },
         data: function(){
             return { 
                 profileUser: {
-                    name:"",
                     email:"",
+                    name:"",
                     type:"",
-                    active: "1"
+                    photo:"",
                 },
-                departments: [],
                 successMessage: "",
                 showSuccess: false
             }
         },
         methods: {
             getInformationFromLoggedUser() {
-                //console.log('getInformationFromLoggedUser')
-                //this.profileUser = this.$store.state.user; //get USER FROM VUEX STORE
-                                                            //DEU **** NO INICIO
+                console.log(this.$store.state.user);
+                this.profileUser = this.$store.state.user; //get USER FROM VUEX STORE                                     //DEU **** NO INICIO
             },
-            createUser: function(){
+            savedUser: function(){
                 this.showSuccess = true;
-                this.successMessage = "User's Profile Created";
+                this.successMessage = "User's Profile Updated";
             },
-            cancelCreate: function(){
+            cancelEdit: function(){
                 this.showSuccess = false;
             },            
         },
         mounted() {
             this.getInformationFromLoggedUser();
-            
         }        
     }
 </script>

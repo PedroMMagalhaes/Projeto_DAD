@@ -4,23 +4,24 @@
             <button type="button" class="close-btn" v-on:click="showSuccess=false">&times;</button>
             <strong>{{ successMessage }}</strong>
         </div>
-        <user-edit :user="profileUser"  @user-saved="savedUser" @user-canceled="cancelEdit"></user-edit>
+        <user-create :user="profileUser" @user-create="createUser" @user-canceled="cancelCreate"></user-create>
     </div>              
 </template>
 
 <script type="text/javascript">    
-    import userEdit from './userEdit.vue';
+    import userCreate from './userCreate.vue';
+    
     export default {
         components: {
-            'user-edit': userEdit, 
+            'user-create': userCreate, 
         },
         data: function(){
             return { 
                 profileUser: {
-                    email:"",
                     name:"",
+                    email:"",
                     type:"",
-                    photo:"",
+                    active: "1"
                 },
                 successMessage: "",
                 showSuccess: false
@@ -28,15 +29,14 @@
         },
         methods: {
             getInformationFromLoggedUser() {
-                console.log('getInformationFromLoggedUser')
                 this.profileUser = this.$store.state.user; //get USER FROM VUEX STORE
-                                                            //DEU **** NO INICIO
+                console.log(this.$store.state.user);                                        //DEU **** NO INICIO
             },
-            savedUser: function(){
+            createUser: function(){
                 this.showSuccess = true;
-                this.successMessage = "User's Profile Updated";
+                this.successMessage = "User's Profile Created";
             },
-            cancelEdit: function(){
+            cancelCreate: function(){
                 this.showSuccess = false;
             },            
         },

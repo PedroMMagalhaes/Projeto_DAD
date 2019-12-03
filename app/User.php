@@ -23,6 +23,7 @@ class User extends Authenticatable
         'type',
         'nif',
         'photo',
+        'created_at',
     ];
 
     /**
@@ -34,6 +35,28 @@ class User extends Authenticatable
         'password', 'remember_token', 'photo'
     ];
 
+    public static function userTypeToStr($type){
+        switch ($type){
+            case 'u':
+                return 'Platform User';
+                case 'a':
+                    return 'Admin';
+                    case 'o':
+                        return 'Operator';
+        }
+        return 'Unknown';
+    }
+
+    public function isAdmin(){
+        return $this->type === "a";
+    }
+
+    public function isOperator(){
+        return $this->type === "o";
+    }
+    public function isPlatform(){
+        return $this->type === "u";
+    }
     
 }
 
