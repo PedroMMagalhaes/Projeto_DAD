@@ -12,9 +12,10 @@ class Wallet extends Model
      * @var array
      */
     protected $fillable = [
+        'id',
+        'name',
         'email',
         'balance',
-        //NOT ALL INCLUDED ***
     ];
 
     
