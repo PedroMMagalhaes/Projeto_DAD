@@ -18,7 +18,7 @@ class User extends Resource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'type' => $this->type,
+            'type' => $this->userTypeToStr($this->type),
             'nif' => $this->nif,
             'photo' => $this->photo,
             'created_at' => $this->created_at,

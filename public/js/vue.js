@@ -2085,6 +2085,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     getInformationFromLoggedUser: function getInformationFromLoggedUser() {
       console.log(this.$store.state.user);
+      console.log(this.$store.state.user.type);
       this.profileUser = this.$store.state.user; //get USER FROM VUEX STORE                                     //DEU **** NO INICIO
     },
     savedUser: function savedUser() {
@@ -2093,6 +2094,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     cancelEdit: function cancelEdit() {
       this.showSuccess = false;
+    },
+    getUserType: function getUserType(user) {
+      if (this.user.type === '') {
+        return this.profileUser.type;
+      }
     }
   },
   mounted: function mounted() {
@@ -2383,7 +2389,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["user"],
+  //create USER - NAO USAR PROPS NAO E NECESSARIO PASSAR DADOS
+  // props: ["user"],
   //VALIDATIONS
   validations: {
     name: {
@@ -2402,7 +2409,6 @@ __webpack_require__.r(__webpack_exports__);
       sameAs: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["sameAs"])("password")
     },
     nif: {
-      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
       numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["numeric"]
     }
   },
@@ -2413,9 +2419,10 @@ __webpack_require__.r(__webpack_exports__);
       email: "",
       password: "",
       password_confirmation: "",
-      nif: "",
+      nif: 0,
       active: "",
-      userTest: []
+      user: {} //USER 
+
     };
   },
   methods: {
@@ -2424,12 +2431,14 @@ __webpack_require__.r(__webpack_exports__);
 
       //this.createdAtDisplay();
       console.log(this.user);
+      console.log(this.nif);
       var formData = new FormData();
       this.user.nif = this.nif;
       this.user.name = this.name;
       this.user.type = 1;
       this.user.email = this.email;
-      this.user.password = this.password; //formData.append('user',this.user);
+      this.user.password = this.password;
+      console.log(this.user.nif); //formData.append('user',this.user);
 
       formData.append("name", this.user.name);
       formData.append("email", this.user.email);
@@ -39313,10 +39322,6 @@ var render = function() {
           ? [
               !_vm.$v.nif.numeric
                 ? _c("p", [_vm._v("Only numbers are allowed")])
-                : _vm._e(),
-              _vm._v(" "),
-              !_vm.$v.nif.required
-                ? _c("p", [_vm._v("Field NIF is required")])
                 : _vm._e()
             ]
           : _vm._e()

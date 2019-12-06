@@ -29,6 +29,7 @@
         methods: {
             getInformationFromLoggedUser() {
                 console.log(this.$store.state.user);
+                console.log(this.$store.state.user.type);
                 this.profileUser = this.$store.state.user; //get USER FROM VUEX STORE                                     //DEU **** NO INICIO
             },
             savedUser: function(){
@@ -37,6 +38,11 @@
             },
             cancelEdit: function(){
                 this.showSuccess = false;
+            },
+            getUserType(user){
+                if(this.user.type ===''){
+                    return this.profileUser.type;
+                }
             },            
         },
         mounted() {

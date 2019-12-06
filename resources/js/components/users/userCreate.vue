@@ -91,7 +91,7 @@
       />
       <template v-if="$v.nif.$dirty">
       <p v-if="!$v.nif.numeric">Only numbers are allowed</p>
-      <p v-if="!$v.nif.required">Field NIF is required</p>
+      <!--<p v-if="!$v.nif.required">Field NIF is required</p> -->
       </template>
     </div>
 
@@ -121,14 +121,15 @@ import {
 import moment from "moment";
 
 export default {
-  props: ["user"],
+  //create USER - NAO USAR PROPS NAO E NECESSARIO PASSAR DADOS
+ // props: ["user"],
   //VALIDATIONS
   validations: {
     name: { required },
     email: { required, email },
     password: { required, minlength: minLength(3) },
     password_confirmation: { required, sameAs: sameAs("password") },
-    nif: { required, numeric }
+    nif: { numeric }
   },
 
   data: function() {
@@ -138,15 +139,17 @@ export default {
       email: "",
       password: "",
       password_confirmation: "",
-      nif: "",
+      nif: 0,
       active: "",
-      userTest: []
+      user: {
+      } //USER 
     };
   },
   methods: {
     createUser: function() {
       //this.createdAtDisplay();
       console.log(this.user);
+      console.log(this.nif);
       var formData = new FormData();
       this.user.nif = this.nif;
       this.user.name = this.name;
@@ -154,6 +157,7 @@ export default {
       this.user.email = this.email;
       this.user.password = this.password;
 
+      console.log(this.user.nif);
       //formData.append('user',this.user);
       formData.append("name", this.user.name);
       formData.append("email", this.user.email);
