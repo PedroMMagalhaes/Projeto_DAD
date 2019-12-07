@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 
 class FileController extends Controller
 {
-    public function store(Request $request){
+    public function storePhoto(Request $request){
         if($request->hasFile('file')){
-            $file = \Storage::putFile('profiles', $request->file);
+            $file = \Storage::putFile('public/fotos', $request->file);
             $file = basename($file);
             return $file;
         }else{

@@ -2585,13 +2585,13 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var formData = new FormData();
-      formData.append("photoFile", this.photoFile); //editing user aqui  tem a photo atual
+      formData.append("file", this.photoFile);
+      console.log(this.photoFile); //editing user aqui  tem a photo atual
 
-      axios.post("/api/users/me/photo", this.user).then(function (response) {
+      axios.post("/api/users/me/photo", formData).then(function (response) {
         _this.user.photo = response.data;
         axios.put("/api/users/me", _this.user).then(function (response) {
-          _this.$store.commit("setUser", response.data.data);
-
+          //this.$store.commit("setUser", response.data.data);
           _this.$emit("user-saved", _this.user);
         })["catch"](function (error) {
           console.log("error update");
@@ -2614,11 +2614,14 @@ __webpack_require__.r(__webpack_exports__);
       return "/storage/fotos/" + this.user.photo;
     },
     uploadPicture: function uploadPicture(event) {
+      //console.log("OK");
       var input = event.target;
 
       if (input.files && input.files) {
         this.photoFile = input.files[0];
-      }
+      } //console.log(input.files[0]);
+      //console.log(this.photoFile);
+
     },
     mounted: function mounted() {}
   }
@@ -39588,7 +39591,7 @@ var render = function() {
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(user.email))]),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(_vm.getStringRole(user.type)))]),
+            _c("td", [_vm._v(_vm._s(user.type))]),
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(user.nif))]),
             _vm._v(" "),

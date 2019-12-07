@@ -24,7 +24,7 @@ Route::post('users', 'UserControllerAPI@store');
 Route::put('users/me', 'UserControllerAPI@save');
 Route::delete('users/{id}', 'UserControllerAPI@destroy');
 
-Route::post('users/me/photo', 'FileController@store');
+Route::post('users/me/photo', 'FileController@storePhoto');
 
 //PASSPORT
 Route::post('login', 'LoginControllerAPI@login')->name('login');
