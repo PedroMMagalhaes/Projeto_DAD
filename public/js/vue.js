@@ -1871,10 +1871,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     login: function login() {
-      console.log("InitialPage-GotoLogin");
+      this.$router.push({
+        path: "/login"
+      });
     },
     register: function register() {
-      console.log("InitialPage-GotoRegister");
+      this.$router.push({
+        path: "/register"
+      });
     },
     getNumWallets: function getNumWallets() {
       var _this = this;

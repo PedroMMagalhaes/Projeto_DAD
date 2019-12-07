@@ -31,10 +31,10 @@ export default {
   },
   methods: {
     login() {
-      console.log("InitialPage-GotoLogin");
+     this.$router.push({ path: "/login" });
     },
     register() {
-      console.log("InitialPage-GotoRegister");
+      this.$router.push({ path: "/register" });
     },
     getNumWallets: function() {
       axios.get("api/numwallets").then(response => {
