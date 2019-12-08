@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('users', 'UserControllerAPI@index');
+Route::middleware('auth:api','admin')->get('users', 'UserControllerAPI@index');
 Route::get('users/emailavailable', 'UserControllerAPI@emailAvailable');
 Route::get('users/{id}', 'UserControllerAPI@show');
 Route::post('users', 'UserControllerAPI@store');
@@ -24,7 +24,7 @@ Route::post('users', 'UserControllerAPI@store');
 Route::put('users/me', 'UserControllerAPI@save');
 Route::delete('users/{id}', 'UserControllerAPI@destroy');
 
-Route::post('users/me/photo', 'FileController@store');
+Route::post('users/me/photo', 'FileController@storePhoto');
 
 //PASSPORT
 Route::post('login', 'LoginControllerAPI@login')->name('login');

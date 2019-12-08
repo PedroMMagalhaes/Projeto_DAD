@@ -1893,10 +1893,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     login: function login() {
-      console.log("InitialPage-GotoLogin");
+      this.$router.push({
+        path: "/login"
+      });
     },
     register: function register() {
-      console.log("InitialPage-GotoRegister");
+      this.$router.push({
+        path: "/register"
+      });
     },
     getNumWallets: function getNumWallets() {
       var _this = this;
@@ -2107,6 +2111,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     getInformationFromLoggedUser: function getInformationFromLoggedUser() {
       console.log(this.$store.state.user);
+      console.log(this.$store.state.user.type);
       this.profileUser = this.$store.state.user; //get USER FROM VUEX STORE                                     //DEU **** NO INICIO
     },
     savedUser: function savedUser() {
@@ -2115,6 +2120,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     cancelEdit: function cancelEdit() {
       this.showSuccess = false;
+    },
+    getUserType: function getUserType(user) {
+      if (this.user.type === '') {
+        return this.profileUser.type;
+      }
     }
   },
   mounted: function mounted() {
@@ -2405,7 +2415,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["user"],
+  //create USER - NAO USAR PROPS NAO E NECESSARIO PASSAR DADOS
+  // props: ["user"],
   //VALIDATIONS
   validations: {
     name: {
@@ -2424,7 +2435,6 @@ __webpack_require__.r(__webpack_exports__);
       sameAs: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["sameAs"])("password")
     },
     nif: {
-      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
       numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["numeric"]
     }
   },
@@ -2435,9 +2445,10 @@ __webpack_require__.r(__webpack_exports__);
       email: "",
       password: "",
       password_confirmation: "",
-      nif: "",
+      nif: 0,
       active: "",
-      userTest: []
+      user: {} //USER 
+
     };
   },
   methods: {
@@ -2446,12 +2457,14 @@ __webpack_require__.r(__webpack_exports__);
 
       //this.createdAtDisplay();
       console.log(this.user);
+      console.log(this.nif);
       var formData = new FormData();
       this.user.nif = this.nif;
       this.user.name = this.name;
       this.user.type = 1;
       this.user.email = this.email;
-      this.user.password = this.password; //formData.append('user',this.user);
+      this.user.password = this.password;
+      console.log(this.user.nif); //formData.append('user',this.user);
 
       formData.append("name", this.user.name);
       formData.append("email", this.user.email);
@@ -2598,13 +2611,13 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var formData = new FormData();
-      formData.append("photoFile", this.photoFile); //editing user aqui  tem a photo atual
+      formData.append("file", this.photoFile);
+      console.log(this.photoFile); //editing user aqui  tem a photo atual
 
-      axios.post("/api/users/me/photo", this.user).then(function (response) {
+      axios.post("/api/users/me/photo", formData).then(function (response) {
         _this.user.photo = response.data;
         axios.put("/api/users/me", _this.user).then(function (response) {
-          _this.$store.commit("setUser", response.data.data);
-
+          //this.$store.commit("setUser", response.data.data);
           _this.$emit("user-saved", _this.user);
         })["catch"](function (error) {
           console.log("error update");
@@ -2627,11 +2640,14 @@ __webpack_require__.r(__webpack_exports__);
       return "/storage/fotos/" + this.user.photo;
     },
     uploadPicture: function uploadPicture(event) {
+      //console.log("OK");
       var input = event.target;
 
       if (input.files && input.files) {
         this.photoFile = input.files[0];
-      }
+      } //console.log(input.files[0]);
+      //console.log(this.photoFile);
+
     },
     mounted: function mounted() {}
   }
@@ -39409,10 +39425,6 @@ var render = function() {
           ? [
               !_vm.$v.nif.numeric
                 ? _c("p", [_vm._v("Only numbers are allowed")])
-                : _vm._e(),
-              _vm._v(" "),
-              !_vm.$v.nif.required
-                ? _c("p", [_vm._v("Field NIF is required")])
                 : _vm._e()
             ]
           : _vm._e()
@@ -39679,7 +39691,7 @@ var render = function() {
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(user.email))]),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(_vm.getStringRole(user.type)))]),
+            _c("td", [_vm._v(_vm._s(user.type))]),
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(user.nif))]),
             _vm._v(" "),

@@ -82,17 +82,19 @@ export default {
   },
   methods: {
     saveUser: function() {
-      let formData = new FormData();
-      formData.append("photoFile", this.photoFile);
 
+      var formData = new FormData();
+      formData.append("file", this.photoFile);
+      
+      console.log(this.photoFile);
       //editing user aqui  tem a photo atual
-      axios.post("/api/users/me/photo", this.user).then(response => {
+      axios.post("/api/users/me/photo", formData).then(response => {
         this.user.photo = response.data;
 
         axios
           .put("/api/users/me", this.user)
           .then(response => {
-            this.$store.commit("setUser", response.data.data);
+            //this.$store.commit("setUser", response.data.data);
             this.$emit("user-saved", this.user);
           })
           .catch(error => {
@@ -114,10 +116,13 @@ export default {
     },
 
     uploadPicture: function(event) {
+      //console.log("OK");
       var input = event.target;
       if (input.files && input.files) {
         this.photoFile = input.files[0];
       }
+      //console.log(input.files[0]);
+      //console.log(this.photoFile);
     },
     mounted() {}
   }

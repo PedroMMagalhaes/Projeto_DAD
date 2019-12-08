@@ -14,7 +14,7 @@
       <tr v-for="user in users" :key="user.id" :class="{activerow: editingUser === user}">
         <td>{{ user.name }}</td>
         <td>{{ user.email }}</td>
-        <td>{{ getStringRole(user.type)}}</td>
+        <td>{{ user.type}}</td>
         <td>{{ user.nif }}</td>
         <td class="widget-user-image">
           <img class="img-circle" :src="getProfilePhoto(user.photo)" width="40" height="40" alt="User Avatar" />
