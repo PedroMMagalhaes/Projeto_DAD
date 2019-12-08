@@ -43,17 +43,18 @@ class WalletControllerAPI extends Controller
     }
 
     
-    public function create(Request $request)
+    public function create($id)
     {
-        $request->validate([
-                'id' => 'required'
-            ]);
+        // $request->validate([
+        //         'id' => 'required'
+        //     ]);
         $wallet = new Wallet();
-        $wallet->fill($request->all());
-        $user = new UserResource(User::find($wallet->id));
+        // $wallet->fill($request->all());
+        $wallet->id = $id;
+        $user = new UserResource(User::find($id));
         $wallet->email = $user->email;
-        $wallet->save();
-        return response()->json(new WalletResource($wallet), 201);
+        return $wallet->save();
+        // return response()->json(new WalletResource($wallet), 201);
     }
 
     public function update(Request $request, $id)

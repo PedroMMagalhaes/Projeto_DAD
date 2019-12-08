@@ -25,6 +25,15 @@
             "url": "http://localhost:8080/index.php",
             "webRoot": "${workspaceRoot}",
             "preLaunchTask": "Php"
+        },
+        {
+            "name": "Listen for XDebug on Homestead",
+            "type": "php",
+            "request": "launch",
+            "pathMappings": {
+                "/home/vagrant/code/Projeto_DAD": "${workspaceFolder}"
+            },
+            "port": 9000
         }
     ]
 }

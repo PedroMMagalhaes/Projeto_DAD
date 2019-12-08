@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\Support\Jsonable;
 
 use App\Http\Resources\User as UserResource;
+use App\Http\Controllers\WalletControllerAPI as WalletAPI;
 use Illuminate\Support\Facades\DB;
 
 use App\User;
@@ -53,7 +54,13 @@ class UserControllerAPI extends Controller
             $user->photo=$filename;
         }
         $user->save();
-        return response()->json(new UserResource($user), 201);
+        $userSaved = new UserResource($user);
+        $wallet = new WalletAPI();
+        if ($wallet->create($userSaved->id)) {
+            return response()->json($userSaved, 201);
+        }
+        // Enviar erro por nao conseguir criar a wallet
+        return response()->json($userSaved, 201);
     }
 
     public function update(Request $request, $id)
