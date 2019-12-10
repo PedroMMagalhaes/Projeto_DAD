@@ -18,7 +18,7 @@
         <td>{{ user.type}}</td>
         <td>{{ user.nif }}</td>
         <td>
-          <input type="checkbox" value="teste" v-model="selected" />
+          <input type="checkbox" :checked="user.active ? 'checked':'' " @change="!user.active"/>
         </td>
         <td class="widget-user-image">
           <img

@@ -2390,6 +2390,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2423,13 +2435,17 @@ __webpack_require__.r(__webpack_exports__);
       email: "",
       password: "",
       password_confirmation: "",
-      nif: 0,
+      nif: "",
       active: "",
-      user: {} //USER 
-
+      user: {},
+      //USER
+      type: ""
     };
   },
   methods: {
+    isAdmin: function isAdmin() {
+      return this.$store.state.user.type === "Admin";
+    },
     createUser: function createUser() {
       var _this = this;
 
@@ -2442,6 +2458,7 @@ __webpack_require__.r(__webpack_exports__);
       this.user.type = 1;
       this.user.email = this.email;
       this.user.password = this.password;
+      this.user.type = this.type;
       console.log(this.user.nif); //formData.append('user',this.user);
 
       formData.append("name", this.user.name);
@@ -2449,6 +2466,7 @@ __webpack_require__.r(__webpack_exports__);
       formData.append("password", this.user.password);
       formData.append("nif", this.user.nif);
       formData.append("active", this.user.active);
+      formData.append("type", this.user.type);
       formData.append("photoFile", this.photoFile);
       axios.post("api/users", formData).then(function (response) {
         console.log(response.data); // Copy object properties from response.data.data to this.user
@@ -2499,6 +2517,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
 /* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var os__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! os */ "./node_modules/os-browserify/browser.js");
+/* harmony import */ var os__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(os__WEBPACK_IMPORTED_MODULE_1__);
 //
 //
 //
@@ -2561,6 +2581,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["user"],
   //Validations -> User entries
@@ -2581,10 +2602,16 @@ __webpack_require__.r(__webpack_exports__);
       password_confirmation: "",
       nif: "",
       active: "",
-      editingUser: this.user
+      editingUser: this.user,
+      platformUser: false
     };
   },
   methods: {
+    isPlatformUser: function isPlatformUser() {
+      if (this.user.type === "Platform") {
+        platformUser = true;
+      }
+    },
     saveUser: function saveUser() {
       var _this = this;
 
@@ -2745,7 +2772,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\np[data-v-41680a59] {\n    color: red;\n}\n", ""]);
+exports.push([module.i, "\np[data-v-41680a59] {\n  color: red;\n}\n", ""]);
 
 // exports
 
@@ -38194,6 +38221,66 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
 
 /***/ }),
 
+/***/ "./node_modules/os-browserify/browser.js":
+/*!***********************************************!*\
+  !*** ./node_modules/os-browserify/browser.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+exports.endianness = function () { return 'LE' };
+
+exports.hostname = function () {
+    if (typeof location !== 'undefined') {
+        return location.hostname
+    }
+    else return '';
+};
+
+exports.loadavg = function () { return [] };
+
+exports.uptime = function () { return 0 };
+
+exports.freemem = function () {
+    return Number.MAX_VALUE;
+};
+
+exports.totalmem = function () {
+    return Number.MAX_VALUE;
+};
+
+exports.cpus = function () { return [] };
+
+exports.type = function () { return 'Browser' };
+
+exports.release = function () {
+    if (typeof navigator !== 'undefined') {
+        return navigator.appVersion;
+    }
+    return '';
+};
+
+exports.networkInterfaces
+= exports.getNetworkInterfaces
+= function () { return {} };
+
+exports.arch = function () { return 'javascript' };
+
+exports.platform = function () { return 'browser' };
+
+exports.tmpdir = exports.tmpDir = function () {
+    return '/tmp';
+};
+
+exports.EOL = '\n';
+
+exports.homedir = function () {
+	return '/'
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/process/browser.js":
 /*!*****************************************!*\
   !*** ./node_modules/process/browser.js ***!
@@ -39901,6 +39988,54 @@ var render = function() {
       2
     ),
     _vm._v(" "),
+    _vm.isAdmin()
+      ? _c("div", [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.type,
+                  expression: "type"
+                }
+              ],
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.type = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            [
+              _c("option", { attrs: { disabled: "", value: "" } }, [
+                _vm._v("Please select one")
+              ]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "a" } }, [_vm._v("Admin")]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "o" } }, [_vm._v("Operator")])
+            ]
+          ),
+          _vm._v(" "),
+          _c("span", [_vm._v("Selected: " + _vm._s(_vm.type))]),
+          _vm._v(" "),
+          _c("br"),
+          _vm._v(" "),
+          _c("br")
+        ])
+      : _vm._e(),
+    _vm._v(" "),
     _c(
       "div",
       { staticClass: "form-group" },
@@ -40112,36 +40247,38 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "inputNif" } }, [_vm._v("Nif")]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.user.nif,
-              expression: "user.nif"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: {
-            type: "number",
-            name: "nif",
-            id: "inputNif",
-            placeholder: "999999999"
-          },
-          domProps: { value: _vm.user.nif },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+      _vm.isPlatformUser()
+        ? _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "inputNif" } }, [_vm._v("Nif")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.user.nif,
+                  expression: "user.nif"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "number",
+                name: "nif",
+                id: "inputNif",
+                placeholder: "999999999"
+              },
+              domProps: { value: _vm.user.nif },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.user, "nif", $event.target.value)
+                }
               }
-              _vm.$set(_vm.user, "nif", $event.target.value)
-            }
-          }
-        })
-      ]),
+            })
+          ])
+        : _vm._e(),
       _vm._v(" "),
       _c("div", { staticClass: "form-group" }, [
         _c(
@@ -40220,39 +40357,11 @@ var render = function() {
               _vm._v(" "),
               _c("td", [
                 _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.selected,
-                      expression: "selected"
-                    }
-                  ],
-                  attrs: { type: "checkbox", value: "teste" },
-                  domProps: {
-                    checked: Array.isArray(_vm.selected)
-                      ? _vm._i(_vm.selected, "teste") > -1
-                      : _vm.selected
-                  },
+                  attrs: { type: "checkbox" },
+                  domProps: { checked: user.active ? "checked" : "" },
                   on: {
                     change: function($event) {
-                      var $$a = _vm.selected,
-                        $$el = $event.target,
-                        $$c = $$el.checked ? true : false
-                      if (Array.isArray($$a)) {
-                        var $$v = "teste",
-                          $$i = _vm._i($$a, $$v)
-                        if ($$el.checked) {
-                          $$i < 0 && (_vm.selected = $$a.concat([$$v]))
-                        } else {
-                          $$i > -1 &&
-                            (_vm.selected = $$a
-                              .slice(0, $$i)
-                              .concat($$a.slice($$i + 1)))
-                        }
-                      } else {
-                        _vm.selected = $$c
-                      }
+                      !user.active
                     }
                   }
                 })

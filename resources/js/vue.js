@@ -8,6 +8,7 @@ import Vuelidate from 'vuelidate'
 Vue.use(VueRouter);
 Vue.use(Vuelidate);
 
+
 //PAGINATION COMPONENT
 Vue.component('pagination', require('laravel-vue-pagination'));
 

@@ -15,6 +15,10 @@ class isPlatformUser
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        $user = \Auth::user();
+        if ($user->isPlatform())
+            return $next($request);
+        else
+            return response("Forbidden action.", 403);
     }
 }

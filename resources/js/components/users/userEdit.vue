@@ -39,7 +39,7 @@
         </div>
       </div>
 
-      <div class="form-group">
+      <div v-if="isPlatformUser()" class="form-group">
         <label for="inputNif">Nif</label>
         <input
           type="number"
@@ -61,6 +61,7 @@
 
 <script type="text/javascript">
 import { required } from "vuelidate/lib/validators";
+import { platform } from "os";
 export default {
   props: ["user"],
   //Validations -> User entries
@@ -77,20 +78,24 @@ export default {
       password_confirmation: "",
       nif: "",
       active: "",
-      editingUser: this.user
+      editingUser: this.user,
+      platformUser: false
     };
   },
   methods: {
+    isPlatformUser: function() {
+      if (this.user.type === "Platform") {
+        platformUser = true;
+      }
+    },
     saveUser: function() {
-
       var formData = new FormData();
       formData.append("file", this.photoFile);
-      
+
       console.log(this.photoFile);
       //editing user aqui  tem a photo atual
       axios.post("/api/users/me/photo", formData).then(response => {
         this.user.photo = response.data;
-
         axios
           .put("/api/users/me", this.user)
           .then(response => {
