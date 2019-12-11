@@ -1,7 +1,8 @@
 <template>
+ <div>
+    <navbar />
   <div class="UserEdit">
     <pre>
-<!--{{ $v.name }} -->
 </pre>
     <div class="jumbotron">
       <h2>Edit User</h2>
@@ -57,6 +58,7 @@
       </div>
     </div>
   </div>
+ </div>
 </template>
 
 <script type="text/javascript">

@@ -11,6 +11,7 @@ export default new Vuex.Store({
         user: null,
         isLogged: false,
         currentUser: null,
+        photo: null,
     },  
     mutations: { 
         clearUserAndToken: (state) => {
@@ -53,6 +54,5 @@ export default new Vuex.Store({
                 state.user = JSON.parse(user);
             }
         },
-        
     } 
 });

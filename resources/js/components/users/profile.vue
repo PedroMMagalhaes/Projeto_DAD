@@ -5,9 +5,8 @@
             <strong>{{ successMessage }}</strong>
         </div>
         <user-edit :user="profileUser"  @user-saved="savedUser" @user-canceled="cancelEdit"></user-edit>
-    </div>              
+    </div>             
 </template>
-
 <script type="text/javascript">    
     import userEdit from './userEdit.vue';
     export default {

@@ -79,13 +79,13 @@
     </div>-->
 
     <!-- Type User - Just for Admin Creation -->
-    <div v-if="isAdmin()">
+    <div v-if="this.$store.state.user!=null && isAdmin() ">
       <select v-model="type">
-        <option disabled value>Please select one</option>
+        <option disabled value>Select User Type</option>
         <option value="a">Admin</option>
         <option value="o">Operator</option>
       </select>
-      <span>Selected: {{ type }}</span>
+      <!--<span>User Type Selected: {{ type }}</span> -->
       <br/>
        <br/>
     </div>
@@ -164,6 +164,9 @@ export default {
     createUser: function() {
       //this.createdAtDisplay();
 
+      if(this.type === ""){
+        this.type = "u";
+      }
       console.log(this.user);
       console.log(this.nif);
       var formData = new FormData();

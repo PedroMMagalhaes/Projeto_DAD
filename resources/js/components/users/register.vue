@@ -1,11 +1,14 @@
 <template>
+ <div>
+    <navbar />
     <div>
         <div class="alert alert-success" v-if="showSuccess">             
             <button type="button" class="close-btn" v-on:click="showSuccess=false">&times;</button>
             <strong>{{ successMessage }}</strong>
         </div>
         <user-create :user="profileUser" @user-create="createUser" @user-canceled="cancelCreate"></user-create>
-    </div>              
+    </div>
+ </div>             
 </template>
 
 <script type="text/javascript">    

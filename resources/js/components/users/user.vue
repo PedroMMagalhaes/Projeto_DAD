@@ -1,5 +1,7 @@
 <template>
   <div>
+    <navbar/>
+  <div>
     <div class="jumbotron">
       <h1>{{ title }}</h1>
     </div>
@@ -20,6 +22,7 @@
       @user-canceled="cancelEdit"
       v-if="currentUser"
     ></user-edit>
+  </div>
   </div>
 </template>
 <script type="text/javascript">
