@@ -23,6 +23,7 @@
         <td class="widget-user-image">
           <img
             class="img-circle"
+            stye="border-radius: 50%"
             :src="getProfilePhoto(user.photo)"
             width="40"
             height="40"
@@ -91,5 +92,9 @@ export default {
 tr.activerow {
   background: #123456 !important;
   color: #fff !important;
+}
+
+.img-circle{
+  border-radius: 50%;
 }
 </style>

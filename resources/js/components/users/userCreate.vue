@@ -32,6 +32,7 @@
         <p v-if="!$v.email.required">Field Email required</p>
       </template>
     </div>
+
     <div class="form-group">
       <label for="inputPassword">Password</label>
       <input
@@ -86,8 +87,8 @@
         <option value="o">Operator</option>
       </select>
       <!--<span>User Type Selected: {{ type }}</span> -->
-      <br/>
-       <br/>
+      <br />
+      <br />
     </div>
 
     <div class="form-group">
@@ -153,8 +154,7 @@ export default {
       nif: "",
       active: "",
       user: {}, //USER
-      type: "",
-      
+      type: ""
     };
   },
   methods: {
@@ -164,7 +164,7 @@ export default {
     createUser: function() {
       //this.createdAtDisplay();
 
-      if(this.type === ""){
+      if (this.type === "") {
         this.type = "u";
       }
       console.log(this.user);

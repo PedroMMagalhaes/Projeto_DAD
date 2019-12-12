@@ -20,8 +20,8 @@ Route::middleware('auth:api','admin')->get('users', 'UserControllerAPI@index');
 Route::get('users/emailavailable', 'UserControllerAPI@emailAvailable');
 Route::get('users/{id}', 'UserControllerAPI@show');
 Route::post('users', 'UserControllerAPI@store');
-//Route::put('users/me/{id}', 'UserControllerAPI@update');
-Route::put('users/me', 'UserControllerAPI@save');
+Route::put('users/me/{id}', 'UserControllerAPI@update');
+//Route::put('users/me', 'UserControllerAPI@save');
 Route::delete('users/{id}', 'UserControllerAPI@destroy');
 
 Route::post('users/me/photo', 'FileController@storePhoto');
