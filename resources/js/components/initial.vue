@@ -3,7 +3,7 @@
     <navbar />
   <div class="jumbotron">
     <!--<h1>Welcome to Virtual Wallet</h1> -->
-    <div v-if="this.$store.state.isLogged"> 
+    <div v-if="this.$store.state.user"> 
     <h1>Welcome {{this.$store.state.user.name}} </h1> 
     <!--<user></user>-->
     </div>

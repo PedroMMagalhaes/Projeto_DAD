@@ -1965,9 +1965,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "WalletAPP",
-  components: {}
+  components: {},
+  mounted: function mounted() {//console.log(this.$store.state.user.type)
+  }
 });
 
 /***/ }),
@@ -2855,6 +2859,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 // Component code (not registered)
 /* harmony default export */ __webpack_exports__["default"] = ({
   // props: ["users"],
@@ -2862,7 +2867,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       editingUser: null,
       selected: false,
-      users: {}
+      users: {},
+      search: ""
     };
   },
   methods: {
@@ -2897,6 +2903,15 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.getUsers();
+  },
+  computed: {
+    filteredUsers: function filteredUsers() {
+      var _this2 = this;
+
+      this.users.filter(function (user) {
+        return user.name.match(_this2.search);
+      });
+    }
   }
 });
 
@@ -39579,7 +39594,7 @@ var render = function() {
       _c("navbar"),
       _vm._v(" "),
       _c("div", { staticClass: "jumbotron" }, [
-        this.$store.state.isLogged
+        this.$store.state.user
           ? _c("div", [
               _c("h1", [
                 _vm._v("Welcome " + _vm._s(this.$store.state.user.name) + " ")
@@ -39670,53 +39685,61 @@ var render = function() {
         { staticClass: "collapse navbar-collapse", attrs: { id: "navbarNav" } },
         [
           _c("ul", { staticClass: "navbar-nav" }, [
-            _c(
-              "li",
-              { staticClass: "nav-item active" },
-              [
-                _c(
-                  "router-link",
-                  {
-                    staticClass: "nav-link",
-                    attrs: { "active-class": "active", to: "/users" }
-                  },
-                  [_vm._v("Users")]
+            this.$store.state.user && this.$store.state.user.type == "Admin"
+              ? _c(
+                  "li",
+                  { staticClass: "nav-item active" },
+                  [
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "nav-link",
+                        attrs: { "active-class": "active", to: "/users" }
+                      },
+                      [_vm._v("Users")]
+                    )
+                  ],
+                  1
                 )
-              ],
-              1
-            ),
+              : _vm._e(),
             _vm._v(" "),
-            _c(
-              "li",
-              { staticClass: "nav-item" },
-              [
-                _c(
-                  "router-link",
-                  {
-                    staticClass: "nav-link",
-                    attrs: { "active-class": "active", to: "/profile" }
-                  },
-                  [_vm._v("Profile")]
+            _c("li", { staticClass: "nav-item" }),
+            this.$store.state.user && this.$store.state.user.type == "Admin"
+              ? _c(
+                  "li",
+                  { staticClass: "nav-item active" },
+                  [
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "nav-link",
+                        attrs: { "active-class": "active", to: "/profile" }
+                      },
+                      [_vm._v("Profile")]
+                    )
+                  ],
+                  1
                 )
-              ],
-              1
-            ),
+              : _vm._e(),
             _vm._v(" "),
-            _c(
-              "li",
-              { staticClass: "nav-item" },
-              [
-                _c(
-                  "router-link",
-                  {
-                    staticClass: "nav-link",
-                    attrs: { "active-class": "active", to: "/register" }
-                  },
-                  [_vm._v("Register")]
+            this.$store.state.user == null ||
+            this.$store.state.user.type == "Admin"
+              ? _c(
+                  "li",
+                  { staticClass: "nav-item" },
+                  [
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "nav-link",
+                        attrs: { "active-class": "active", to: "/register" }
+                      },
+                      [_vm._v("Register")]
+                    )
+                  ],
+                  1
                 )
-              ],
-              1
-            ),
+              : _vm._e(),
             _vm._v(" "),
             !this.$store.state.user
               ? _c(
@@ -39736,21 +39759,24 @@ var render = function() {
                 )
               : _vm._e(),
             _vm._v(" "),
-            _c(
-              "li",
-              { staticClass: "nav-item" },
-              [
-                _c(
-                  "router-link",
-                  {
-                    staticClass: "nav-link",
-                    attrs: { "active-class": "active", to: "/logout" }
-                  },
-                  [_vm._v("Logout")]
+            _c("li", { staticClass: "nav-item" }),
+            this.$store.state.user
+              ? _c(
+                  "li",
+                  { staticClass: "nav-item active" },
+                  [
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "nav-link",
+                        attrs: { "active-class": "active", to: "/logout" }
+                      },
+                      [_vm._v("Logout")]
+                    )
+                  ],
+                  1
                 )
-              ],
-              1
-            )
+              : _vm._e()
           ])
         ]
       ),
@@ -40903,7 +40929,30 @@ var render = function() {
     "table",
     { staticClass: "table table-striped" },
     [
-      _vm._m(0),
+      _c("thead", [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.search,
+              expression: "search"
+            }
+          ],
+          attrs: { type: "text", align: "left", placeholder: "Search Users" },
+          domProps: { value: _vm.search },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.search = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _vm._m(0)
+      ]),
       _vm._v(" "),
       _c(
         "tbody",
@@ -41005,22 +41054,20 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Name")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Email")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Type")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Nif")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Active")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Photo")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Actions")])
-      ])
+    return _c("tr", [
+      _c("th", [_vm._v("Name")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Email")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Type")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Nif")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Active")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Photo")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Actions")])
     ])
   }
 ]

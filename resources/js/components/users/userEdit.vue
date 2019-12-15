@@ -139,7 +139,8 @@ export default {
       //if (this.photoFile != undefined || this.photoFile != null) {
       var formData = new FormData();
       formData.append("file", this.photoFile);
-      axios.post("/api/users/me/photo", formData).then(response => {
+      axios.post("/api/users/me/photo", formData)
+      .then(response => {
         if(!(response.data =="No file input")){
           this.user.photo = response.data;
         }

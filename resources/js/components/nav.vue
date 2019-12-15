@@ -14,13 +14,14 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
-        <li class="nav-item active">
+        <li v-if="this.$store.state.user && this.$store.state.user.type=='Admin'" class="nav-item active"> 
           <router-link class="nav-link" active-class="active" to="/users">Users</router-link>
         </li>
         <li class="nav-item">
+          <li v-if="this.$store.state.user && this.$store.state.user.type=='Admin'" class="nav-item active"> 
           <router-link class="nav-link" active-class="active" to="/profile">Profile</router-link>
         </li>
-        <li class="nav-item">
+        <li v-if="this.$store.state.user == null || this.$store.state.user.type=='Admin'" class="nav-item"> 
           <router-link class="nav-link" active-class="active" to="/register">Register</router-link>
         </li>
         <li v-if="!this.$store.state.user" class="nav-item">
@@ -28,6 +29,7 @@
           <!--<a class="nav-link disabled" href="#">Disabled</a> -->
         </li>
         <li class="nav-item">
+          <li v-if="this.$store.state.user" class="nav-item active"> 
           <router-link class="nav-link" active-class="active" to="/logout">Logout</router-link>
           <!--<a class="nav-link disabled" href="#">Disabled</a> -->
         </li>
@@ -49,6 +51,13 @@
 <script>
 export default {
   name: "WalletAPP",
-  components: {}
+  components: {
+
+  },
+  mounted(){
+    
+    //console.log(this.$store.state.user.type)
+  }
+  
 };
 </script>

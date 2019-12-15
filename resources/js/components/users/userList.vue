@@ -1,6 +1,7 @@
 <template>
   <table class="table table-striped">
     <thead>
+      <input type="text" align="left" v-model="search" placeholder="Search Users" />
       <tr>
         <th>Name</th>
         <th>Email</th>
@@ -52,6 +53,7 @@ export default {
       editingUser: null,
       selected: false,
       users: {},
+      search:"",
     };
   },
   methods: {
@@ -84,7 +86,15 @@ export default {
   },
   mounted() {
     this.getUsers();
-  }
+  },
+
+  computed: {
+    filteredUsers: function(){
+      this.users.filter((user)=> {
+      return user.name.match(this.search);
+      })
+    }
+  },
 };
 </script>
 
