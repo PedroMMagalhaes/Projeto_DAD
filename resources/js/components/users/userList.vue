@@ -53,7 +53,8 @@ export default {
       editingUser: null,
       selected: false,
       users: {},
-      search: ""
+      search: "",
+      usersFilter:{}
     };
   },
   methods: {
@@ -75,7 +76,7 @@ export default {
       return "/storage/fotos/" + name;
     },
 
-    getUsers: function(page = 1) {
+    getUsers: function(page) { //page=1
       axios
         .get("api/users?page=" + page)
         .then(({ data }) => (this.users = data));

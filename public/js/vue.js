@@ -2868,7 +2868,8 @@ __webpack_require__.r(__webpack_exports__);
       editingUser: null,
       selected: false,
       users: {},
-      search: ""
+      search: "",
+      usersFilter: {}
     };
   },
   methods: {
@@ -2888,10 +2889,10 @@ __webpack_require__.r(__webpack_exports__);
     getProfilePhoto: function getProfilePhoto(name) {
       return "/storage/fotos/" + name;
     },
-    getUsers: function getUsers() {
+    getUsers: function getUsers(page) {
       var _this = this;
 
-      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      //page=1
       axios.get("api/users?page=" + page).then(function (_ref) {
         var data = _ref.data;
         return _this.users = data;
