@@ -2898,12 +2898,21 @@ __webpack_require__.r(__webpack_exports__);
         return _this.users = data;
       });
     },
+    getUsersFiltered: function getUsersFiltered() {
+      var _this2 = this;
+
+      axios.get("api/users").then(function (_ref2) {
+        var data = _ref2.data;
+        return _this2.usersFilter = data;
+      });
+    },
     check: function check() {
       console.log(this.user.active);
     }
   },
   mounted: function mounted() {
     this.getUsers();
+    this.getUsersFiltered();
   },
   watch: {
     search: function search(val) {
@@ -2912,7 +2921,7 @@ __webpack_require__.r(__webpack_exports__);
       if (val == "") {
         //console.log('Teste');
         this.getUsers();
-      } else this.users.data = this.users.data.filter(function (user) {
+      } else this.users.data = this.usersFilter.data.filter(function (user) {
         return user.name.match(regExFilter);
       });
     },

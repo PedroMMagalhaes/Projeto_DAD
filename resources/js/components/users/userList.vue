@@ -54,7 +54,7 @@ export default {
       selected: false,
       users: {},
       search: "",
-      usersFilter:{}
+      usersFilter: {}
     };
   },
   methods: {
@@ -82,12 +82,19 @@ export default {
         .then(({ data }) => (this.users = data));
     },
 
+    getUsersFiltered: function(){
+       axios
+        .get("api/users")
+        .then(({ data }) => (this.usersFilter = data));
+    },
+
     check: function() {
       console.log(this.user.active);
     }
   },
   mounted() {
     this.getUsers();
+    this.getUsersFiltered();
   },
 
   watch: {
@@ -98,7 +105,7 @@ export default {
         //console.log('Teste');
         this.getUsers();
       }else
-      this.users.data=this.users.data.filter(user => {
+      this.users.data=this.usersFilter.data.filter(user => {
         return user.name.match(regExFilter);
       });
     },
