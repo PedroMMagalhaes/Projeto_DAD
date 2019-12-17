@@ -54,15 +54,13 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if ((to.name == 'profile') || (to.name == 'logout') || (to.name == 'users')) {
-      if (!store.state.user) {
+      if (!sessionStorage.getItem('user')) {
           next("/login");
           return;
       }
   }
   next();
 });
-
-
 
 const app = new Vue({
   router,

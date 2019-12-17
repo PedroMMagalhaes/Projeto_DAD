@@ -2904,13 +2904,21 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.getUsers();
   },
-  computed: {
-    filteredUsers: function filteredUsers() {
-      var _this2 = this;
+  watch: {
+    search: function search(val) {
+      var regExFilter = new RegExp('.*' + val + '.*', 'i'); //console.log("OK");
 
-      this.users.filter(function (user) {
-        return user.name.match(_this2.search);
+      if (val == "") {
+        //console.log('Teste');
+        this.getUsers();
+      } else this.users.data = this.users.data.filter(function (user) {
+        return user.name.match(regExFilter);
       });
+    },
+    filter: function filter() {//var result = Object.keys(this.users)
+      //.map(user => users[key]) // turn an array of keys into array of items.
+      //.filter(user =>  user.name.match(this.search)) // filter that array,
+      //console.log(result);
     }
   }
 });
@@ -3046,7 +3054,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\ntr.activerow[data-v-3138e63b] {\n  background: #123456 !important;\n  color: #fff !important;\n}\n.img-circle[data-v-3138e63b]{\n  border-radius: 50%;\n}\n", ""]);
+exports.push([module.i, "\ntr.activerow[data-v-3138e63b] {\n  background: #123456 !important;\n  color: #fff !important;\n}\n.img-circle[data-v-3138e63b] {\n  border-radius: 50%;\n}\n", ""]);
 
 // exports
 
@@ -40939,7 +40947,7 @@ var render = function() {
               expression: "search"
             }
           ],
-          attrs: { type: "text", align: "left", placeholder: "Search Users" },
+          attrs: { type: "text", align: "center", placeholder: "Search Users" },
           domProps: { value: _vm.search },
           on: {
             input: function($event) {
@@ -41032,7 +41040,7 @@ var render = function() {
       _c(
         "pagination",
         {
-          attrs: { data: _vm.users },
+          attrs: { data: _vm.users, align: "center" },
           on: { "pagination-change-page": _vm.getUsers }
         },
         [
@@ -41041,7 +41049,7 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("span", { attrs: { slot: "next-nav" }, slot: "next-nav" }, [
-            _vm._v("Next ")
+            _vm._v("Next")
           ])
         ]
       )
@@ -60022,7 +60030,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 });
 router.beforeEach(function (to, from, next) {
   if (to.name == 'profile' || to.name == 'logout' || to.name == 'users') {
-    if (!_stores_global_store__WEBPACK_IMPORTED_MODULE_2__["default"].state.user) {
+    if (!sessionStorage.getItem('user')) {
       next("/login");
       return;
     }

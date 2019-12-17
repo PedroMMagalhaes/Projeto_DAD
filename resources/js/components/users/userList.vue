@@ -1,7 +1,7 @@
 <template>
   <table class="table table-striped">
     <thead>
-      <input type="text" align="left" v-model="search" placeholder="Search Users" />
+      <input type="text" align="center" v-model="search" placeholder="Search Users" />
       <tr>
         <th>Name</th>
         <th>Email</th>
@@ -19,7 +19,7 @@
         <td>{{ user.type}}</td>
         <td>{{ user.nif }}</td>
         <td>
-          <input type="checkbox" :checked="user.active ? 'checked':'' " @change="!user.active"/>
+          <input type="checkbox" :checked="user.active ? 'checked':'' " @change="!user.active" />
         </td>
         <td class="widget-user-image">
           <img
@@ -37,9 +37,9 @@
         </td>
       </tr>
     </tbody>
-    <pagination :data="users" @pagination-change-page="getUsers">
+    <pagination :data="users" @pagination-change-page="getUsers" align="center">
       <span slot="prev-nav">Previous</span>
-      <span slot="next-nav">Next </span>
+      <span slot="next-nav">Next</span>
     </pagination>
   </table>
 </template>
@@ -47,20 +47,20 @@
 <script type="text/javascript">
 // Component code (not registered)
 export default {
- // props: ["users"],
+  // props: ["users"],
   data: function() {
     return {
       editingUser: null,
       selected: false,
       users: {},
-      search:"",
+      search: ""
     };
   },
   methods: {
     //getResults(page = 1) {
-      //axios.get("api/users?page=" + page).then(response => {
-        //this.users = response.data;
-      //});
+    //axios.get("api/users?page=" + page).then(response => {
+    //this.users = response.data;
+    //});
     //},
     editUser: function(user) {
       this.editingUser = user;
@@ -75,26 +75,39 @@ export default {
       return "/storage/fotos/" + name;
     },
 
-     getUsers: function(page=1) {
-      axios.get("api/users?page=" + page).then(({ data }) => (
-        this.users = data));
+    getUsers: function(page = 1) {
+      axios
+        .get("api/users?page=" + page)
+        .then(({ data }) => (this.users = data));
     },
 
     check: function() {
       console.log(this.user.active);
-    },
+    }
   },
   mounted() {
     this.getUsers();
   },
 
-  computed: {
-    filteredUsers: function(){
-      this.users.filter((user)=> {
-      return user.name.match(this.search);
-      })
+  watch: {
+    search: function(val) {
+      var regExFilter = new RegExp('.*'+val+'.*', 'i');
+      //console.log("OK");
+      if(val==""){
+        //console.log('Teste');
+        this.getUsers();
+      }else
+      this.users.data=this.users.data.filter(user => {
+        return user.name.match(regExFilter);
+      });
+    },
+    filter: function() {
+      //var result = Object.keys(this.users)
+      //.map(user => users[key]) // turn an array of keys into array of items.
+      //.filter(user =>  user.name.match(this.search)) // filter that array,
+      //console.log(result);
     }
-  },
+  }
 };
 </script>
 
@@ -104,7 +117,7 @@ tr.activerow {
   color: #fff !important;
 }
 
-.img-circle{
+.img-circle {
   border-radius: 50%;
 }
 </style>
