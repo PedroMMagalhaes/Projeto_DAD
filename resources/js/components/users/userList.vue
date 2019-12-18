@@ -1,7 +1,13 @@
 <template>
   <table class="table table-striped">
     <thead>
-      <input type="text" align="center" v-model="search" placeholder="Search Users" />
+      <input type="text" align="center" v-model="searchName" placeholder="Search Users" />
+       <select v-model="searchType">
+        <option disabled value>Select User Type to Filter</option>
+        <option value="Admin">Admin</option>
+        <option value="Operator">Operator</option>
+        <option value="Platform User">Platform User</option>
+      </select>
       <tr>
         <th>Name</th>
         <th>Email</th>
@@ -51,11 +57,15 @@ export default {
   data: function() {
     return {
       editingUser: null,
+      selected: ["Apache", "Cochise"],
       selected: false,
       users: {},
-      search: "",
+      type:"",
+      searchName: "",
+      searchType:"",
       usersFilter: {}
     };
+    
   },
   methods: {
     //getResults(page = 1) {
@@ -76,16 +86,15 @@ export default {
       return "/storage/fotos/" + name;
     },
 
-    getUsers: function(page) { //page=1
+    getUsers: function(page) {
+      //page=1
       axios
         .get("api/users?page=" + page)
         .then(({ data }) => (this.users = data));
     },
 
-    getUsersFiltered: function(){
-       axios
-        .get("api/users")
-        .then(({ data }) => (this.usersFilter = data));
+    getUsersFiltered: function() {
+      axios.get("api/users").then(({ data }) => (this.usersFilter = data));
     },
 
     check: function() {
@@ -98,17 +107,31 @@ export default {
   },
 
   watch: {
-    search: function(val) {
-      var regExFilter = new RegExp('.*'+val+'.*', 'i');
+    searchName: function(val) {
+      var regExFilter = new RegExp(".*" + val + ".*", "i");
       //console.log("OK");
-      if(val==""){
+      if (val == "") {
         //console.log('Teste');
         this.getUsers();
-      }else
-      this.users.data=this.usersFilter.data.filter(user => {
-        return user.name.match(regExFilter);
-      });
+      } else
+        this.users.data = this.usersFilter.data.filter(user => {
+          return user.name.match(regExFilter);
+        });
     },
+
+    searchType: function(val) {
+      var regExFilterType = new RegExp(".*" + val + ".*", "i");
+      //console.log("OK");
+      if (val == "") {
+        //console.log('Teste');
+        this.getUsers();
+      } else
+        this.users.data = this.usersFilter.data.filter(user => {
+          return user.type.match(regExFilterType);
+        });
+    },
+
+
     filter: function() {
       //var result = Object.keys(this.users)
       //.map(user => users[key]) // turn an array of keys into array of items.

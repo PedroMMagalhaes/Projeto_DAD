@@ -2814,6 +2814,14 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2864,13 +2872,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   // props: ["users"],
   data: function data() {
-    return {
+    var _ref;
+
+    return _ref = {
       editingUser: null,
-      selected: false,
-      users: {},
-      search: "",
-      usersFilter: {}
-    };
+      selected: ["Apache", "Cochise"]
+    }, _defineProperty(_ref, "selected", false), _defineProperty(_ref, "users", {}), _defineProperty(_ref, "type", ""), _defineProperty(_ref, "searchName", ""), _defineProperty(_ref, "searchType", ""), _defineProperty(_ref, "usersFilter", {}), _ref;
   },
   methods: {
     //getResults(page = 1) {
@@ -2893,16 +2900,16 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       //page=1
-      axios.get("api/users?page=" + page).then(function (_ref) {
-        var data = _ref.data;
+      axios.get("api/users?page=" + page).then(function (_ref2) {
+        var data = _ref2.data;
         return _this.users = data;
       });
     },
     getUsersFiltered: function getUsersFiltered() {
       var _this2 = this;
 
-      axios.get("api/users").then(function (_ref2) {
-        var data = _ref2.data;
+      axios.get("api/users").then(function (_ref3) {
+        var data = _ref3.data;
         return _this2.usersFilter = data;
       });
     },
@@ -2915,14 +2922,24 @@ __webpack_require__.r(__webpack_exports__);
     this.getUsersFiltered();
   },
   watch: {
-    search: function search(val) {
-      var regExFilter = new RegExp('.*' + val + '.*', 'i'); //console.log("OK");
+    searchName: function searchName(val) {
+      var regExFilter = new RegExp(".*" + val + ".*", "i"); //console.log("OK");
 
       if (val == "") {
         //console.log('Teste');
         this.getUsers();
       } else this.users.data = this.usersFilter.data.filter(function (user) {
         return user.name.match(regExFilter);
+      });
+    },
+    searchType: function searchType(val) {
+      var regExFilterType = new RegExp(".*" + val + ".*", "i"); //console.log("OK");
+
+      if (val == "") {
+        //console.log('Teste');
+        this.getUsers();
+      } else this.users.data = this.usersFilter.data.filter(function (user) {
+        return user.type.match(regExFilterType);
       });
     },
     filter: function filter() {//var result = Object.keys(this.users)
@@ -40953,21 +40970,65 @@ var render = function() {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.search,
-              expression: "search"
+              value: _vm.searchName,
+              expression: "searchName"
             }
           ],
           attrs: { type: "text", align: "center", placeholder: "Search Users" },
-          domProps: { value: _vm.search },
+          domProps: { value: _vm.searchName },
           on: {
             input: function($event) {
               if ($event.target.composing) {
                 return
               }
-              _vm.search = $event.target.value
+              _vm.searchName = $event.target.value
             }
           }
         }),
+        _vm._v(" "),
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.searchType,
+                expression: "searchType"
+              }
+            ],
+            on: {
+              change: function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.searchType = $event.target.multiple
+                  ? $$selectedVal
+                  : $$selectedVal[0]
+              }
+            }
+          },
+          [
+            _c("option", { attrs: { disabled: "", value: "" } }, [
+              _vm._v("Select User Type to Filter")
+            ]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "Admin" } }, [_vm._v("Admin")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "Operator" } }, [
+              _vm._v("Operator")
+            ]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "Platform User" } }, [
+              _vm._v("Platform User")
+            ])
+          ]
+        ),
         _vm._v(" "),
         _vm._m(0)
       ]),
