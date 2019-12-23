@@ -2935,7 +2935,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     searchType: function searchType(val) {
       var regExFilterType = new RegExp(".*" + val + ".*", "i"); //console.log("OK");
 
-      if (val == "") {
+      if (val == "" || val == "None") {
         //console.log('Teste');
         this.getUsers();
       } else this.users.data = this.usersFilter.data.filter(function (user) {
@@ -40711,37 +40711,6 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "form-group" }, [
-          _c("label", { attrs: { for: "inputEmail" } }, [_vm._v("Email")]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.user.email,
-                expression: "user.email"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: {
-              type: "email",
-              name: "email",
-              id: "inputEmail",
-              placeholder: "Email address"
-            },
-            domProps: { value: _vm.user.email },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.user, "email", $event.target.value)
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-group" }, [
           _c("label", { attrs: { for: "inputPasswordAtual" } }, [
             _vm._v("Password Atual")
           ]),
@@ -41014,7 +40983,7 @@ var render = function() {
             }
           },
           [
-            _c("option", { attrs: { disabled: "", value: "" } }, [
+            _c("option", { attrs: { value: "None" } }, [
               _vm._v("Select User Type to Filter")
             ]),
             _vm._v(" "),

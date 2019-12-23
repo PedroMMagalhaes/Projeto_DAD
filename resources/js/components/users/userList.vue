@@ -3,7 +3,7 @@
     <thead>
       <input type="text" align="center" v-model="searchName" placeholder="Search Users" />
        <select v-model="searchType">
-        <option disabled value>Select User Type to Filter</option>
+        <option value="None">Select User Type to Filter</option>
         <option value="Admin">Admin</option>
         <option value="Operator">Operator</option>
         <option value="Platform User">Platform User</option>
@@ -122,7 +122,7 @@ export default {
     searchType: function(val) {
       var regExFilterType = new RegExp(".*" + val + ".*", "i");
       //console.log("OK");
-      if (val == "") {
+      if (val == "" || val == "None") {
         //console.log('Teste');
         this.getUsers();
       } else

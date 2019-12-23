@@ -15,7 +15,7 @@
             placeholder="Fullname"
           />
         </div>
-        <div class="form-group">
+       <!-- <div class="form-group">
           <label for="inputEmail">Email</label>
           <input
             type="email"
@@ -25,7 +25,7 @@
             id="inputEmail"
             placeholder="Email address"
           />
-        </div>
+        </div> -->
 
         <div class="form-group">
           <label for="inputPasswordAtual">Password Atual</label>
