@@ -1,4 +1,6 @@
 <template>
+ <div>
+    <navbar/>
 <div>
     <div class="alert" :class="typeofmsg" v-if="showMessage">             
             <button type="button" class="close-btn" v-on:click="showMessage=false">&times;</button>
@@ -11,6 +13,7 @@
         </div>
     </div>
     </div>
+ </div>
 </template>
 
 <script type="text/javascript">    

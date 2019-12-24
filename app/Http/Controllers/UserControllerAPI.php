@@ -70,8 +70,20 @@ class UserControllerAPI extends Controller
             $filename = basename($fileNew);
             $user->photo=$filename;
         }
-        
-        $user->update($request->all());
+        if (!Hash::check($request->passwordAtual, $user->password)) {
+            return response()->json('Password Not Match !!!!', 403);
+        }
+       // $user = User::where('email', $request->input('email'))->first();
+        if ($request->has('name') && !empty($request->input('name')))
+            $user->name = $request->input('name');
+        if ($request->has('nif') && !empty($request->input('nif')))
+            $user->nif = $request->input('nif');
+        if ($request->has('photo') && !empty($request->input('photo')))
+            $user->photo = $request->input('photo');
+            if ($request->has('password') && !empty($request->input('password')))
+            $user->password = bcrypt($request->input('password'));
+
+        $user->save();
         return new UserResource($user);
     }
 

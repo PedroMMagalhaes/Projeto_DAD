@@ -1,7 +1,9 @@
 <template>
+  <div>
+    <navbar />
   <div class="jumbotron">
     <!--<h1>Welcome to Virtual Wallet</h1> -->
-    <div v-if="this.$store.state.isLogged"> 
+    <div v-if="this.$store.state.user"> 
     <h1>Welcome {{this.$store.state.user.name}} </h1> 
     <!--<user></user>-->
     </div>
@@ -16,10 +18,12 @@
     </div>
     <div class="form-group"></div>
   </div>
+  </div>
 </template>
 
 <script type="text/javascript">
 import UsersComponent from "./users/user";
+import NavbarComponent from "./nav";
 export default {
   data: function() {
     return {
@@ -31,10 +35,10 @@ export default {
   },
   methods: {
     login() {
-      console.log("InitialPage-GotoLogin");
+     this.$router.push({ path: "/login" });
     },
     register() {
-      console.log("InitialPage-GotoRegister");
+      this.$router.push({ path: "/register" });
     },
     getNumWallets: function() {
       axios.get("api/numwallets").then(response => {
@@ -50,6 +54,9 @@ export default {
     isLogged: function() {
       return this.$store.state.isLogged;
     }
+  },
+  components: {
+        navbar: NavbarComponent,
   }
 };
 </script>

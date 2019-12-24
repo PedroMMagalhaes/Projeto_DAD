@@ -1,5 +1,7 @@
 <template>
   <div>
+    <navbar/>
+  <div>
     <div class="jumbotron">
       <h1>{{ title }}</h1>
     </div>
@@ -21,6 +23,7 @@
       v-if="currentUser"
     ></user-edit>
   </div>
+  </div>
 </template>
 <script type="text/javascript">
 import UserList from "./userList.vue";
@@ -33,7 +36,7 @@ export default {
       showSuccess: false,
       successMessage: "",
       currentUser: null,
-      users: []
+      users: {}
     };
   },
   methods: {
@@ -60,9 +63,9 @@ export default {
       this.showSuccess = false;
     },
     getUsers: function() {
-      axios.get("api/users").then(response => {
-        this.users = response.data.data;
-      });
+      axios.get("api/users?page=1").then(({ data }) => (
+        this.users = data));
+
     },
     childMessage: function(message) {
       this.showSuccess = true;
@@ -74,10 +77,9 @@ export default {
     "user-edit": UserEdit
   },
   mounted() {
-    this.getUsers();
+   // this.getUsers();
   }
 };
 </script>
-
 <style scoped>
 </style>
