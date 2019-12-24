@@ -2767,15 +2767,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      title: "List Users",
+      title: this.$store.state.user.name + " Wallet",
       showSuccess: false,
       successMessage: "",
       currentUser: null,
+      loggedUser: this.$store.state.user,
+      currentBalance: 0,
+      currentMovement: null,
       users: []
     };
   },
@@ -2805,11 +2810,25 @@ __webpack_require__.r(__webpack_exports__);
       this.$refs.usersListRef.editingUser = null;
       this.showSuccess = false;
     },
-    getUsers: function getUsers() {
+    getMovements: function getMovements() {
+      axios.get("api/movements/" + this.$store.state.user.id, {
+        "headers": {
+          "Authorization": 'Bearer '.concat(this.$store.state.token)
+        }
+      }).then(function (response) {
+        console.log(response.data.data); //this.currentBalance = response.data.data.balance;
+      });
+    },
+    getBalance: function getBalance() {
       var _this2 = this;
 
-      axios.get("api/users").then(function (response) {
-        _this2.users = response.data.data;
+      axios.get("api/wallets/" + this.$store.state.user.id, {
+        "headers": {
+          "Authorization": 'Bearer '.concat(this.$store.state.token)
+        }
+      }).then(function (response) {
+        //console.log(response.data.data.balance);
+        _this2.currentBalance = response.data.data.balance;
       });
     },
     childMessage: function childMessage(message) {
@@ -2822,7 +2841,9 @@ __webpack_require__.r(__webpack_exports__);
     "user-edit": _userEdit_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   mounted: function mounted() {
-    this.getUsers();
+    //console.log(this.$store.state.token);
+    this.getBalance();
+    this.getMovements();
   }
 });
 
@@ -39790,12 +39811,19 @@ var render = function() {
     "div",
     [
       _c("div", { staticClass: "jumbotron" }, [
-        _c("h1", [_vm._v(_vm._s(_vm.title))])
+        _c("h1", [_vm._v(_vm._s(_vm.title))]),
+        _c("br"),
+        _c("br"),
+        _vm._v(" "),
+        _c("h3", [
+          _vm._v("Balance: " + _vm._s(_vm.currentBalance)),
+          _c("strong")
+        ])
       ]),
       _vm._v(" "),
       _c("user-list", {
         ref: "usersListRef",
-        attrs: { users: _vm.users },
+        attrs: { users: _vm.movements },
         on: {
           "edit-click": _vm.editUser,
           "delete-click": _vm.deleteUser,

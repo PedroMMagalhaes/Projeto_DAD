@@ -7,49 +7,46 @@ use Illuminate\Contracts\Support\Jsonable;
 
 use App\Http\Resources\User as UserResource;
 use App\Http\Resources\Wallet as WalletResource;
+use App\Http\Resources\Movement as MovementResource;
 use Illuminate\Support\Facades\DB;
 
 use App\User;
 use App\Wallet;
+use App\Movement;
 use App\StoreUserRequest;
 use Hash;
 
 
-class WalletControllerAPI extends Controller
+class MovementControllerAPI extends Controller
 {
     public function index(Request $request)
     {
        if ($request->has('page')) {
-            return WalletResource::collection(Wallet::paginate(5));
+            return MovementResource::collection(Movement::paginate(5));
         } else {
-          return WalletResource::collection(Wallet::all());
+          return MovementResource::collection(Movement::all());
         }
-        //$wallets = \App\Wallet::all();
-        //return $wallets; //ALL WALLETS WITHOUT FILTER
-    }
-
-    public function countWallets(){
-        $num = WalletResource::collection(Wallet::all())->count();
-      return (WalletResource::collection(Wallet::all())->count());
     }
 
     public function show($id)
     {
-        return new WalletResource(Wallet::find($id));
+        return new MovementResource(Movement::find($id));
     }
-    
-    public function create($id)
+
+    public function getMovements($wallet_id)
     {
-        // $request->validate([
-        //         'id' => 'required'
-        //     ]);
+        $movements = Movement::where('wallet_id',$wallet_id)->get();
+        return MovementResource::collection($movements);
+    }
+
+    
+    public function create($walletId)
+    {
         $wallet = new Wallet();
-        // $wallet->fill($request->all());
-        $wallet->id = $id;
-        $user = new UserResource(User::find($id));
+        $wallet->wallet_id = $walletid;
+        $user = new UserResource(User::find($walletid));
         $wallet->email = $user->email;
         return $wallet->save();
-        // return response()->json(new WalletResource($wallet), 201);
     }
 
     public function update(Request $request, $id)

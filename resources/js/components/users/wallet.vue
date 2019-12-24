@@ -1,10 +1,12 @@
 <template>
   <div>
     <div class="jumbotron">
-      <h1>{{ title }}</h1>
+      <h1>{{ title }}</h1><br><br>
+
+      <h3>Balance: {{ currentBalance }}<strong></strong></h3>
     </div>
     <user-list
-      :users="users"
+      :users="movements"
       @edit-click="editUser"
       @delete-click="deleteUser"
       @message="childMessage"
@@ -29,10 +31,13 @@ import UserEdit from "./userEdit.vue";
 export default {
   data: function() {
     return {
-      title: "List Users",
+      title: this.$store.state.user.name + " Wallet",
       showSuccess: false,
       successMessage: "",
       currentUser: null,
+      loggedUser: this.$store.state.user,
+      currentBalance: 0,
+      currentMovement: null,
       users: []
     };
   },
@@ -59,9 +64,16 @@ export default {
       this.$refs.usersListRef.editingUser = null;
       this.showSuccess = false;
     },
-    getUsers: function() {
-      axios.get("api/users").then(response => {
-        this.users = response.data.data;
+    getMovements: function() {
+      axios.get("api/movements/"+this.$store.state.user.id, { "headers": { "Authorization": 'Bearer '.concat(this.$store.state.token) } }).then(response => {
+        console.log(response.data.data);
+        //this.currentBalance = response.data.data.balance;
+      });
+    },
+    getBalance: function() {
+      axios.get("api/wallets/"+this.$store.state.user.id, { "headers": { "Authorization": 'Bearer '.concat(this.$store.state.token) } }).then(response => {
+        //console.log(response.data.data.balance);
+        this.currentBalance = response.data.data.balance;
       });
     },
     childMessage: function(message) {
@@ -74,7 +86,9 @@ export default {
     "user-edit": UserEdit
   },
   mounted() {
-    this.getUsers();
+    //console.log(this.$store.state.token);
+    this.getBalance()
+    this.getMovements();
   }
 };
 </script>

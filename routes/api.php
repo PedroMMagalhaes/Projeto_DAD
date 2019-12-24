@@ -40,6 +40,10 @@ Route::middleware('auth:api')->patch('wallets/{id}', 'WalletControllerAPI@update
 // A criação nunca é feita a partir de pedido do cliente, é a API que faz a gestão
 // Route::middleware('auth:api')->post('wallet', 'WalletControllerAPI@create');
 
+//MOVEMENTS
+Route::middleware('auth:api')->get('movement/{id}', 'MovementControllerAPI@show');
+Route::middleware('auth:api')->get('movements/{wallet_id}', 'MovementControllerAPI@getMovements');
+
 /*
 Caso prefiram usar Resource Routes para o user, podem implementar antes as rotas:
 NOTA: neste caso, o parâmetro a receber nos métodos do controlador é user e não id
