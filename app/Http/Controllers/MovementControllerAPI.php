@@ -66,6 +66,12 @@ class MovementControllerAPI extends Controller
         $wallet->delete();
         return response()->json(null, 204);
     }
+
+    public function getCategories($type)
+    {
+        $category = DB::table('categories')->where('type', $type)->get();
+        return $category;
+    }
 }
 
 

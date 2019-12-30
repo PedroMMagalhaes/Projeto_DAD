@@ -43,6 +43,8 @@ Route::middleware('auth:api')->patch('wallets/{id}', 'WalletControllerAPI@update
 //MOVEMENTS
 Route::middleware('auth:api')->get('movement/{id}', 'MovementControllerAPI@show');
 Route::middleware('auth:api')->get('movements/{wallet_id}', 'MovementControllerAPI@getMovements');
+Route::put('movements/me', 'MovementControllerAPI@save');
+Route::middleware('auth:api')->get('categories/{type}', 'MovementControllerAPI@getCategories');
 
 /*
 Caso prefiram usar Resource Routes para o user, podem implementar antes as rotas:

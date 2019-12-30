@@ -5,28 +5,27 @@
 
       <h3>Balance: {{ currentBalance }}<strong></strong></h3>
     </div>
-    <user-list
-      :users="movements"
-      @edit-click="editUser"
-      @delete-click="deleteUser"
+    <movement-list
+      :movements="movements"
+      @edit-click="editMovement"
       @message="childMessage"
-      ref="usersListRef"
-    ></user-list>
+      ref="movementsListRef"
+    ></movement-list>
     <div class="alert alert-success" v-if="showSuccess">
       <button type="button" class="close-btn" v-on:click="showSuccess=false">&times;</button>
       <strong>{{ successMessage }}</strong>
     </div>
-    <user-edit
-      :user="currentUser"
-      @user-saved="savedUser"
-      @user-canceled="cancelEdit"
-      v-if="currentUser"
-    ></user-edit>
+    <movement-edit
+      :movement="currentMovement"
+      @movement-saved="savedMovement"
+      @movement-canceled="cancelEdit"
+      v-if="currentMovement"
+    ></movement-edit>
   </div>
 </template>
 <script type="text/javascript">
-import UserList from "./userList.vue";
-import UserEdit from "./userEdit.vue";
+import MovementList from "./movementList.vue";
+import MovementEdit from "./movementEdit.vue";
 
 export default {
   data: function() {
@@ -34,40 +33,30 @@ export default {
       title: this.$store.state.user.name + " Wallet",
       showSuccess: false,
       successMessage: "",
-      currentUser: null,
       loggedUser: this.$store.state.user,
       currentBalance: 0,
       currentMovement: null,
-      users: []
+      movements: []
     };
   },
   methods: {
-    editUser: function(user) {
-      this.currentUser = user;
+    editMovement: function(movement) {
+      this.currentMovement = movement;
       this.showSuccess = false;
     },
-    deleteUser: function(user) {
-      axios.delete("api/users/" + user.id).then(response => {
-        this.showSuccess = true;
-        this.successMessage = "User Deleted";
-        this.getUsers();
-      });
-    },
-    savedUser: function() {
-      this.currentUser = null;
-      this.$refs.usersListRef.editingUser = null;
+    savedMovement: function() {
+      this.currentMovement = null;
       this.showSuccess = true;
-      this.successMessage = "User Saved";
+      this.successMessage = "Movement Saved";
     },
     cancelEdit: function() {
-      this.currentUser = null;
-      this.$refs.usersListRef.editingUser = null;
+      this.currentMovement = null;
       this.showSuccess = false;
     },
     getMovements: function() {
       axios.get("api/movements/"+this.$store.state.user.id, { "headers": { "Authorization": 'Bearer '.concat(this.$store.state.token) } }).then(response => {
         console.log(response.data.data);
-        //this.currentBalance = response.data.data.balance;
+        this.movements = response.data.data;
       });
     },
     getBalance: function() {
@@ -82,8 +71,8 @@ export default {
     }
   },
   components: {
-    "user-list": UserList,
-    "user-edit": UserEdit
+    "movement-list": MovementList,
+    "movement-edit": MovementEdit
   },
   mounted() {
     //console.log(this.$store.state.token);

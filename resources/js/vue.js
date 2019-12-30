@@ -12,7 +12,7 @@ import UserComponent from './components/users/user.vue';
 import ProfileComponent from './components/users/profile.vue';
 import LoginComponent from './components/users/login.vue';
 import LogoutComponent from './components/users/logout.vue';
-import WalletComponent from './components/users/wallet.vue';
+import WalletComponent from './components/wallets/wallet.vue';
 import RegisterComponent from './components/users/register.vue';
 //Pagina Inicial
 import InitialPageComponent from './components/initial.vue';
