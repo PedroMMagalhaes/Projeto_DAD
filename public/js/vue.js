@@ -2792,14 +2792,13 @@ __webpack_require__.r(__webpack_exports__);
   // },
   data: function data() {
     return {
-      id: null,
-      type: "",
+      id: this.movement.id,
+      type: this.movement.type,
       typeString: "",
       description: "",
-      category_id: 0,
+      category_id: this.movement.category_id,
       category_name: "",
-      editingMovement: this.movement,
-      categories: []
+      categories: this.getCategories()
     };
   },
   methods: {
@@ -2830,21 +2829,27 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     getCategories: function getCategories() {
-      var _this3 = this;
-
-      axios.get("api/categories/" + this.editingMovement.type, {
+      axios.get("api/categories/" + this.type, {
         "headers": {
           "Authorization": 'Bearer '.concat(this.$store.state.token)
         }
       }).then(function (response) {
-        console.log(response.data.data);
-        _this3.categories = response.data.data;
-      }); // console.log(this.categories);
-    },
-    mounted: function mounted() {
-      console.log(this.editingMovement);
-      this.getCategories();
+        console.log(response.data);
+        return response.data;
+      });
     }
+  },
+  mounted: function mounted() {//this.getCategories();
+  },
+  beforeUpdated: function beforeUpdated() {
+    console.log(this.movement.id);
+    console.log(this.movement.type);
+    console.log(this.categories);
+  },
+  updated: function updated() {
+    console.log(this.movement.id);
+    console.log(this.movement.type);
+    console.log(this.categories);
   }
 });
 
@@ -40062,6 +40067,49 @@ var render = function() {
           }
         }),
         _vm._v(" "),
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: this.category_id,
+                expression: "this.category_id"
+              }
+            ],
+            on: {
+              change: function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.$set(
+                  this,
+                  "category_id",
+                  $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                )
+              }
+            }
+          },
+          [
+            _c("option", { attrs: { disabled: "", value: "" } }, [
+              _vm._v("Select Movement Category")
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.categories, function(category) {
+              return _c("option", { domProps: { value: category.id } }, [
+                _vm._v(_vm._s(category.name))
+              ])
+            })
+          ],
+          2
+        ),
+        _vm._v(" "),
         _c("br"),
         _vm._v(" "),
         _c("br")
@@ -59159,14 +59207,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!****************************************************!*\
   !*** ./resources/js/components/wallets/wallet.vue ***!
   \****************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wallet_vue_vue_type_template_id_48e3a019_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./wallet.vue?vue&type=template&id=48e3a019&scoped=true& */ "./resources/js/components/wallets/wallet.vue?vue&type=template&id=48e3a019&scoped=true&");
 /* harmony import */ var _wallet_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./wallet.vue?vue&type=script&lang=js& */ "./resources/js/components/wallets/wallet.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _wallet_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _wallet_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -59196,7 +59245,7 @@ component.options.__file = "resources/js/components/wallets/wallet.vue"
 /*!*****************************************************************************!*\
   !*** ./resources/js/components/wallets/wallet.vue?vue&type=script&lang=js& ***!
   \*****************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

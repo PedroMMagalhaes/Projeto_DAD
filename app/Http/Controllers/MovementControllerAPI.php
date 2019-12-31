@@ -70,7 +70,7 @@ class MovementControllerAPI extends Controller
     public function getCategories($type)
     {
         $category = DB::table('categories')->where('type', $type)->get();
-        return $category;
+        return json_encode($category);
     }
 }
 

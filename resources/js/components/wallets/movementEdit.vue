@@ -21,10 +21,10 @@
           <option value="o">Operator</option>
         </select> -->
 
-        <!-- <select v-model="formVariables.country_id">
+        <select v-model="this.category_id">
           <option disabled value>Select Movement Category</option>
-          <option v-for = "category in categories" :value="category.category_id" :key="category">{{category.category_name}}</option>
-        </select> -->
+          <option v-for = "category in categories" :value="category.id">{{category.name}}</option>
+        </select>
         <br />
         <br />
       </div> 
@@ -48,14 +48,13 @@ export default {
   // },
   data: function() {
     return {
-      id: null,
-      type: "",
+      id: this.movement.id,
+      type: this.movement.type,
       typeString: "",
       description: "",
-      category_id: 0,
+      category_id: this.movement.category_id,
       category_name: "",
-      editingMovement: this.movement,
-      categories: []
+      categories: this.getCategories()
     };
   },
   methods: {
@@ -75,17 +74,25 @@ export default {
         this.$emit("movement-canceled", this.movement);
       });
     },
-    getCategories: function() {
-      axios.get("api/categories/"+this.editingMovement.type, { "headers": { "Authorization": 'Bearer '.concat(this.$store.state.token) } }).then(response => {
-        console.log(response.data.data);
-        this.categories = response.data.data;
+    getCategories: function(){
+      axios.get("api/categories/"+this.type, { "headers": { "Authorization": 'Bearer '.concat(this.$store.state.token) } }).then(response => {
+        console.log(response.data);
+        return response.data;
       });
-      // console.log(this.categories);
-    },
-    mounted() {
-      console.log(this.editingMovement);
-      this.getCategories();
     }
+  },
+  mounted() {
+    //this.getCategories();
+  },
+  beforeUpdated(){
+    console.log(this.movement.id);
+    console.log(this.movement.type);
+    console.log(this.categories);
+  },
+  updated(){
+    console.log(this.movement.id);
+    console.log(this.movement.type);
+    console.log(this.categories);
   }
 };
 </script>
