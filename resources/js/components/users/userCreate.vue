@@ -13,7 +13,7 @@
         placeholder="Fullname"
       />
       <template v-if="$v.name.$dirty">
-      <p v-if="!$v.name.required">Field name required</p>
+        <p v-if="!$v.name.required">Field name required</p>
       </template>
     </div>
     <div class="form-group">
@@ -28,10 +28,11 @@
         placeholder="Email address"
       />
       <template v-if="$v.email.$dirty">
-      <p v-if="!$v.email.email">Email not Valid</p>
-      <p v-if="!$v.email.required">Field Email required</p>
+        <p v-if="!$v.email.email">Email not Valid</p>
+        <p v-if="!$v.email.required">Field Email required</p>
       </template>
     </div>
+
     <div class="form-group">
       <label for="inputPassword">Password</label>
       <input
@@ -44,8 +45,8 @@
         placeholder="Password"
       />
       <template v-if="$v.password.$dirty">
-      <p v-if="!$v.password.minlength">Password need at least 3 characters</p>
-      <p v-if="!$v.password.required">Field Password required</p>
+        <p v-if="!$v.password.minlength">Password need at least 3 characters</p>
+        <p v-if="!$v.password.required">Field Password required</p>
       </template>
     </div>
 
@@ -61,8 +62,8 @@
         placeholder="Password Confirmation"
       />
       <template v-if="$v.password_confirmation.$dirty">
-      <p v-if="!$v.password_confirmation.sameAs">Password's does not match</p>
-      <p v-if="!$v.password_confirmation.required">Field Password confirmation required</p>
+        <p v-if="!$v.password_confirmation.sameAs">Password's does not match</p>
+        <p v-if="!$v.password_confirmation.required">Field Password confirmation required</p>
       </template>
     </div>
 
@@ -78,6 +79,18 @@
       />
     </div>-->
 
+    <!-- Type User - Just for Admin Creation -->
+    <div v-if="this.$store.state.user!=null && isAdmin() ">
+      <select v-model="type">
+        <option disabled value>Select User Type</option>
+        <option value="a">Admin</option>
+        <option value="o">Operator</option>
+      </select>
+      <!--<span>User Type Selected: {{ type }}</span> -->
+      <br />
+      <br />
+    </div>
+
     <div class="form-group">
       <label for="inputNif">Nif</label>
       <input
@@ -90,8 +103,8 @@
         placeholder="99999999"
       />
       <template v-if="$v.nif.$dirty">
-      <p v-if="!$v.nif.numeric">Only numbers are allowed</p>
-      <!--<p v-if="!$v.nif.required">Field NIF is required</p> -->
+        <p v-if="!$v.nif.numeric">Only numbers are allowed</p>
+        <!--<p v-if="!$v.nif.required">Field NIF is required</p> -->
       </template>
     </div>
 
@@ -117,12 +130,11 @@ import {
   sameAs,
   numeric
 } from "vuelidate/lib/validators";
-
 import moment from "moment";
 
 export default {
   //create USER - NAO USAR PROPS NAO E NECESSARIO PASSAR DADOS
- // props: ["user"],
+  // props: ["user"],
   //VALIDATIONS
   validations: {
     name: { required },
@@ -139,15 +151,22 @@ export default {
       email: "",
       password: "",
       password_confirmation: "",
-      nif: 0,
+      nif: "",
       active: "",
-      user: {
-      } //USER 
+      user: {}, //USER
+      type: ""
     };
   },
   methods: {
+    isAdmin: function() {
+      return this.$store.state.user.type === "Admin";
+    },
     createUser: function() {
       //this.createdAtDisplay();
+
+      if (this.type === "") {
+        this.type = "u";
+      }
       console.log(this.user);
       console.log(this.nif);
       var formData = new FormData();
@@ -156,6 +175,7 @@ export default {
       this.user.type = 1;
       this.user.email = this.email;
       this.user.password = this.password;
+      this.user.type = this.type;
 
       console.log(this.user.nif);
       //formData.append('user',this.user);
@@ -164,6 +184,7 @@ export default {
       formData.append("password", this.user.password);
       formData.append("nif", this.user.nif);
       formData.append("active", this.user.active);
+      formData.append("type", this.user.type);
 
       formData.append("photoFile", this.photoFile);
       axios.post("api/users", formData).then(response => {
@@ -203,6 +224,6 @@ export default {
 </script>
 <style scoped>
 p {
-    color: red;
+  color: red;
 }
 </style>

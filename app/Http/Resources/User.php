@@ -22,6 +22,7 @@ class User extends Resource
             'nif' => $this->nif,
             'photo' => $this->photo,
             'created_at' => $this->created_at,
+            'active' => $this->active,
         ];
     }
 }

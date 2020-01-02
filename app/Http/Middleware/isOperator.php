@@ -15,6 +15,10 @@ class isOperator
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        $user = \Auth::user();
+        if ($user->isOperator())
+            return $next($request);
+        else
+            return response("Forbidden action.", 403);
     }
 }

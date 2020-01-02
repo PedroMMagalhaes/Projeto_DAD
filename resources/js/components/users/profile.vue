@@ -1,13 +1,13 @@
 <template>
     <div>
+         <navbar />
         <div class="alert alert-success" v-if="showSuccess">             
             <button type="button" class="close-btn" v-on:click="showSuccess=false">&times;</button>
             <strong>{{ successMessage }}</strong>
         </div>
         <user-edit :user="profileUser"  @user-saved="savedUser" @user-canceled="cancelEdit"></user-edit>
-    </div>              
+    </div>             
 </template>
-
 <script type="text/javascript">    
     import userEdit from './userEdit.vue';
     export default {
