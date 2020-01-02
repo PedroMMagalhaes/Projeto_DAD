@@ -2894,12 +2894,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ __webpack_exports__["default"] = ({
   // props: ["users"],
   data: function data() {
-    var _ref;
-
-    return _ref = {
-      editingUser: null,
-      selected: ["Apache", "Cochise"]
-    }, _defineProperty(_ref, "selected", false), _defineProperty(_ref, "users", {}), _defineProperty(_ref, "type", ""), _defineProperty(_ref, "searchName", ""), _defineProperty(_ref, "searchType", ""), _defineProperty(_ref, "usersFilter", {}), _ref;
+    return {
+      id: this.movement.id,
+      type: this.movement.type,
+      typeString: "",
+      description: "",
+      category_id: this.movement.category_id,
+      category_name: "",
+      categories: this.getCategories()
+    };
   },
   methods: {
     //getResults(page = 1) {
@@ -2968,7 +2971,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       //.map(user => users[key]) // turn an array of keys into array of items.
       //.filter(user =>  user.name.match(this.search)) // filter that array,
       //console.log(result);
+    getCategories: function getCategories() {
+      axios.get("api/categories/" + this.type, {
+        "headers": {
+          "Authorization": 'Bearer '.concat(this.$store.state.token)
+        }
+      }).then(function (response) {
+        console.log(response.data);
+        return response.data;
+      });
     }
+  },
+  mounted: function mounted() {//this.getCategories();
+  },
+  beforeUpdated: function beforeUpdated() {
+    console.log(this.movement.id);
+    console.log(this.movement.type);
+    console.log(this.categories);
+  },
+  updated: function updated() {
+    console.log(this.movement.id);
+    console.log(this.movement.type);
+    console.log(this.categories);
   }
 });
 
