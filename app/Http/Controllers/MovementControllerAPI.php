@@ -22,7 +22,7 @@ class MovementControllerAPI extends Controller
     public function index(Request $request)
     {
        if ($request->has('page')) {
-            return MovementResource::collection(Movement::paginate(5));
+            return MovementResource::collection(Movement::paginate(10));
         } else {
           return MovementResource::collection(Movement::all());
         }
@@ -33,10 +33,15 @@ class MovementControllerAPI extends Controller
         return new MovementResource(Movement::find($id));
     }
 
-    public function getMovements($wallet_id)
+    public function getMovements(Request $request, $wallet_id)
     {
-        $movements = Movement::where('wallet_id',$wallet_id)->get();
-        return MovementResource::collection($movements);
+        if ($request->has('page')) {
+            $movements = Movement::where('wallet_id',$wallet_id)->orderBy('date', 'desc')->paginate(10);
+            return MovementResource::collection($movements);
+        } else {
+            $movements = Movement::where('wallet_id',$wallet_id)->orderBy('date', 'desc')->get();
+            return MovementResource::collection($movements);
+        }
     }
 
     

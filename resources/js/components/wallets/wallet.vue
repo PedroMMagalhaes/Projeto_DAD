@@ -1,5 +1,6 @@
 <template>
   <div>
+    <navbar/>
     <div class="jumbotron">
       <h1>{{ title }}</h1><br><br>
 
@@ -36,7 +37,7 @@ export default {
       loggedUser: this.$store.state.user,
       currentBalance: 0,
       currentMovement: null,
-      movements: []
+      movements: {}
     };
   },
   methods: {
@@ -54,10 +55,10 @@ export default {
       this.showSuccess = false;
     },
     getMovements: function() {
-      axios.get("api/movements/"+this.$store.state.user.id, { "headers": { "Authorization": 'Bearer '.concat(this.$store.state.token) } }).then(response => {
-        console.log(response.data.data);
-        this.movements = response.data.data;
+      axios.get("api/movements/"+this.$store.state.user.id+"?page=1", { "headers": { "Authorization": 'Bearer '.concat(this.$store.state.token) } }).then(response => {
+        console.log(response.data);
       });
+        console.log(this.movements);
     },
     getBalance: function() {
       axios.get("api/wallets/"+this.$store.state.user.id, { "headers": { "Authorization": 'Bearer '.concat(this.$store.state.token) } }).then(response => {
@@ -77,7 +78,7 @@ export default {
   mounted() {
     //console.log(this.$store.state.token);
     this.getBalance()
-    this.getMovements();
+    //this.getMovements();
   }
 };
 </script>
