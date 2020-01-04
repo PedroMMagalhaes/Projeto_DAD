@@ -12,6 +12,9 @@ class Movement extends Model
      *
      * @var array
      */
+
+    public $timestamps = false;
+    
     protected $fillable = [
         'id',
         'wallet_id',
@@ -19,6 +22,7 @@ class Movement extends Model
         'typeString',
         'transfer',
         'transfer_movement_id',
+        'transferEmail',
         'type_payment',
         'type_paymentString',
         'category_id',
@@ -68,6 +72,17 @@ class Movement extends Model
                 return 'MB payment';
             }
         return null;
+    }
+
+    public function getEmailTransfer($movementID){
+        if ($movementID <> null){
+            $wallet = DB::table('wallets')->select('id','email')->whereRaw('id = (select wallet_id from movements where id = ?)',[$movementID])->first();
+            if (is_null($wallet->email)) {
+                return "";
+            } else {
+                return $wallet->email;
+            }
+        }
     }
 
     public function isCash(){

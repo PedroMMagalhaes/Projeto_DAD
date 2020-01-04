@@ -43,7 +43,7 @@ Route::middleware('auth:api')->patch('wallets/{id}', 'WalletControllerAPI@update
 //MOVEMENTS
 Route::middleware('auth:api')->get('movement/{id}', 'MovementControllerAPI@show');
 Route::middleware('auth:api')->get('movements/{wallet_id}', 'MovementControllerAPI@getMovements');
-Route::put('movements/me', 'MovementControllerAPI@save');
+Route::middleware('auth:api')->put('movement/me/{id}', 'MovementControllerAPI@updateMovement');
 Route::middleware('auth:api')->get('categories/{type}', 'MovementControllerAPI@getCategories');
 
 /*

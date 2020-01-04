@@ -44,6 +44,20 @@ class MovementControllerAPI extends Controller
         }
     }
 
+    public function updateMovement(Request $request, $id)
+    {
+        $movement = Movement::findOrFail($id);
+
+        if ($movement->category_id != $request->input('category_id')){
+            $movement->category_id = $request->input('category_id');
+        }
+        $movement->description =  $request->input('description');
+        
+        $movement->save();
+
+        return new MovementResource($movement);
+    }
+
     
     public function create($walletId)
     {

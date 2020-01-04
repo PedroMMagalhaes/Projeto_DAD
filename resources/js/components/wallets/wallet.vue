@@ -18,6 +18,7 @@
     </div>
     <movement-edit
       :movement="currentMovement"
+      :categories="currentCategories"
       @movement-saved="savedMovement"
       @movement-canceled="cancelEdit"
       v-if="currentMovement"
@@ -37,12 +38,14 @@ export default {
       loggedUser: this.$store.state.user,
       currentBalance: 0,
       currentMovement: null,
+      currentCategories: null,
       movements: {}
     };
   },
   methods: {
     editMovement: function(movement) {
       this.currentMovement = movement;
+      this.getCategories();
       this.showSuccess = false;
     },
     savedMovement: function() {
@@ -69,6 +72,11 @@ export default {
     childMessage: function(message) {
       this.showSuccess = true;
       this.successMessage = message;
+    },
+    getCategories: function(){
+      axios.get("api/categories/"+this.currentMovement.type, { "headers": { "Authorization": 'Bearer '.concat(this.$store.state.token) } }).then(response => {
+        this.currentCategories = response.data;
+      });
     }
   },
   components: {
