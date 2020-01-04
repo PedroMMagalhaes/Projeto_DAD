@@ -22,6 +22,7 @@ class Movement extends Resource
             'transfer' => $this->transfer,
             'transfer_movement_id' => $this->transfer_movement_id,
             'transferEmail' => $this->getEmailTransfer($this->transfer_movement_id),
+            'transferPhoto' => $this->getPhotoTransfer($this->transfer_movement_id),
             'type_payment' => $this->type_payment,
             'type_paymentString' => $this->typePaymentToStr($this->type_payment),
             'category_id' => $this->category_id,

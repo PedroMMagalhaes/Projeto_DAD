@@ -28,9 +28,13 @@
                 </div>
                 <br><br>
                 <div class="row">
-                  <div class="col-md-3" v-if="movement.mb_entity_code"><h4>MB Entity Code</h4>{{ movement.mb_entity_code }}</div>
-                  <div class="col-md-3" v-if="movement.mb_payment_reference"><h4>MB payment reference</h4>{{ movement.mb_payment_reference }}</div>
-                  <div class="col-md-3" v-if="movement.transferEmail"><h4>Transfer User</h4>{{ movement.transferEmail }}</div>
+                  <div class="col-md-4" v-if="movement.mb_entity_code"><h4>MB Entity Code</h4>{{ movement.mb_entity_code }}</div>
+                  <div class="col-md-4" v-if="movement.mb_payment_reference"><h4>MB payment reference</h4>{{ movement.mb_payment_reference }}</div>
+                  <div class="col-md-4" v-if="movement.transfer_movement_id">
+                    <h4>Transfer User</h4>
+                    {{ movement.transferEmail }}
+                    <img v-if="movement.transferPhoto" style="border-radius: 50%" :src="'/storage/fotos/' + movement.transferPhoto" width="40" height="40" alt/>
+                  </div>
                 </div>
                 <br><br>
                 <div class="row">
@@ -60,19 +64,13 @@ export default {
   props: ["movement"],
   data: function() {
     return {
-      
-
+      userPhoto: ""
     };
   },
   methods: {
     close() {
       this.$emit('close');
     }
-  },
-  updated(){
-    console.log(this.movement.id);
-    console.log(this.movement.type);
-    //console.log(this.categories);
   }
 };
 </script>

@@ -63,7 +63,6 @@ export default {
       axios
           .put("/api/movement/me/" + this.movement.id, this.movement, { "headers": { "Authorization": 'Bearer '.concat(this.$store.state.token) } })
           .then(response => {
-            console.log(response.data.data);
             this.movement.category_name = response.data.data.category_name;
             this.$emit("movement-saved", this.movement);
           })

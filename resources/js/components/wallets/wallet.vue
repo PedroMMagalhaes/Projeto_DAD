@@ -57,15 +57,8 @@ export default {
       this.currentMovement = null;
       this.showSuccess = false;
     },
-    getMovements: function() {
-      axios.get("api/movements/"+this.$store.state.user.id+"?page=1", { "headers": { "Authorization": 'Bearer '.concat(this.$store.state.token) } }).then(response => {
-        console.log(response.data);
-      });
-        console.log(this.movements);
-    },
     getBalance: function() {
       axios.get("api/wallets/"+this.$store.state.user.id, { "headers": { "Authorization": 'Bearer '.concat(this.$store.state.token) } }).then(response => {
-        //console.log(response.data.data.balance);
         this.currentBalance = response.data.data.balance;
       });
     },
@@ -84,9 +77,7 @@ export default {
     "movement-edit": MovementEdit
   },
   mounted() {
-    //console.log(this.$store.state.token);
     this.getBalance()
-    //this.getMovements();
   }
 };
 </script>

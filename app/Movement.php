@@ -14,7 +14,7 @@ class Movement extends Model
      */
 
     public $timestamps = false;
-    
+
     protected $fillable = [
         'id',
         'wallet_id',
@@ -23,6 +23,7 @@ class Movement extends Model
         'transfer',
         'transfer_movement_id',
         'transferEmail',
+        'transferPhoto',
         'type_payment',
         'type_paymentString',
         'category_id',
@@ -81,6 +82,17 @@ class Movement extends Model
                 return "";
             } else {
                 return $wallet->email;
+            }
+        }
+    }
+
+    public function getPhotoTransfer($movementID){
+        if ($movementID <> null){
+            $user = DB::table('users')->select('id','photo')->whereRaw('id = (select wallet_id from movements where id = ?)',[$movementID])->first();
+            if (is_null($user->photo)) {
+                return "";
+            } else {
+                return $user->photo;
             }
         }
     }

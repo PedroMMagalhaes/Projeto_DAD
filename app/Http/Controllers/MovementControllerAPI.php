@@ -52,7 +52,7 @@ class MovementControllerAPI extends Controller
             $movement->category_id = $request->input('category_id');
         }
         $movement->description =  $request->input('description');
-        
+
         $movement->save();
 
         return new MovementResource($movement);

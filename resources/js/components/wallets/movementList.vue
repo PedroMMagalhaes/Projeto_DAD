@@ -46,10 +46,8 @@
 </template>
 
 <script type="text/javascript">
-// Component code (not registered)
 import modal from './movementModal.vue';
 export default {
-  // props: ["movements"],
   components: {
       modal,
     },
@@ -82,7 +80,6 @@ export default {
       this.isModalVisible = true;
     },
     closeModal() {
-      //this.modalMovement = null;
       this.isModalVisible = false;
     },
     cancelEdit: function() {

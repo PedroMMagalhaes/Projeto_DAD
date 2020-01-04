@@ -3056,7 +3056,6 @@ __webpack_require__.r(__webpack_exports__);
           "Authorization": 'Bearer '.concat(this.$store.state.token)
         }
       }).then(function (response) {
-        console.log(response.data.data);
         _this.movement.category_name = response.data.data.category_name;
 
         _this.$emit("movement-saved", _this.movement);
@@ -3141,10 +3140,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-// Component code (not registered)
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  // props: ["movements"],
   components: {
     modal: _movementModal_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
@@ -3185,7 +3182,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.isModalVisible = true;
     },
     closeModal: function closeModal() {
-      //this.modalMovement = null;
       this.isModalVisible = false;
     },
     cancelEdit: function cancelEdit() {
@@ -3274,20 +3270,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'modal',
   props: ["movement"],
   data: function data() {
-    return {};
+    return {
+      userPhoto: ""
+    };
   },
   methods: {
     close: function close() {
       this.$emit('close');
     }
-  },
-  updated: function updated() {
-    console.log(this.movement.id);
-    console.log(this.movement.type); //console.log(this.categories);
   }
 });
 
@@ -3361,16 +3359,6 @@ __webpack_require__.r(__webpack_exports__);
       this.currentMovement = null;
       this.showSuccess = false;
     },
-    getMovements: function getMovements() {
-      axios.get("api/movements/" + this.$store.state.user.id + "?page=1", {
-        "headers": {
-          "Authorization": 'Bearer '.concat(this.$store.state.token)
-        }
-      }).then(function (response) {
-        console.log(response.data);
-      });
-      console.log(this.movements);
-    },
     getBalance: function getBalance() {
       var _this = this;
 
@@ -3379,7 +3367,6 @@ __webpack_require__.r(__webpack_exports__);
           "Authorization": 'Bearer '.concat(this.$store.state.token)
         }
       }).then(function (response) {
-        //console.log(response.data.data.balance);
         _this.currentBalance = response.data.data.balance;
       });
     },
@@ -3404,8 +3391,7 @@ __webpack_require__.r(__webpack_exports__);
     "movement-edit": _movementEdit_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   mounted: function mounted() {
-    //console.log(this.$store.state.token);
-    this.getBalance(); //this.getMovements();
+    this.getBalance();
   }
 });
 
@@ -42066,14 +42052,14 @@ var render = function() {
                         _vm._v(" "),
                         _c("div", { staticClass: "row" }, [
                           _vm.movement.mb_entity_code
-                            ? _c("div", { staticClass: "col-md-3" }, [
+                            ? _c("div", { staticClass: "col-md-4" }, [
                                 _c("h4", [_vm._v("MB Entity Code")]),
                                 _vm._v(_vm._s(_vm.movement.mb_entity_code))
                               ])
                             : _vm._e(),
                           _vm._v(" "),
                           _vm.movement.mb_payment_reference
-                            ? _c("div", { staticClass: "col-md-3" }, [
+                            ? _c("div", { staticClass: "col-md-4" }, [
                                 _c("h4", [_vm._v("MB payment reference")]),
                                 _vm._v(
                                   _vm._s(_vm.movement.mb_payment_reference)
@@ -42081,10 +42067,27 @@ var render = function() {
                               ])
                             : _vm._e(),
                           _vm._v(" "),
-                          _vm.movement.transferEmail
-                            ? _c("div", { staticClass: "col-md-3" }, [
+                          _vm.movement.transfer_movement_id
+                            ? _c("div", { staticClass: "col-md-4" }, [
                                 _c("h4", [_vm._v("Transfer User")]),
-                                _vm._v(_vm._s(_vm.movement.transferEmail))
+                                _vm._v(
+                                  "\n                  " +
+                                    _vm._s(_vm.movement.transferEmail) +
+                                    "\n                  "
+                                ),
+                                _vm.movement.transferPhoto
+                                  ? _c("img", {
+                                      staticStyle: { "border-radius": "50%" },
+                                      attrs: {
+                                        src:
+                                          "/storage/fotos/" +
+                                          _vm.movement.transferPhoto,
+                                        width: "40",
+                                        height: "40",
+                                        alt: ""
+                                      }
+                                    })
+                                  : _vm._e()
                               ])
                             : _vm._e()
                         ]),
