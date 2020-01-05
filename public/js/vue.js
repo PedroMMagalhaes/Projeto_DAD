@@ -2895,6 +2895,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // Component code (not registered)
 /* harmony default export */ __webpack_exports__["default"] = ({
   // props: ["users"],
@@ -2904,7 +2915,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return _ref = {
       editingUser: null,
       selected: ["Apache", "Cochise"]
-    }, _defineProperty(_ref, "selected", false), _defineProperty(_ref, "users", {}), _defineProperty(_ref, "type", ""), _defineProperty(_ref, "searchName", ""), _defineProperty(_ref, "searchType", ""), _defineProperty(_ref, "usersFilter", {}), _ref;
+    }, _defineProperty(_ref, "selected", false), _defineProperty(_ref, "users", {}), _defineProperty(_ref, "type", ""), _defineProperty(_ref, "searchName", ""), _defineProperty(_ref, "searchType", ""), _defineProperty(_ref, "regExFilterName", ""), _defineProperty(_ref, "regExFilterType", ""), _defineProperty(_ref, "filtering", false), _defineProperty(_ref, "usersFilter", {}), _ref;
   },
   methods: {
     //getResults(page = 1) {
@@ -2929,7 +2940,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       //page=1
       axios.get("api/users?page=" + page).then(function (_ref2) {
         var data = _ref2.data;
-        return _this.users = data;
+        return _this.usersAUX = _this.users = data;
       });
     },
     getUsersFiltered: function getUsersFiltered() {
@@ -2939,6 +2950,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var data = _ref3.data;
         return _this2.usersFilter = data;
       });
+    },
+    filterData: function filterData() {
+      var _this3 = this;
+
+      var usersAUX = this.usersFilter.data;
+
+      if (this.regExFilterName === "" && this.regExFilterType === "") {
+        this.filtering = false;
+        this.getUsers();
+        this.getUsersFiltered();
+      } else {
+        this.filtering = true;
+
+        if (this.regExFilterName != "") {
+          usersAUX = usersAUX.filter(function (user) {
+            return user.name.match(_this3.regExFilterName);
+          });
+        }
+
+        if (this.regExFilterType != "") {
+          usersAUX = usersAUX.filter(function (user) {
+            return user.type.match(_this3.regExFilterType);
+          });
+        }
+      }
+
+      this.users.data = usersAUX;
     },
     check: function check() {
       console.log(this.user.active);
@@ -2950,29 +2988,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   watch: {
     searchName: function searchName(val) {
-      var regExFilter = new RegExp(".*" + val + ".*", "i"); //console.log("OK");
+      this.regExFilterName = new RegExp(".*" + val + ".*", "i");
 
       if (val == "") {
-        //console.log('Teste');
-        this.getUsers();
-      } else this.users.data = this.usersFilter.data.filter(function (user) {
-        return user.name.match(regExFilter);
-      });
+        this.regExFilterName = "";
+      }
+
+      this.filterData();
     },
     searchType: function searchType(val) {
-      var regExFilterType = new RegExp(".*" + val + ".*", "i"); //console.log("OK");
+      this.regExFilterType = new RegExp(".*" + val + ".*", "i");
 
       if (val == "" || val == "None") {
-        //console.log('Teste');
-        this.getUsers();
-      } else this.users.data = this.usersFilter.data.filter(function (user) {
-        return user.type.match(regExFilterType);
-      });
-    },
-    filter: function filter() {//var result = Object.keys(this.users)
-      //.map(user => users[key]) // turn an array of keys into array of items.
-      //.filter(user =>  user.name.match(this.search)) // filter that array,
-      //console.log(result);
+        this.regExFilterType = "";
+      }
+
+      this.filterData();
     }
   }
 });
@@ -3140,6 +3171,53 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -3153,7 +3231,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       oldMovement: null,
       modalMovement: null,
       selected: ["Apache", "Cochise"]
-    }, _defineProperty(_ref, "selected", false), _defineProperty(_ref, "isModalVisible", false), _defineProperty(_ref, "movements", {}), _ref;
+    }, _defineProperty(_ref, "selected", false), _defineProperty(_ref, "isModalVisible", false), _defineProperty(_ref, "searchID", ""), _defineProperty(_ref, "searchType", ""), _defineProperty(_ref, "searchDateStart", ""), _defineProperty(_ref, "searchDateEnd", ""), _defineProperty(_ref, "searchCategory", ""), _defineProperty(_ref, "searchTypePayment", ""), _defineProperty(_ref, "searchTransferEmail", ""), _defineProperty(_ref, "regExFilterID", ""), _defineProperty(_ref, "regExFilterType", ""), _defineProperty(_ref, "regExFilterTransferEmail", ""), _defineProperty(_ref, "categories", null), _defineProperty(_ref, "filtering", false), _defineProperty(_ref, "movementsFilter", null), _defineProperty(_ref, "movements", {}), _ref;
   },
   methods: {
     editMovement: function editMovement(movement) {
@@ -3177,6 +3255,89 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return _this.movements = data;
       });
     },
+    getMovementsFiltered: function getMovementsFiltered(page) {
+      var _this2 = this;
+
+      axios.get("api/movements/" + this.$store.state.user.id, {
+        "headers": {
+          "Authorization": 'Bearer '.concat(this.$store.state.token)
+        }
+      }).then(function (_ref3) {
+        var data = _ref3.data;
+        return _this2.movementsFilter = data;
+      });
+    },
+    filterData: function filterData() {
+      var _this3 = this;
+
+      var movementsAUX = this.movementsFilter.data;
+
+      if (this.regExFilterID === "" && this.regExFilterType === "" && this.searchCategory === "" && this.searchTypePayment === "" && this.searchTransferEmail === "" && (this.searchDateStart === "" || this.searchDateEnd === "")) {
+        this.filtering = false;
+        this.getMovements();
+        this.getMovementsFiltered();
+      } else {
+        this.filtering = true;
+
+        if (this.regExFilterID != "") {
+          movementsAUX = movementsAUX.filter(function (movement) {
+            return movement.id.toString().match(_this3.regExFilterID);
+          });
+        }
+
+        if (this.regExFilterType != "") {
+          movementsAUX = movementsAUX.filter(function (movement) {
+            return movement.typeString.match(_this3.regExFilterType);
+          });
+        }
+
+        if (this.searchCategory != "") {
+          if (this.searchCategory === "0") {
+            movementsAUX = movementsAUX.filter(function (movement) {
+              return movement.category_id === null;
+            });
+          } else {
+            movementsAUX = movementsAUX.filter(function (movement) {
+              return (movement.category_id === null ? 0 : movement.category_id) === _this3.searchCategory;
+            });
+          }
+        }
+
+        if (this.regExFilterTransferEmail != "") {
+          movementsAUX = movementsAUX.filter(function (movement) {
+            if (movement.transferEmail === null) {
+              return false;
+            }
+
+            return movement.transferEmail.match(_this3.regExFilterTransferEmail);
+          });
+        }
+
+        if (this.searchTypePayment != "") {
+          movementsAUX = movementsAUX.filter(function (movement) {
+            return (movement.type_payment === null ? "t" : movement.type_payment) === _this3.searchTypePayment;
+          });
+        }
+
+        if (this.searchDateStart != "" && this.searchDateEnd != "") {
+          movementsAUX = movementsAUX.filter(function (movement) {
+            var dateStart = _this3.searchDateStart;
+            var dateEnd = _this3.searchDateEnd;
+            var dateCheck = movement.date;
+            dateCheck = dateCheck.slice(0, 10);
+            var d1 = dateStart.split("-");
+            var d2 = dateEnd.split("-");
+            var c = dateCheck.split("-");
+            var start = new Date(d1[0], parseInt(d1[1]) - 1, d1[2]);
+            var end = new Date(d2[0], parseInt(d2[1]) - 1, d2[2]);
+            var check = new Date(c[0], parseInt(c[1]) - 1, c[2]);
+            return check >= start && check <= end;
+          });
+        }
+      }
+
+      this.movements.data = movementsAUX;
+    },
     showModal: function showModal(movement) {
       this.modalMovement = movement;
       this.isModalVisible = true;
@@ -3185,21 +3346,78 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.isModalVisible = false;
     },
     cancelEdit: function cancelEdit() {
-      var _this2 = this;
+      var _this4 = this;
 
       axios.get("api/movement/" + this.oldMovement.id, {
         "headers": {
           "Authorization": 'Bearer '.concat(this.$store.state.token)
         }
       }).then(function (response) {
-        Object.assign(_this2.oldMovement, response.data.data);
+        Object.assign(_this4.oldMovement, response.data.data);
 
-        _this2.$emit("movement-canceled", _this2.oldMovement);
+        _this4.$emit("movement-canceled", _this4.oldMovement);
+      });
+    },
+    getCategories: function getCategories() {
+      var _this5 = this;
+
+      axios.get("api/categories/" + this.searchType.toLowerCase().trim().slice(0, 1), {
+        "headers": {
+          "Authorization": 'Bearer '.concat(this.$store.state.token)
+        }
+      }).then(function (response) {
+        _this5.categories = response.data;
       });
     }
   },
   mounted: function mounted() {
     this.getMovements();
+    this.getMovementsFiltered();
+  },
+  watch: {
+    searchID: function searchID(val) {
+      this.regExFilterID = new RegExp(".*" + val + ".*", "i");
+
+      if (val == "") {
+        this.regExFilterID = "";
+      }
+
+      this.filterData();
+    },
+    searchType: function searchType(val) {
+      this.regExFilterType = new RegExp(".*" + val + ".*", "i");
+
+      if (val == "" || val == "ALL") {
+        this.regExFilterType = "";
+        this.categories = null;
+        this.searchCategory = "";
+      } else {
+        this.getCategories();
+      }
+
+      this.filterData();
+    },
+    searchCategory: function searchCategory(val) {
+      this.filterData();
+    },
+    searchTransferEmail: function searchTransferEmail(val) {
+      this.regExFilterTransferEmail = new RegExp(".*" + val + ".*", "i");
+
+      if (val == "") {
+        this.regExFilterTransferEmail = "";
+      }
+
+      this.filterData();
+    },
+    searchTypePayment: function searchTypePayment(val) {
+      this.filterData();
+    },
+    searchDateStart: function searchDateStart(val) {
+      this.filterData();
+    },
+    searchDateEnd: function searchDateEnd(val) {
+      this.filterData();
+    }
   }
 });
 
@@ -3214,6 +3432,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
 //
 //
 //
@@ -41422,169 +41645,188 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "table",
-    { staticClass: "table table-striped" },
+    "div",
     [
-      _c("thead", [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.searchName,
-              expression: "searchName"
-            }
-          ],
-          attrs: { type: "text", align: "center", placeholder: "Search Users" },
-          domProps: { value: _vm.searchName },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.searchName = $event.target.value
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c(
-          "select",
-          {
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("h6", [_vm._v("Users")]),
+          _vm._v(" "),
+          _c("input", {
             directives: [
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.searchType,
-                expression: "searchType"
+                value: _vm.searchName,
+                expression: "searchName"
               }
             ],
+            staticClass: "form-control",
+            attrs: {
+              type: "text",
+              align: "center",
+              placeholder: "Search Users"
+            },
+            domProps: { value: _vm.searchName },
             on: {
-              change: function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.searchType = $event.target.multiple
-                  ? $$selectedVal
-                  : $$selectedVal[0]
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.searchName = $event.target.value
               }
             }
-          },
-          [
-            _c("option", { attrs: { value: "None" } }, [
-              _vm._v("Select User Type to Filter")
-            ]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "Admin" } }, [_vm._v("Admin")]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "Operator" } }, [
-              _vm._v("Operator")
-            ]),
-            _vm._v(" "),
-            _c("option", { attrs: { value: "Platform User" } }, [
-              _vm._v("Platform User")
-            ])
-          ]
-        ),
+          })
+        ]),
         _vm._v(" "),
-        _vm._m(0)
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("h6", [_vm._v("Type")]),
+          _vm._v(" "),
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.searchType,
+                  expression: "searchType"
+                }
+              ],
+              staticClass: "form-control",
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.searchType = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            [
+              _c("option", { attrs: { value: "None" } }, [
+                _vm._v("Select User Type to Filter")
+              ]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "Admin" } }, [_vm._v("Admin")]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "Operator" } }, [
+                _vm._v("Operator")
+              ]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "Platform User" } }, [
+                _vm._v("Platform User")
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c("br")
+        ])
       ]),
       _vm._v(" "),
-      _c(
-        "tbody",
-        _vm._l(_vm.users.data, function(user) {
-          return _c(
-            "tr",
-            { key: user.id, class: { activerow: _vm.editingUser === user } },
-            [
-              _c("td", [_vm._v(_vm._s(user.name))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(user.email))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(user.type))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(user.nif))]),
-              _vm._v(" "),
-              _c("td", [
-                _c("input", {
-                  attrs: { type: "checkbox" },
-                  domProps: { checked: user.active ? "checked" : "" },
-                  on: {
-                    change: function($event) {
-                      !user.active
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("td", { staticClass: "widget-user-image" }, [
-                _c("img", {
-                  staticClass: "img-circle",
-                  attrs: {
-                    stye: "border-radius: 50%",
-                    src: _vm.getProfilePhoto(user.photo),
-                    width: "40",
-                    height: "40",
-                    alt: "User Avatar"
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("td", [
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-sm btn-primary",
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.editUser(user)
-                      }
-                    }
-                  },
-                  [_vm._v("Edit")]
-                ),
+      _c("table", { staticClass: "table table-striped" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.users.data, function(user) {
+            return _c(
+              "tr",
+              { key: user.id, class: { activerow: _vm.editingUser === user } },
+              [
+                _c("td", [_vm._v(_vm._s(user.name))]),
                 _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-sm btn-danger",
+                _c("td", [_vm._v(_vm._s(user.email))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(user.type))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(user.nif))]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("input", {
+                    attrs: { type: "checkbox" },
+                    domProps: { checked: user.active ? "checked" : "" },
                     on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.deleteUser(user)
+                      change: function($event) {
+                        !user.active
                       }
                     }
-                  },
-                  [_vm._v("Delete")]
-                )
+                  })
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "widget-user-image" }, [
+                  _c("img", {
+                    staticClass: "img-circle",
+                    attrs: {
+                      stye: "border-radius: 50%",
+                      src: _vm.getProfilePhoto(user.photo),
+                      width: "40",
+                      height: "40",
+                      alt: "User Avatar"
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-sm btn-primary",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.editUser(user)
+                        }
+                      }
+                    },
+                    [_vm._v("Edit")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-sm btn-danger",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.deleteUser(user)
+                        }
+                      }
+                    },
+                    [_vm._v("Delete")]
+                  )
+                ])
+              ]
+            )
+          }),
+          0
+        )
+      ]),
+      _vm._v(" "),
+      !_vm.filtering
+        ? _c(
+            "pagination",
+            {
+              attrs: { data: _vm.users, limit: 3, align: "left" },
+              on: { "pagination-change-page": _vm.getUsers }
+            },
+            [
+              _c("span", { attrs: { slot: "prev-nav" }, slot: "prev-nav" }, [
+                _vm._v("Previous")
+              ]),
+              _vm._v(" "),
+              _c("span", { attrs: { slot: "next-nav" }, slot: "next-nav" }, [
+                _vm._v("Next")
               ])
             ]
           )
-        }),
-        0
-      ),
-      _vm._v(" "),
-      _c(
-        "pagination",
-        {
-          attrs: { data: _vm.users, align: "center" },
-          on: { "pagination-change-page": _vm.getUsers }
-        },
-        [
-          _c("span", { attrs: { slot: "prev-nav" }, slot: "prev-nav" }, [
-            _vm._v("Previous")
-          ]),
-          _vm._v(" "),
-          _c("span", { attrs: { slot: "next-nav" }, slot: "next-nav" }, [
-            _vm._v("Next")
-          ])
-        ]
-      )
+        : _vm._e()
     ],
     1
   )
@@ -41594,20 +41836,22 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("th", [_vm._v("Name")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Email")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Type")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Nif")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Active")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Photo")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Actions")])
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Email")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Type")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Nif")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Active")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Photo")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Actions")])
+      ])
     ])
   }
 ]
@@ -41826,79 +42070,360 @@ var render = function() {
   return _c(
     "div",
     [
-      _c(
-        "table",
-        { staticClass: "table table-striped" },
-        [
-          _vm._m(0),
-          _vm._v(" "),
-          _c(
-            "tbody",
-            _vm._l(_vm.movements.data, function(movement) {
-              return _c(
-                "tr",
+      _vm.movementsFilter
+        ? _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-4" }, [
+              _c("h6", [_vm._v("ID")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.searchID,
+                    expression: "searchID"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "text",
+                  align: "center",
+                  placeholder: "Search ID"
+                },
+                domProps: { value: _vm.searchID },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.searchID = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4" }, [
+              _c("h6", [_vm._v("Type")]),
+              _vm._v(" "),
+              _c(
+                "select",
                 {
-                  key: movement.id,
-                  class: { activerow: _vm.editingMovement === movement }
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.searchType,
+                      expression: "searchType"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.searchType = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    }
+                  }
                 },
                 [
-                  _c("td", [_vm._v(_vm._s(movement.id))]),
+                  _c("option", { attrs: { value: "ALL" } }, [
+                    _vm._v("Select Type to Filter")
+                  ]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(movement.typeString))]),
+                  _c("option", { attrs: { value: "Income" } }, [
+                    _vm._v("Income")
+                  ]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(movement.transferEmail))]),
+                  _c("option", { attrs: { value: "Expense" } }, [
+                    _vm._v("Expense")
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c("br")
+            ]),
+            _vm._v(" "),
+            _vm.categories
+              ? _c("div", { staticClass: "col-md-4" }, [
+                  _c("h6", [_vm._v("Category")]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(movement.type_paymentString))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(movement.category_name))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(movement.date))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(movement.value))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(movement.start_balance))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(movement.end_balance))]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c(
-                      "a",
-                      {
-                        staticClass: "btn btn-sm btn-primary",
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            return _vm.editMovement(movement)
-                          }
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.searchCategory,
+                          expression: "searchCategory"
                         }
-                      },
-                      [_vm._v("Edit")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "a",
-                      {
-                        staticClass: "btn btn-sm btn-primary",
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            return _vm.showModal(movement)
-                          }
+                      ],
+                      staticClass: "form-control",
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.searchCategory = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
                         }
-                      },
-                      [_vm._v("+Info")]
-                    )
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { default: "", value: "ALL" } }, [
+                        _vm._v("Select Category to Filter")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "0" } }),
+                      _vm._v(" "),
+                      _vm._l(_vm.categories, function(category) {
+                        return _c(
+                          "option",
+                          { domProps: { value: category.id } },
+                          [_vm._v(_vm._s(category.name))]
+                        )
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c("br")
+                ])
+              : _vm._e()
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.movementsFilter
+        ? _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-4" }, [
+              _c("h6", [_vm._v("Payment Type")]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.searchTypePayment,
+                      expression: "searchTypePayment"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.searchTypePayment = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    }
+                  }
+                },
+                [
+                  _c("option", { attrs: { value: "ALL" } }, [
+                    _vm._v("Select Type of Payment to Filter")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "t" } }),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "c" } }, [_vm._v("Cash")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "bt" } }, [
+                    _vm._v("Bank Transfer")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "mb" } }, [
+                    _vm._v("MB Payment")
                   ])
                 ]
               )
-            }),
-            0
-          ),
-          _vm._v(" "),
-          _c(
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4" }, [
+              _c("h6", [_vm._v("Email")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.searchTransferEmail,
+                    expression: "searchTransferEmail"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "text",
+                  align: "center",
+                  placeholder: "Search Email"
+                },
+                domProps: { value: _vm.searchTransferEmail },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.searchTransferEmail = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("br")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4" }, [
+              _c("h6", [_vm._v("Between")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.searchDateStart,
+                    expression: "searchDateStart"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "date",
+                  align: "center",
+                  placeholder: "Search Start Date"
+                },
+                domProps: { value: _vm.searchDateStart },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.searchDateStart = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.searchDateEnd,
+                    expression: "searchDateEnd"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "date",
+                  align: "center",
+                  placeholder: "Search End Date"
+                },
+                domProps: { value: _vm.searchDateEnd },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.searchDateEnd = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("br")
+            ])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _c("table", { staticClass: "table table-striped" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.movements.data, function(movement) {
+            return _c(
+              "tr",
+              {
+                key: movement.id,
+                class: { activerow: _vm.editingMovement === movement }
+              },
+              [
+                _c("td", [_vm._v(_vm._s(movement.id))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(movement.typeString))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(movement.transferEmail))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(movement.type_paymentString))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(movement.category_name))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(movement.date))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(movement.value))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(movement.start_balance))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(movement.end_balance))]),
+                _vm._v(" "),
+                _c("td", [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-sm btn-primary",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.editMovement(movement)
+                        }
+                      }
+                    },
+                    [_vm._v("Edit")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-sm btn-primary",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.showModal(movement)
+                        }
+                      }
+                    },
+                    [_vm._v("+Info")]
+                  )
+                ])
+              ]
+            )
+          }),
+          0
+        )
+      ]),
+      _vm._v(" "),
+      !_vm.filtering
+        ? _c(
             "pagination",
             {
-              attrs: { data: _vm.movements, limit: 2, align: "center" },
+              attrs: { data: _vm.movements, limit: 3, align: "left" },
               on: { "pagination-change-page": _vm.getMovements }
             },
             [
@@ -41911,9 +42436,7 @@ var render = function() {
               ])
             ]
           )
-        ],
-        1
-      ),
+        : _vm._e(),
       _vm._v(" "),
       _c("modal", {
         directives: [
@@ -41944,7 +42467,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Transfer Email")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Transfer Type")]),
+        _c("th", [_vm._v("Payment Type")]),
         _vm._v(" "),
         _c("th", [_vm._v("Category")]),
         _vm._v(" "),
@@ -41954,7 +42477,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Start Balance")]),
         _vm._v(" "),
-        _c("th", [_vm._v("End Balance")])
+        _c("th", [_vm._v("End Balance")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Actions")])
       ])
     ])
   }
@@ -42001,6 +42526,7 @@ var render = function() {
                               _vm._s(_vm.movement.date)
                           )
                         ]),
+                        _c("br"),
                         _vm._v(" "),
                         _c(
                           "button",
@@ -42025,23 +42551,37 @@ var render = function() {
                     [
                       _vm._t("body", [
                         _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "col-md-12" }, [
+                            _c("h4", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.movement.transfer
+                                    ? "Transfer"
+                                    : _vm.movement.type_paymentString
+                                )
+                              )
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "row" }, [
                           _vm.movement.description
                             ? _c("div", { staticClass: "col-md-4" }, [
-                                _c("h4", [_vm._v("Description")]),
+                                _c("h5", [_vm._v("Description")]),
                                 _vm._v(_vm._s(_vm.movement.description))
                               ])
                             : _vm._e(),
                           _vm._v(" "),
                           _vm.movement.source_description
                             ? _c("div", { staticClass: "col-md-4" }, [
-                                _c("h4", [_vm._v("Source Description")]),
+                                _c("h5", [_vm._v("Source Description")]),
                                 _vm._v(_vm._s(_vm.movement.source_description))
                               ])
                             : _vm._e(),
                           _vm._v(" "),
                           _vm.movement.iban
                             ? _c("div", { staticClass: "col-md-4" }, [
-                                _c("h4", [_vm._v("IBAN")]),
+                                _c("h5", [_vm._v("IBAN")]),
                                 _vm._v(_vm._s(_vm.movement.iban))
                               ])
                             : _vm._e()
@@ -42053,14 +42593,14 @@ var render = function() {
                         _c("div", { staticClass: "row" }, [
                           _vm.movement.mb_entity_code
                             ? _c("div", { staticClass: "col-md-4" }, [
-                                _c("h4", [_vm._v("MB Entity Code")]),
+                                _c("h5", [_vm._v("MB Entity Code")]),
                                 _vm._v(_vm._s(_vm.movement.mb_entity_code))
                               ])
                             : _vm._e(),
                           _vm._v(" "),
                           _vm.movement.mb_payment_reference
                             ? _c("div", { staticClass: "col-md-4" }, [
-                                _c("h4", [_vm._v("MB payment reference")]),
+                                _c("h5", [_vm._v("MB payment reference")]),
                                 _vm._v(
                                   _vm._s(_vm.movement.mb_payment_reference)
                                 )
@@ -42069,7 +42609,7 @@ var render = function() {
                           _vm._v(" "),
                           _vm.movement.transfer_movement_id
                             ? _c("div", { staticClass: "col-md-4" }, [
-                                _c("h4", [_vm._v("Transfer User")]),
+                                _c("h5", [_vm._v("Transfer User")]),
                                 _vm._v(
                                   "\n                  " +
                                     _vm._s(_vm.movement.transferEmail) +
@@ -42097,17 +42637,17 @@ var render = function() {
                         _vm._v(" "),
                         _c("div", { staticClass: "row" }, [
                           _c("div", { staticClass: "col-md-4" }, [
-                            _c("h4", [_vm._v("Value")]),
+                            _c("h5", [_vm._v("Value")]),
                             _vm._v(_vm._s(_vm.movement.value))
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-4" }, [
-                            _c("h4", [_vm._v("Start Balance")]),
+                            _c("h5", [_vm._v("Start Balance")]),
                             _vm._v(_vm._s(_vm.movement.start_balance))
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-4" }, [
-                            _c("h4", [_vm._v("End Balance")]),
+                            _c("h5", [_vm._v("End Balance")]),
                             _vm._v(_vm._s(_vm.movement.end_balance))
                           ])
                         ]),

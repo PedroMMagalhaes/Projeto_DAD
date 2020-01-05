@@ -7,7 +7,7 @@
 
             <div class="modal-header">
               <slot name="header">
-                  <h3>Movement ID: {{ movement.id }} in date: {{ movement.date }}</h3>
+                  <h3>Movement ID: {{ movement.id }} in date: {{ movement.date }}</h3><br>
                   <button
                     type="button"
                     class="btn-close"
@@ -22,25 +22,30 @@
             <div class="modal-body">
               <slot name="body">
                 <div class="row">
-                  <div class="col-md-4" v-if="movement.description"><h4>Description</h4>{{ movement.description }}</div>
-                  <div class="col-md-4" v-if="movement.source_description"><h4>Source Description</h4>{{ movement.source_description }}</div>
-                  <div class="col-md-4" v-if="movement.iban"><h4>IBAN</h4>{{ movement.iban }}</div>
+                  <div class="col-md-12">
+                    <h4>{{ (movement.transfer ? "Transfer" : movement.type_paymentString) }}</h4>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4" v-if="movement.description"><h5>Description</h5>{{ movement.description }}</div>
+                  <div class="col-md-4" v-if="movement.source_description"><h5>Source Description</h5>{{ movement.source_description }}</div>
+                  <div class="col-md-4" v-if="movement.iban"><h5>IBAN</h5>{{ movement.iban }}</div>
                 </div>
                 <br><br>
                 <div class="row">
-                  <div class="col-md-4" v-if="movement.mb_entity_code"><h4>MB Entity Code</h4>{{ movement.mb_entity_code }}</div>
-                  <div class="col-md-4" v-if="movement.mb_payment_reference"><h4>MB payment reference</h4>{{ movement.mb_payment_reference }}</div>
+                  <div class="col-md-4" v-if="movement.mb_entity_code"><h5>MB Entity Code</h5>{{ movement.mb_entity_code }}</div>
+                  <div class="col-md-4" v-if="movement.mb_payment_reference"><h5>MB payment reference</h5>{{ movement.mb_payment_reference }}</div>
                   <div class="col-md-4" v-if="movement.transfer_movement_id">
-                    <h4>Transfer User</h4>
+                    <h5>Transfer User</h5>
                     {{ movement.transferEmail }}
                     <img v-if="movement.transferPhoto" style="border-radius: 50%" :src="'/storage/fotos/' + movement.transferPhoto" width="40" height="40" alt/>
                   </div>
                 </div>
                 <br><br>
                 <div class="row">
-                  <div class="col-md-4"><h4>Value</h4>{{ movement.value }}</div>
-                  <div class="col-md-4"><h4>Start Balance</h4>{{ movement.start_balance }}</div>
-                  <div class="col-md-4"><h4>End Balance</h4>{{ movement.end_balance }}</div>
+                  <div class="col-md-4"><h5>Value</h5>{{ movement.value }}</div>
+                  <div class="col-md-4"><h5>Start Balance</h5>{{ movement.start_balance }}</div>
+                  <div class="col-md-4"><h5>End Balance</h5>{{ movement.end_balance }}</div>
                 </div>
                 <br><br>
               </slot>
