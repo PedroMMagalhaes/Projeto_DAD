@@ -45,6 +45,9 @@ Route::middleware('auth:api')->get('movement/{id}', 'MovementControllerAPI@show'
 Route::middleware('auth:api')->get('movements/{wallet_id}', 'MovementControllerAPI@getMovements');
 Route::middleware('auth:api')->put('movement/me/{id}', 'MovementControllerAPI@updateMovement');
 Route::middleware('auth:api')->get('categories/{type}', 'MovementControllerAPI@getCategories');
+Route::middleware('auth:api')->post('movement/createcredit','MovementControllerAPI@createCredit');
+Route::middleware('auth:api')->post('movement/createdebit/{id}','MovementControllerAPI@createDebit');
+
 
 //Graphics
 Route::middleware('auth:api')->get('graph/movements/totalMovements', 'MovementControllerAPI@totalMovements');
