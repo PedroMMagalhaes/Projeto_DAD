@@ -46,6 +46,12 @@ Route::middleware('auth:api')->get('movements/{wallet_id}', 'MovementControllerA
 Route::middleware('auth:api')->put('movement/me/{id}', 'MovementControllerAPI@updateMovement');
 Route::middleware('auth:api')->get('categories/{type}', 'MovementControllerAPI@getCategories');
 
+//Graphics
+Route::middleware('auth:api')->get('graph/movements/totalMovements', 'MovementControllerAPI@totalMovements');
+Route::middleware('auth:api')->get('graph/movements/movementsExpense/{id}', 'MovementControllerAPI@movementsByExpense');
+Route::middleware('auth:api')->get('graph/movements/movementsIncome/{id}', 'MovementControllerAPI@movementsByIncome');
+Route::middleware('auth:api')->get('graph/movements/IncVSExp/{id}', 'MovementControllerAPI@movementsIncomeVSExpense');
+
 /*
 Caso prefiram usar Resource Routes para o user, podem implementar antes as rotas:
 NOTA: neste caso, o parâmetro a receber nos métodos do controlador é user e não id

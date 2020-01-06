@@ -91,6 +91,84 @@ class MovementControllerAPI extends Controller
         $category = DB::table('categories')->where('type', $type)->get();
         return json_encode($category);
     }
+
+    public function totalMovements(Request $request)
+    {
+        if ($request->has('days')) {
+            $movements = DB::table('movements')
+                ->select(DB::raw('count(*) as movements, DATE(date) as date'))
+                ->whereRAW('(DATE(date) BETWEEN ADDDATE(CURDATE(), INTERVAL -? DAY) AND CURDATE())',[$request->input('days')])
+                ->orderBy('DATE(date)', 'desc')
+                ->groupBy('DATE(date)')
+                ->limit(10)
+                ->get();
+            return json_encode($movements);
+        } else {
+            $movements = DB::table('movements')
+                ->select(DB::raw("count(*) as movements, DATE(date) as day"))
+                ->orderBy('day', 'desc')
+                ->groupBy('day')
+                ->limit(10)
+                ->get();
+            return json_encode($movements);
+        }
+    }
+
+    public function movementsByExpense(Request $request, $id)
+    {
+        if ($request->has('days')) {
+            $movements = DB::table('movements')
+                ->select(DB::raw("sum(value) as movements, IFNULL((SELECT name from categories where id=movements.category_id),'') AS category"))
+                ->whereRAW('(DATE(date) BETWEEN ADDDATE(CURDATE(), INTERVAL -? DAY) AND CURDATE())',[$request->input('days')])
+                ->whereRAW("TYPE = 'e'")
+                ->orderBy('movements', 'desc')
+                ->groupBy('category')
+                ->get();
+            return json_encode($movements);
+        } else {
+            $movements = DB::table('movements')
+                ->select(DB::raw("sum(value) as movements, IFNULL((SELECT name from categories where id=movements.category_id),'') AS category"))
+                ->whereRAW("TYPE = 'e'")
+                ->orderBy('movements', 'desc')
+                ->groupBy('category')
+                ->get();
+            return json_encode($movements);
+        }
+    }
+
+    public function movementsByIncome(Request $request, $id)
+    {
+        if ($request->has('days')) {
+            $movements = DB::table('movements')
+                ->select(DB::raw("sum(value) as movements, IFNULL((SELECT name from categories where id=movements.category_id),'') AS category"))
+                ->whereRAW('(DATE(date) BETWEEN ADDDATE(CURDATE(), INTERVAL -? DAY) AND CURDATE())',[$request->input('days')])
+                ->whereRAW("TYPE = 'i'")
+                ->orderBy('movements', 'desc')
+                ->groupBy('category')
+                ->get();
+            return json_encode($movements);
+        } else {
+            $movements = DB::table('movements')
+                ->select(DB::raw("sum(value) as movements, IFNULL((SELECT name from categories where id=movements.category_id),'') AS category"))
+                ->whereRAW("TYPE = 'i'")
+                ->orderBy('movements', 'desc')
+                ->groupBy('category')
+                ->get();
+            return json_encode($movements);
+        }
+    }
+
+    public function movementsIncomeVSExpense(Request $request, $id)
+    {
+        $movements = DB::table('movements')
+            ->select(DB::raw("sum(case when TYPE = 'i' then VALUE ELSE 0 end) as income, sum(case when TYPE = 'e' then VALUE ELSE 0 end) AS expense, DATE_FORMAT(CAST(date as DATE), '%m/%Y') AS TIME"))
+            ->whereRAW("DATE>=date_add(date_add(CURDATE(),interval -DAY(CURDATE())+1 DAY), INTERVAL -11 MONTH)")
+            ->orderBy('time', 'desc')
+            ->groupBy('time')
+            ->get();
+        return json_encode($movements);
+    }
+    
 }
 
 
