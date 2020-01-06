@@ -188,7 +188,6 @@ export default {
     },
     getChartIncExp(){
       axios.get("api/graph/movements/IncVSExp/"+this.$store.state.user.id, { "headers": { "Authorization": 'Bearer '.concat(this.$store.state.token) } }).then(response => {
-          console.log(response.data)
           var results = response.data;
           var inc = [];
           var exp = [];

@@ -21,7 +21,7 @@
       </div>
       
       </div>
-      <div class="row">
+      <div class="row" v-if="this.$store.state.user && this.$store.state.user.type === 'Admin'">
         <div class="col-md-12">
           <h5>Last 10 days with movements</h5>
           <LineChart
@@ -95,9 +95,10 @@ export default {
   },
   async mounted() {
     this.getNumWallets();
-    this.fillChartMovDays();
-    await this.getChartMovDays();
-    
+    if (this.$store.state.user && this.$store.state.user.type === 'Admin'){
+      this.fillChartMovDays();
+      await this.getChartMovDays();
+    }
   },
   computed: {
     isLogged: function() {

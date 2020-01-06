@@ -1997,11 +1997,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           switch (_context.prev = _context.next) {
             case 0:
               this.getNumWallets();
+
+              if (!(this.$store.state.user && this.$store.state.user.type === 'Admin')) {
+                _context.next = 5;
+                break;
+              }
+
               this.fillChartMovDays();
-              _context.next = 4;
+              _context.next = 5;
               return this.getChartMovDays();
 
-            case 4:
+            case 5:
             case "end":
               return _context.stop();
           }
@@ -3850,7 +3856,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           "Authorization": 'Bearer '.concat(this.$store.state.token)
         }
       }).then(function (response) {
-        console.log(response.data);
         var results = response.data;
         var inc = [];
         var exp = [];
@@ -57854,18 +57859,20 @@ var render = function() {
         _c("div", { staticClass: "form-group" })
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c("h5", [_vm._v("Last 10 days with movements")]),
-            _vm._v(" "),
-            _c("LineChart", { attrs: { "chart-data": _vm.dataMovDays } })
-          ],
-          1
-        )
-      ])
+      this.$store.state.user && this.$store.state.user.type === "Admin"
+        ? _c("div", { staticClass: "row" }, [
+            _c(
+              "div",
+              { staticClass: "col-md-12" },
+              [
+                _c("h5", [_vm._v("Last 10 days with movements")]),
+                _vm._v(" "),
+                _c("LineChart", { attrs: { "chart-data": _vm.dataMovDays } })
+              ],
+              1
+            )
+          ])
+        : _vm._e()
     ],
     1
   )
