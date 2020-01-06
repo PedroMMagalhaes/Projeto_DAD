@@ -15,7 +15,7 @@ import VueSocketIO from "vue-socket.io";
 Vue.use(
   new VueSocketIO({
       debug: true,
-      connection: "http://127.0.0.1:8080"
+      connection: "http://167.71.128.31:8080"
   })
 );
 
