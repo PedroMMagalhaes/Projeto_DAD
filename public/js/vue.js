@@ -1894,6 +1894,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 
@@ -2600,15 +2601,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
+var regex = vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["helpers"].regex("alpha", /^[A-Za-z ]+$/);
 /* harmony default export */ __webpack_exports__["default"] = ({
   //create USER - NAO USAR PROPS NAO E NECESSARIO PASSAR DADOS
   // props: ["user"],
   //VALIDATIONS
   validations: {
     name: {
-      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      regex: regex
     },
     email: {
       required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
@@ -57826,53 +57830,55 @@ var render = function() {
         _vm._v(" "),
         _c("br"),
         _vm._v(" "),
-        _c("div", { staticClass: "form-group" }, [
-          _c(
-            "a",
-            {
-              staticClass: "btn btn-primary",
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.login($event)
-                }
-              }
-            },
-            [_vm._v("Login")]
-          ),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass: "btn btn-primary",
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.register($event)
-                }
-              }
-            },
-            [_vm._v("Register")]
-          )
-        ]),
+        !this.$store.state.user
+          ? _c("div", { staticClass: "form-group" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-primary",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.login($event)
+                    }
+                  }
+                },
+                [_vm._v("Login")]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-primary",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.register($event)
+                    }
+                  }
+                },
+                [_vm._v("Register")]
+              )
+            ])
+          : _vm._e(),
         _vm._v(" "),
-        _c("div", { staticClass: "form-group" })
-      ]),
-      _vm._v(" "),
-      this.$store.state.user && this.$store.state.user.type === "Admin"
-        ? _c("div", { staticClass: "row" }, [
-            _c(
-              "div",
-              { staticClass: "col-md-12" },
-              [
-                _c("h5", [_vm._v("Last 10 days with movements")]),
-                _vm._v(" "),
-                _c("LineChart", { attrs: { "chart-data": _vm.dataMovDays } })
-              ],
-              1
-            )
-          ])
-        : _vm._e()
+        _c("div", { staticClass: "form-group" }),
+        _vm._v(" "),
+        this.$store.state.user && this.$store.state.user.type === "Admin"
+          ? _c("div", { staticClass: "row" }, [
+              _c(
+                "div",
+                { staticClass: "col-md-12" },
+                [
+                  _c("h5", [_vm._v("Last 10 days with movements")]),
+                  _vm._v(" "),
+                  _c("LineChart", { attrs: { "chart-data": _vm.dataMovDays } })
+                ],
+                1
+              )
+            ])
+          : _vm._e()
+      ])
     ],
     1
   )
@@ -57917,13 +57923,17 @@ var render = function() {
             this.$store.state.user && this.$store.state.user.type == "Admin"
               ? _c(
                   "li",
-                  { staticClass: "nav-item active" },
+                  { staticClass: "nav-item" },
                   [
                     _c(
                       "router-link",
                       {
                         staticClass: "nav-link",
-                        attrs: { "active-class": "active", to: "/users" }
+                        attrs: {
+                          exact: "",
+                          "active-class": "active",
+                          to: "/users"
+                        }
                       },
                       [_vm._v("Users")]
                     )
@@ -57936,13 +57946,17 @@ var render = function() {
             this.$store.state.user
               ? _c(
                   "li",
-                  { staticClass: "nav-item active" },
+                  { staticClass: "nav-item" },
                   [
                     _c(
                       "router-link",
                       {
                         staticClass: "nav-link",
-                        attrs: { "active-class": "active", to: "/profile" }
+                        attrs: {
+                          exact: "",
+                          "active-class": "active",
+                          to: "/profile"
+                        }
                       },
                       [_vm._v("Profile")]
                     )
@@ -57961,7 +57975,11 @@ var render = function() {
                       "router-link",
                       {
                         staticClass: "nav-link",
-                        attrs: { "active-class": "active", to: "/register" }
+                        attrs: {
+                          exact: "",
+                          "active-class": "active",
+                          to: "/register"
+                        }
                       },
                       [_vm._v("Register")]
                     )
@@ -57979,7 +57997,11 @@ var render = function() {
                       "router-link",
                       {
                         staticClass: "nav-link",
-                        attrs: { "active-class": "active", to: "/login" }
+                        attrs: {
+                          exact: "",
+                          "active-class": "active",
+                          to: "/login"
+                        }
                       },
                       [_vm._v("Login")]
                     )
@@ -57993,13 +58015,17 @@ var render = function() {
             this.$store.state.user.type == "Platform User"
               ? _c(
                   "li",
-                  { staticClass: "nav-item active" },
+                  { staticClass: "nav-item " },
                   [
                     _c(
                       "router-link",
                       {
                         staticClass: "nav-link",
-                        attrs: { "active-class": "active", to: "/wallet" }
+                        attrs: {
+                          exact: "",
+                          "active-class": "active",
+                          to: "/wallet"
+                        }
                       },
                       [_vm._v("Wallet")]
                     )
@@ -58012,13 +58038,17 @@ var render = function() {
             this.$store.state.user
               ? _c(
                   "li",
-                  { staticClass: "nav-item active" },
+                  { staticClass: "nav-item " },
                   [
                     _c(
                       "router-link",
                       {
                         staticClass: "nav-link",
-                        attrs: { "active-class": "active", to: "/logout" }
+                        attrs: {
+                          exact: "",
+                          "active-class": "active",
+                          to: "/logout"
+                        }
                       },
                       [_vm._v("Logout")]
                     )
@@ -58546,6 +58576,10 @@ var render = function() {
           ? [
               !_vm.$v.name.required
                 ? _c("p", [_vm._v("Field name required")])
+                : _vm._e(),
+              _vm._v(" "),
+              !_vm.$v.name.regex
+                ? _c("p", [_vm._v("Only allow letters")])
                 : _vm._e()
             ]
           : _vm._e()

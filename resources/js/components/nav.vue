@@ -14,28 +14,28 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
-        <li v-if="this.$store.state.user && this.$store.state.user.type=='Admin'" class="nav-item active"> 
-          <router-link class="nav-link" active-class="active" to="/users">Users</router-link>
+        <li v-if="this.$store.state.user && this.$store.state.user.type=='Admin'" class="nav-item"> 
+          <router-link class="nav-link" exact active-class="active" to="/users">Users</router-link>
         </li>
         <li class="nav-item">
-          <li v-if="this.$store.state.user" class="nav-item active"> 
-          <router-link class="nav-link" active-class="active" to="/profile">Profile</router-link>
+          <li v-if="this.$store.state.user" class="nav-item"> 
+          <router-link class="nav-link"  exact active-class="active" to="/profile">Profile</router-link>
         </li>
         <li v-if="this.$store.state.user == null || this.$store.state.user.type=='Admin'" class="nav-item"> 
-          <router-link class="nav-link" active-class="active" to="/register">Register</router-link>
+          <router-link class="nav-link" exact active-class="active" to="/register">Register</router-link>
         </li>
         <li v-if="!this.$store.state.user" class="nav-item">
-          <router-link class="nav-link" active-class="active" to="/login">Login</router-link>
+          <router-link class="nav-link" exact active-class="active" to="/login">Login</router-link>
           <!--<a class="nav-link disabled" href="#">Disabled</a> -->
         </li>
         <li class="nav-item">
-          <li v-if="this.$store.state.user && this.$store.state.user.type=='Platform User'" class="nav-item active"> 
-          <router-link class="nav-link" active-class="active" to="/wallet">Wallet</router-link>
+          <li v-if="this.$store.state.user && this.$store.state.user.type=='Platform User'" class="nav-item "> 
+          <router-link class="nav-link" exact active-class="active" to="/wallet">Wallet</router-link>
           <!--<a class="nav-link disabled" href="#">Disabled</a> -->
         </li>
         <li class="nav-item">
-          <li v-if="this.$store.state.user" class="nav-item active"> 
-          <router-link class="nav-link" active-class="active" to="/logout">Logout</router-link>
+          <li v-if="this.$store.state.user" class="nav-item "> 
+          <router-link class="nav-link" exact active-class="active" to="/logout">Logout</router-link>
           <!--<a class="nav-link disabled" href="#">Disabled</a> -->
         </li>
       </ul>

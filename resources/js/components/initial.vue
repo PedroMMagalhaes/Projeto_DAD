@@ -18,7 +18,7 @@
       </div>
       <div class="form-group">
         
-      </div>
+      
       
       </div>
       <div class="row" v-if="this.$store.state.user && this.$store.state.user.type === 'Admin'">
@@ -28,6 +28,7 @@
             :chart-data="dataMovDays"></LineChart>
         </div>
       </div>
+  </div>
   </div>
 </template>
 

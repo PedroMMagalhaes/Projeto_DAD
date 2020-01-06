@@ -14,6 +14,7 @@
       />
       <template v-if="$v.name.$dirty">
         <p v-if="!$v.name.required">Field name required</p>
+        <p v-if="!$v.name.regex">Only allow letters</p>
       </template>
     </div>
     <div class="form-group">
@@ -124,6 +125,7 @@
 
 <script type="text/javascript">
 import {
+  helpers,
   required,
   email,
   minLength,
@@ -131,13 +133,14 @@ import {
   numeric
 } from "vuelidate/lib/validators";
 import moment from "moment";
+    const regex = helpers.regex("alpha", /^[A-Za-z ]+$/);
 
 export default {
   //create USER - NAO USAR PROPS NAO E NECESSARIO PASSAR DADOS
   // props: ["user"],
   //VALIDATIONS
   validations: {
-    name: { required },
+    name: { required, regex },
     email: { required, email },
     password: { required, minlength: minLength(3) },
     password_confirmation: { required, sameAs: sameAs("password") },
