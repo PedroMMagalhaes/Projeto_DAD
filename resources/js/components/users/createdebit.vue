@@ -208,17 +208,17 @@ export default { props: ["user"],validations: {
       }
       
       axios.post("api/movement/createdebit/"+this.$store.state.user.id,formData).then(response => {
-        console.log(response.data.msg);
         if(response.data.msg == 'sucess'){
           this.alerttype ="alert-success";
           this.showSuccess = true;
           this.Notification = "Movement Created"
-          //this.clear();
+          this.$socket.emit("transfer",{value:this.value},{id: this.$store.state.user.id},{email:this.email});
+          this.clear();
         }else{
           this.alerttype ="alert-danger";
           this.showSuccess = true;
           this.Notification = "Something gone wrong"
-           //this.clear();
+           this.clear();
         }
       });
     },

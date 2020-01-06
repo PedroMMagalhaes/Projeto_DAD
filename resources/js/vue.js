@@ -10,6 +10,22 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 Vue.use(VueRouter);
 Vue.use(Vuelidate);
 
+import VueSocketIO from "vue-socket.io";
+
+Vue.use(
+  new VueSocketIO({
+      debug: true,
+      connection: "http://127.0.0.1:8080"
+  })
+);
+
+import Toasted from "vue-toasted";
+Vue.use(Toasted, {
+  position: "bottom-center",
+  duration: 5000,
+  type: "info"
+});
+
 
 //PAGINATION COMPONENT
 Vue.component('pagination', require('laravel-vue-pagination'));
@@ -79,6 +95,15 @@ const app = new Vue({
   },
   components : { navbar },
 store,
+sockets: {
+transfer(dataFromServer){
+  console.log(dataFromServer);
+  this.$toasted.show(
+    'User:'+
+    dataFromServer.user.user.name + ' send you: ' + dataFromServer.value + "Euros"
+  );
+}
+},
 created() {
     console.log('-----');
     console.log(this.$store.state.user);

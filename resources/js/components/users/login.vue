@@ -66,6 +66,7 @@ export default {
           this.typeofmsg = "alert-success";
           this.message = "User authenticated correctly";
           this.showMessage = true;
+          this.$socket.emit('user_enter', response.data.data);
         })
         .then(response => {
           this.$router.push({ path: "/" });
