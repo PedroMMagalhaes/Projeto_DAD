@@ -1506,7 +1506,7 @@ module.exports = function spread(callback) {
 
 
 var bind = __webpack_require__(/*! ./helpers/bind */ "./node_modules/axios/lib/helpers/bind.js");
-var isBuffer = __webpack_require__(/*! is-buffer */ "./node_modules/is-buffer/index.js");
+var isBuffer = __webpack_require__(/*! is-buffer */ "./node_modules/axios/node_modules/is-buffer/index.js");
 
 /*global toString:true*/
 
@@ -1837,6 +1837,28 @@ module.exports = {
   extend: extend,
   trim: trim
 };
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/node_modules/is-buffer/index.js":
+/*!************************************************************!*\
+  !*** ./node_modules/axios/node_modules/is-buffer/index.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/*!
+ * Determine if an object is a Buffer
+ *
+ * @author   Feross Aboukhadijeh <https://feross.org>
+ * @license  MIT
+ */
+
+module.exports = function isBuffer (obj) {
+  return obj != null && obj.constructor != null &&
+    typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
+}
 
 
 /***/ }),
@@ -2200,7 +2222,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2210,10 +2231,18 @@ __webpack_require__.r(__webpack_exports__);
       email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["email"]
     },
     value: {
-      numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["numeric"]
+      decimal: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["decimal"],
+      between: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["between"])(0.01, 5000)
     },
+    decimal: [2, '.'],
+    min_value: 0,
+    max_value: 5000,
     description: {},
-    iban: {}
+    iban: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      minlength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["minLength"])(25),
+      maxlength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["maxLength"])(25)
+    }
   },
   data: function data() {
     return {
@@ -2250,9 +2279,8 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       axios.post("api/movement/createcredit", formData).then(function (response) {
-        console.log(response.data.msg);
-
-        if (response.data.msg == 'sucess') {
+        //console.log(response.data.msg);
+        if (response.data.msg == "sucess") {
           _this.alerttype = "alert-success";
           _this.showSuccess = true;
           _this.Notification = "Movement Created";
@@ -2421,16 +2449,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2441,13 +2459,35 @@ __webpack_require__.r(__webpack_exports__);
       email: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["email"]
     },
     value: {
-      numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["numeric"]
+      decimal: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["decimal"],
+      between: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["between"])(0.01, 5000)
     },
-    description: {},
-    iban: {},
-    sourcedescription: {},
-    mbRef: {},
-    mbEnt: {}
+    decimal: [2, '.'],
+    min_value: 0,
+    max_value: 5000,
+    description: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
+    },
+    iban: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      minlength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["minLength"])(25),
+      maxlength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["maxLength"])(25)
+    },
+    sourcedescription: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
+    },
+    mbRef: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["numeric"],
+      minlength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["minLength"])(9),
+      maxlength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["maxLength"])(9)
+    },
+    mbEnt: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["numeric"],
+      minlength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["minLength"])(5),
+      maxlength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["maxLength"])(5)
+    }
   },
   data: function data() {
     return {
@@ -2455,7 +2495,6 @@ __webpack_require__.r(__webpack_exports__);
       value: "",
       type: "",
       description: "",
-      sourcedescription: "",
       mbEnt: "",
       mbRef: "",
       iban: "",
@@ -2484,9 +2523,9 @@ __webpack_require__.r(__webpack_exports__);
       formData.append("description", this.description);
       formData.append("type", this.type);
 
-      if (this.type == 'int') {
+      if (this.type == "int") {
         formData.append("email", this.email);
-        formData.append("sourcedescription", this.sourcedescription);
+        formData.append("sourcedescription", this.description);
       }
 
       if (this.type == "bt") {
@@ -2499,9 +2538,8 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       axios.post("api/movement/createdebit/" + this.$store.state.user.id, formData).then(function (response) {
-        console.log(response.data.msg);
-
-        if (response.data.msg == 'sucess') {
+        //console.log(response.data.msg);
+        if (response.data.msg == "sucess") {
           _this.alerttype = "alert-success";
           _this.showSuccess = true;
           _this.Notification = "Movement Created"; //this.clear();
@@ -20608,7 +20646,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\np[data-v-0fc21d76] {\n  color: red;\n}\n", ""]);
+exports.push([module.i, "\np[data-v-0fc21d76] {\r\n  color: red;\n}\r\n", ""]);
 
 // exports
 
@@ -20627,7 +20665,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\np[data-v-a9aa9ea4] {\n  color: red;\n}\n", ""]);
+exports.push([module.i, "\np[data-v-a9aa9ea4] {\r\n  color: red;\n}\r\n", ""]);
 
 // exports
 
@@ -20646,7 +20684,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\np[data-v-41680a59] {\n  color: red;\n}\n", ""]);
+exports.push([module.i, "\np[data-v-41680a59] {\r\n  color: red;\n}\r\n", ""]);
 
 // exports
 
@@ -20665,7 +20703,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\ntr.activerow[data-v-3138e63b] {\n  background: #123456 !important;\n  color: #fff !important;\n}\n.img-circle[data-v-3138e63b] {\n  border-radius: 50%;\n}\n", ""]);
+exports.push([module.i, "\ntr.activerow[data-v-3138e63b] {\r\n  background: #123456 !important;\r\n  color: #fff !important;\n}\n.img-circle[data-v-3138e63b] {\r\n  border-radius: 50%;\n}\r\n", ""]);
 
 // exports
 
@@ -20773,28 +20811,6 @@ function toComment(sourceMap) {
 	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
 
 	return '/*# ' + data + ' */';
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/is-buffer/index.js":
-/*!*****************************************!*\
-  !*** ./node_modules/is-buffer/index.js ***!
-  \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/*!
- * Determine if an object is a Buffer
- *
- * @author   Feross Aboukhadijeh <https://feross.org>
- * @license  MIT
- */
-
-module.exports = function isBuffer (obj) {
-  return obj != null && obj.constructor != null &&
-    typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
 }
 
 
@@ -58474,6 +58490,69 @@ var render = function() {
               : _vm._e(),
             _vm._v(" "),
             _c("li", { staticClass: "nav-item" }),
+            this.$store.state.user &&
+            this.$store.state.user.type == "Platform User"
+              ? _c(
+                  "li",
+                  { staticClass: "nav-item " },
+                  [
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "nav-link",
+                        attrs: {
+                          exact: "",
+                          "active-class": "active",
+                          to: "/wallet"
+                        }
+                      },
+                      [_vm._v("Wallet")]
+                    )
+                  ],
+                  1
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _c("li", { staticClass: "nav-item" }),
+            this.$store.state.user &&
+            this.$store.state.user.type == "Platform User"
+              ? _c(
+                  "li",
+                  { staticClass: "nav-item " },
+                  [
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "nav-link",
+                        attrs: { "active-class": "active", to: "/createdebit" }
+                      },
+                      [_vm._v("Create Debit Movement")]
+                    )
+                  ],
+                  1
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _c("li", { staticClass: "nav-item" }),
+            this.$store.state.user && this.$store.state.user.type == "Operator"
+              ? _c(
+                  "li",
+                  { staticClass: "nav-item " },
+                  [
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "nav-link",
+                        attrs: { "active-class": "active", to: "/createcredit" }
+                      },
+                      [_vm._v("Create Credit Movement")]
+                    )
+                  ],
+                  1
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _c("li", { staticClass: "nav-item" }),
             this.$store.state.user
               ? _c(
                   "li",
@@ -58490,25 +58569,6 @@ var render = function() {
                         }
                       },
                       [_vm._v("Profile")]
-                    )
-                  ],
-                  1
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _c("li", { staticClass: "nav-item" }),
-            this.$store.state.user && this.$store.state.user.type == "Operator"
-              ? _c(
-                  "li",
-                  { staticClass: "nav-item active" },
-                  [
-                    _c(
-                      "router-link",
-                      {
-                        staticClass: "nav-link",
-                        attrs: { "active-class": "active", to: "/createcredit" }
-                      },
-                      [_vm._v("Create Credit Movement")]
                     )
                   ],
                   1
@@ -58554,50 +58614,6 @@ var render = function() {
                         }
                       },
                       [_vm._v("Login")]
-                    )
-                  ],
-                  1
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _c("li", { staticClass: "nav-item" }),
-            this.$store.state.user &&
-            this.$store.state.user.type == "Platform User"
-              ? _c(
-                  "li",
-                  { staticClass: "nav-item " },
-                  [
-                    _c(
-                      "router-link",
-                      {
-                        staticClass: "nav-link",
-                        attrs: {
-                          exact: "",
-                          "active-class": "active",
-                          to: "/wallet"
-                        }
-                      },
-                      [_vm._v("Wallet")]
-                    )
-                  ],
-                  1
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _c("li", { staticClass: "nav-item" }),
-            this.$store.state.user &&
-            this.$store.state.user.type == "Platform User"
-              ? _c(
-                  "li",
-                  { staticClass: "nav-item active" },
-                  [
-                    _c(
-                      "router-link",
-                      {
-                        staticClass: "nav-link",
-                        attrs: { "active-class": "active", to: "/createdebit" }
-                      },
-                      [_vm._v("Create Debit Movement")]
                     )
                   ],
                   1
@@ -58776,7 +58792,7 @@ var render = function() {
           "div",
           { staticClass: "form-group" },
           [
-            _c("label", { attrs: { for: "inputNif" } }, [_vm._v("Value")]),
+            _c("label", { attrs: { for: "inputValue" } }, [_vm._v("Value")]),
             _vm._v(" "),
             _c("input", {
               directives: [
@@ -58814,13 +58830,25 @@ var render = function() {
             _vm._v(" "),
             _vm.$v.value.$dirty
               ? [
-                  !_vm.$v.value.numeric
-                    ? _c("p", [_vm._v("Only numbers are allowed")])
+                  !_vm.$v.value.decimal
+                    ? _c("p", [
+                        _vm._v(
+                          "Only numbers are allowed (From 0,01 to 5000,00)"
+                        )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  !_vm.$v.value.between
+                    ? _c("p", [
+                        _vm._v(
+                          "Only numbers are allowed (From 0,01 to 5000,00)"
+                        )
+                      ])
                     : _vm._e()
                 ]
               : _vm._e(),
             _vm._v(" "),
-            _c("div", [
+            _c("div", { staticClass: "form-group" }, [
               _c("br"),
               _vm._v(" "),
               _c("br"),
@@ -58840,6 +58868,7 @@ var render = function() {
                       expression: "type"
                     }
                   ],
+                  staticClass: "form-control",
                   on: {
                     change: function($event) {
                       var $$selectedVal = Array.prototype.filter
@@ -58857,10 +58886,10 @@ var render = function() {
                   }
                 },
                 [
-                  _c("option", { attrs: { value: "" } }, [_vm._v("cash")]),
+                  _c("option", { attrs: { value: "" } }, [_vm._v("Cash")]),
                   _vm._v(" "),
                   _c("option", { attrs: { value: "bt" } }, [
-                    _vm._v("bank transfer")
+                    _vm._v("Bank Transfer")
                   ])
                 ]
               ),
@@ -58876,7 +58905,7 @@ var render = function() {
                   { staticClass: "form-group" },
                   [
                     _c("label", { attrs: { for: "inputName" } }, [
-                      _vm._v("description")
+                      _vm._v("Description")
                     ]),
                     _vm._v(" "),
                     _c("input", {
@@ -58894,7 +58923,7 @@ var render = function() {
                         type: "text",
                         name: "description",
                         id: "inputdescription",
-                        placeholder: "description"
+                        placeholder: "Description"
                       },
                       domProps: { value: _vm.description },
                       on: {
@@ -58949,7 +58978,7 @@ var render = function() {
                         type: "text",
                         name: "iban",
                         id: "inputiban",
-                        placeholder: "iban"
+                        placeholder: "IBAN"
                       },
                       domProps: { value: _vm.iban },
                       on: {
@@ -58970,8 +58999,16 @@ var render = function() {
                     _vm._v(" "),
                     _vm.$v.iban.$dirty
                       ? [
-                          !_vm.$v.email.required
+                          !_vm.$v.iban.required
                             ? _c("p", [_vm._v("Field required")])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          !_vm.$v.iban.minlength
+                            ? _c("p", [_vm._v("25 Digits")])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          !_vm.$v.iban.maxlength
+                            ? _c("p", [_vm._v("25 Digits")])
                             : _vm._e()
                         ]
                       : _vm._e()
@@ -58986,7 +59023,7 @@ var render = function() {
         _c(
           "a",
           {
-            staticClass: "btn btn-light",
+            staticClass: "btn btn-sm btn-primary",
             on: {
               click: function($event) {
                 $event.preventDefault()
@@ -59000,7 +59037,7 @@ var render = function() {
         _c(
           "a",
           {
-            staticClass: "btn btn-light",
+            staticClass: "btn btn-sm btn-primary",
             on: {
               click: function($event) {
                 $event.preventDefault()
@@ -59070,7 +59107,7 @@ var render = function() {
           { staticClass: "form-group" },
           [
             _c("label", { attrs: { for: "inputName" } }, [
-              _vm._v("description")
+              _vm._v("Description")
             ]),
             _vm._v(" "),
             _c("input", {
@@ -59088,7 +59125,7 @@ var render = function() {
                 type: "text",
                 name: "description",
                 id: "inputdescription",
-                placeholder: "description"
+                placeholder: "Description"
               },
               domProps: { value: _vm.description },
               on: {
@@ -59122,7 +59159,7 @@ var render = function() {
           "div",
           { staticClass: "form-group" },
           [
-            _c("label", { attrs: { for: "inputNif" } }, [_vm._v("Value")]),
+            _c("label", { attrs: { for: "inputValue" } }, [_vm._v("Value")]),
             _vm._v(" "),
             _c("input", {
               directives: [
@@ -59160,13 +59197,25 @@ var render = function() {
             _vm._v(" "),
             _vm.$v.value.$dirty
               ? [
-                  !_vm.$v.value.numeric
-                    ? _c("p", [_vm._v("Only numbers are allowed")])
+                  !_vm.$v.value.decimal
+                    ? _c("p", [
+                        _vm._v(
+                          "Only numbers are allowed (From 0,01 to 5000,00)"
+                        )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  !_vm.$v.value.between
+                    ? _c("p", [
+                        _vm._v(
+                          "Only numbers are allowed (From 0,01 to 5000,00)"
+                        )
+                      ])
                     : _vm._e()
                 ]
               : _vm._e(),
             _vm._v(" "),
-            _c("div", [
+            _c("div", { staticClass: "form-group" }, [
               _c("br"),
               _vm._v(" "),
               _c("br"),
@@ -59186,6 +59235,7 @@ var render = function() {
                       expression: "type"
                     }
                   ],
+                  staticClass: "form-control",
                   on: {
                     change: function($event) {
                       var $$selectedVal = Array.prototype.filter
@@ -59204,15 +59254,15 @@ var render = function() {
                 },
                 [
                   _c("option", { attrs: { value: "int" } }, [
-                    _vm._v("internal transfer")
+                    _vm._v("Internal Transfer")
                   ]),
                   _vm._v(" "),
                   _c("option", { attrs: { value: "bt" } }, [
-                    _vm._v("bank transfer")
+                    _vm._v("Bank Transfer")
                   ]),
                   _vm._v(" "),
                   _c("option", { attrs: { value: "mb" } }, [
-                    _vm._v("MB payment")
+                    _vm._v("MB Payment")
                   ])
                 ]
               ),
@@ -59228,7 +59278,7 @@ var render = function() {
                   { staticClass: "form-group" },
                   [
                     _c("label", { attrs: { for: "inputName" } }, [
-                      _vm._v("email")
+                      _vm._v("Email")
                     ]),
                     _vm._v(" "),
                     _c("input", {
@@ -59268,61 +59318,6 @@ var render = function() {
                     _vm.$v.email.$dirty
                       ? [
                           !_vm.$v.email.required
-                            ? _c("p", [_vm._v("Field name required")])
-                            : _vm._e()
-                        ]
-                      : _vm._e()
-                  ],
-                  2
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.type == "int"
-              ? _c(
-                  "div",
-                  { staticClass: "form-group" },
-                  [
-                    _c("label", { attrs: { for: "inputName" } }, [
-                      _vm._v("source description")
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model.trim",
-                          value: _vm.sourcedescription,
-                          expression: "sourcedescription",
-                          modifiers: { trim: true }
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: {
-                        type: "text",
-                        name: "sourcedescription",
-                        id: "inputsourcedescription",
-                        placeholder: "source description"
-                      },
-                      domProps: { value: _vm.sourcedescription },
-                      on: {
-                        change: function($event) {
-                          return _vm.$v.sourcedescription.$touch()
-                        },
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.sourcedescription = $event.target.value.trim()
-                        },
-                        blur: function($event) {
-                          return _vm.$forceUpdate()
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _vm.$v.sourcedescription.$dirty
-                      ? [
-                          !_vm.$v.sourcedescription.required
                             ? _c("p", [_vm._v("Field required")])
                             : _vm._e()
                         ]
@@ -59356,7 +59351,7 @@ var render = function() {
                         type: "text",
                         name: "iban",
                         id: "inputiban",
-                        placeholder: "iban"
+                        placeholder: "IBAN"
                       },
                       domProps: { value: _vm.iban },
                       on: {
@@ -59377,8 +59372,16 @@ var render = function() {
                     _vm._v(" "),
                     _vm.$v.iban.$dirty
                       ? [
-                          !_vm.$v.email.required
+                          !_vm.$v.iban.required
                             ? _c("p", [_vm._v("Field required")])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          !_vm.$v.iban.minlength
+                            ? _c("p", [_vm._v("25 Digits")])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          !_vm.$v.iban.maxlength
+                            ? _c("p", [_vm._v("25 Digits")])
                             : _vm._e()
                         ]
                       : _vm._e()
@@ -59411,7 +59414,7 @@ var render = function() {
                         type: "text",
                         name: "mbEnt",
                         id: "inputmbEnt",
-                        placeholder: "mbEnt"
+                        placeholder: "MB Entity"
                       },
                       domProps: { value: _vm.mbEnt },
                       on: {
@@ -59434,6 +59437,18 @@ var render = function() {
                       ? [
                           !_vm.$v.mbEnt.required
                             ? _c("p", [_vm._v("Field required")])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          !_vm.$v.mbEnt.numeric
+                            ? _c("p", [_vm._v("Numbers Only")])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          !_vm.$v.mbEnt.minlength
+                            ? _c("p", [_vm._v("5 Digits")])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          !_vm.$v.mbEnt.maxlength
+                            ? _c("p", [_vm._v("5 Digits")])
                             : _vm._e()
                         ]
                       : _vm._e()
@@ -59466,7 +59481,7 @@ var render = function() {
                         type: "text",
                         name: "mbRef",
                         id: "inputmbRef",
-                        placeholder: "mbRef"
+                        placeholder: "MB Reference"
                       },
                       domProps: { value: _vm.mbRef },
                       on: {
@@ -59488,7 +59503,19 @@ var render = function() {
                     _vm.$v.mbRef.$dirty
                       ? [
                           !_vm.$v.mbRef.required
-                            ? _c("p", [_vm._v("Field required")])
+                            ? _c("p", [_vm._v("Field Required")])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          !_vm.$v.mbRef.numeric
+                            ? _c("p", [_vm._v("Numbers Only")])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          !_vm.$v.mbRef.minlength
+                            ? _c("p", [_vm._v("9 Digits")])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          !_vm.$v.mbRef.maxlength
+                            ? _c("p", [_vm._v("9 Digits")])
                             : _vm._e()
                         ]
                       : _vm._e()
@@ -59503,7 +59530,7 @@ var render = function() {
         _c(
           "a",
           {
-            staticClass: "btn btn-light",
+            staticClass: "btn btn-sm btn-primary",
             on: {
               click: function($event) {
                 $event.preventDefault()
@@ -59517,7 +59544,7 @@ var render = function() {
         _c(
           "a",
           {
-            staticClass: "btn btn-light",
+            staticClass: "btn btn-sm btn-primary",
             on: {
               click: function($event) {
                 $event.preventDefault()
@@ -81195,7 +81222,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_wallets_wallet_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/wallets/wallet.vue */ "./resources/js/components/wallets/wallet.vue");
 /* harmony import */ var _components_users_register_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/users/register.vue */ "./resources/js/components/users/register.vue");
 /* harmony import */ var _components_operator_createcredit_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/operator/createcredit.vue */ "./resources/js/components/operator/createcredit.vue");
-/* harmony import */ var _components_users_createdebit_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/users/createdebit.vue */ "./resources/js/components/users/createdebit.vue");
+/* harmony import */ var _components_users_createdebit_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/users/createdebit.vue */ "./resources/js/components/users/createdebit.vue");
 /* harmony import */ var _components_nav_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/nav.vue */ "./resources/js/components/nav.vue");
 /* harmony import */ var _components_initial_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/initial.vue */ "./resources/js/components/initial.vue");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
@@ -81230,7 +81257,7 @@ var wallet = vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('wallet', _com
 var initial = vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('initial', _components_initial_vue__WEBPACK_IMPORTED_MODULE_15__["default"]);
 var register = vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('register', _components_users_register_vue__WEBPACK_IMPORTED_MODULE_11__["default"]);
 var createcredit = vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('createcredit', _components_operator_createcredit_vue__WEBPACK_IMPORTED_MODULE_12__["default"]);
-var createdebit = vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('createdebit', _components_users_createdebit_vue__WEBPACK_IMPORTED_MODULE_16__["default"]);
+var createdebit = vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('createdebit', _components_users_createdebit_vue__WEBPACK_IMPORTED_MODULE_13__["default"]);
 var navbar = vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('navbar', _components_nav_vue__WEBPACK_IMPORTED_MODULE_14__["default"]);
 var routes = [{
   path: '/',
@@ -81324,8 +81351,8 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/pedromagalhaes/Documents/Projeto_DAD/resources/js/vue.js */"./resources/js/vue.js");
-module.exports = __webpack_require__(/*! /Users/pedromagalhaes/Documents/Projeto_DAD/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\Projeto_DAD\resources\js\vue.js */"./resources/js/vue.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\Projeto_DAD\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

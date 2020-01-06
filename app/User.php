@@ -23,7 +23,7 @@ class User extends Authenticatable
         'type',
         'nif',
         'photo',
-        'created_at',
+        'created_at'
     ];
 
     /**
@@ -57,6 +57,7 @@ class User extends Authenticatable
     public function isPlatform(){
         return $this->type === "u";
     }
+    
     
 }
 
