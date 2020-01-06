@@ -16,9 +16,10 @@ class Wallet extends Resource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
             'email' => $this->email,
             'balance' => $this->balance,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

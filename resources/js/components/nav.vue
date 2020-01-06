@@ -29,6 +29,11 @@
           <!--<a class="nav-link disabled" href="#">Disabled</a> -->
         </li>
         <li class="nav-item">
+          <li v-if="this.$store.state.user && this.$store.state.user.type=='Platform User'" class="nav-item active"> 
+          <router-link class="nav-link" active-class="active" to="/wallet">Wallet</router-link>
+          <!--<a class="nav-link disabled" href="#">Disabled</a> -->
+        </li>
+        <li class="nav-item">
           <li v-if="this.$store.state.user" class="nav-item active"> 
           <router-link class="nav-link" active-class="active" to="/logout">Logout</router-link>
           <!--<a class="nav-link disabled" href="#">Disabled</a> -->

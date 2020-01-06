@@ -33,8 +33,24 @@ Route::middleware('auth:api')->post('logout','LoginControllerAPI@logout');
 Route::middleware('auth:api')->get('users/{id}', 'UserControllerAPI@myProfile');
 
 //WALLETS
-Route::get('wallets', 'WalletControllerAPI@index');
+Route::middleware('auth:api')->get('wallets', 'WalletControllerAPI@index');
 Route::get('numwallets', 'WalletControllerAPI@countWallets'); //num -> wallets
+Route::middleware('auth:api')->get('wallets/{id}', 'WalletControllerAPI@show');
+Route::middleware('auth:api')->patch('wallets/{id}', 'WalletControllerAPI@update');
+// A criação nunca é feita a partir de pedido do cliente, é a API que faz a gestão
+// Route::middleware('auth:api')->post('wallet', 'WalletControllerAPI@create');
+
+//MOVEMENTS
+Route::middleware('auth:api')->get('movement/{id}', 'MovementControllerAPI@show');
+Route::middleware('auth:api')->get('movements/{wallet_id}', 'MovementControllerAPI@getMovements');
+Route::middleware('auth:api')->put('movement/me/{id}', 'MovementControllerAPI@updateMovement');
+Route::middleware('auth:api')->get('categories/{type}', 'MovementControllerAPI@getCategories');
+
+//Graphics
+Route::middleware('auth:api')->get('graph/movements/totalMovements', 'MovementControllerAPI@totalMovements');
+Route::middleware('auth:api')->get('graph/movements/movementsExpense/{id}', 'MovementControllerAPI@movementsByExpense');
+Route::middleware('auth:api')->get('graph/movements/movementsIncome/{id}', 'MovementControllerAPI@movementsByIncome');
+Route::middleware('auth:api')->get('graph/movements/IncVSExp/{id}', 'MovementControllerAPI@movementsIncomeVSExpense');
 
 /*
 Caso prefiram usar Resource Routes para o user, podem implementar antes as rotas:
