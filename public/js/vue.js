@@ -1506,7 +1506,7 @@ module.exports = function spread(callback) {
 
 
 var bind = __webpack_require__(/*! ./helpers/bind */ "./node_modules/axios/lib/helpers/bind.js");
-var isBuffer = __webpack_require__(/*! is-buffer */ "./node_modules/axios/node_modules/is-buffer/index.js");
+var isBuffer = __webpack_require__(/*! is-buffer */ "./node_modules/is-buffer/index.js");
 
 /*global toString:true*/
 
@@ -1837,28 +1837,6 @@ module.exports = {
   extend: extend,
   trim: trim
 };
-
-
-/***/ }),
-
-/***/ "./node_modules/axios/node_modules/is-buffer/index.js":
-/*!************************************************************!*\
-  !*** ./node_modules/axios/node_modules/is-buffer/index.js ***!
-  \************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/*!
- * Determine if an object is a Buffer
- *
- * @author   Feross Aboukhadijeh <https://feross.org>
- * @license  MIT
- */
-
-module.exports = function isBuffer (obj) {
-  return obj != null && obj.constructor != null &&
-    typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
-}
 
 
 /***/ }),
@@ -20193,7 +20171,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\np[data-v-41680a59] {\r\n  color: red;\n}\r\n", ""]);
+exports.push([module.i, "\np[data-v-41680a59] {\n  color: red;\n}\n", ""]);
 
 // exports
 
@@ -20212,7 +20190,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\ntr.activerow[data-v-3138e63b] {\r\n  background: #123456 !important;\r\n  color: #fff !important;\n}\n.img-circle[data-v-3138e63b] {\r\n  border-radius: 50%;\n}\r\n", ""]);
+exports.push([module.i, "\ntr.activerow[data-v-3138e63b] {\n  background: #123456 !important;\n  color: #fff !important;\n}\n.img-circle[data-v-3138e63b] {\n  border-radius: 50%;\n}\n", ""]);
 
 // exports
 
@@ -20320,6 +20298,28 @@ function toComment(sourceMap) {
 	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
 
 	return '/*# ' + data + ' */';
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/is-buffer/index.js":
+/*!*****************************************!*\
+  !*** ./node_modules/is-buffer/index.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/*!
+ * Determine if an object is a Buffer
+ *
+ * @author   Feross Aboukhadijeh <https://feross.org>
+ * @license  MIT
+ */
+
+module.exports = function isBuffer (obj) {
+  return obj != null && obj.constructor != null &&
+    typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
 }
 
 
@@ -57933,7 +57933,7 @@ var render = function() {
               : _vm._e(),
             _vm._v(" "),
             _c("li", { staticClass: "nav-item" }),
-            this.$store.state.user && this.$store.state.user.type == "Admin"
+            this.$store.state.user
               ? _c(
                   "li",
                   { staticClass: "nav-item active" },
@@ -79671,8 +79671,8 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\Projeto_DAD\resources\js\vue.js */"./resources/js/vue.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\Projeto_DAD\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/pedromagalhaes/Documents/Projeto_DAD/resources/js/vue.js */"./resources/js/vue.js");
+module.exports = __webpack_require__(/*! /Users/pedromagalhaes/Documents/Projeto_DAD/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

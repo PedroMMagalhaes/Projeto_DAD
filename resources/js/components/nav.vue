@@ -18,7 +18,7 @@
           <router-link class="nav-link" active-class="active" to="/users">Users</router-link>
         </li>
         <li class="nav-item">
-          <li v-if="this.$store.state.user && this.$store.state.user.type=='Admin'" class="nav-item active"> 
+          <li v-if="this.$store.state.user" class="nav-item active"> 
           <router-link class="nav-link" active-class="active" to="/profile">Profile</router-link>
         </li>
         <li v-if="this.$store.state.user == null || this.$store.state.user.type=='Admin'" class="nav-item"> 
