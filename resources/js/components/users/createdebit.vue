@@ -85,6 +85,7 @@
             <p v-if="!$v.iban.required">Field required</p>
             <p v-if="!$v.iban.minlength">25 Digits</p>
             <p v-if="!$v.iban.maxlength">25 Digits</p>
+            <p v-if="!$v.iban.check">Field data incompatible</p>
           </template>
         </div>
 
@@ -145,6 +146,7 @@ import {
   text
 } from "vuelidate/lib/validators";
 import moment from "moment";
+const ibanregex = /^[A-Z]{2}(?:[ ]?[0-9]){18,20}$/g;
 
 export default {
   props: ["user"],
@@ -153,7 +155,11 @@ export default {
     value: { decimal, between: between(0.01, 5000) },
     decimal: [2, '.'], min_value: 0, max_value: 5000,
     description: {required},
-    iban: { required, minlength: minLength(25), maxlength: maxLength(25) },
+    iban: { required, minlength: minLength(25), maxlength: maxLength(25),check(iban){
+        return (
+        ibanregex.test(iban)
+        );
+      } },
     sourcedescription: {required},
     mbRef: { required, numeric, minlength: minLength(9), maxlength: maxLength(9) },
     mbEnt: { required, numeric, minlength: minLength(5), maxlength: maxLength(5) }
@@ -201,24 +207,22 @@ export default {
         formData.append("mbEnt", this.mbEnt);
         formData.append("mbRef", this.mbRef);
       }
-
-      axios
-        .post("api/movement/createdebit/" + this.$store.state.user.id, formData)
-        .then(response => {
-          //console.log(response.data.msg);
-          if (response.data.msg == "sucess") {
-            this.alerttype = "alert-success";
-            this.showSuccess = true;
-            this.Notification = "Movement Created";
-            //this.clear();
-          } else {
-            this.alerttype = "alert-danger";
-            this.showSuccess = true;
-            this.Notification = "Something gone wrong";
-            //this.clear();
-          }
-        });
-    }
+      
+      axios.post("api/movement/createdebit/"+this.$store.state.user.id,formData).then(response => {
+        if(response.data.msg == 'sucess'){
+          this.alerttype ="alert-success";
+          this.showSuccess = true;
+          this.Notification = "Movement Created"
+          this.$socket.emit("transfer",{value:this.value},{id: this.$store.state.user.id},{email:this.email});
+          this.clear();
+        }else{
+          this.alerttype ="alert-danger";
+          this.showSuccess = true;
+          this.Notification = "Something gone wrong"
+           this.clear();
+        }
+      });
+    },
   },
   mounted() {
     //this.createdAtDisplay();
