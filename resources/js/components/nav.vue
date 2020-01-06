@@ -18,8 +18,12 @@
           <router-link class="nav-link" active-class="active" to="/users">Users</router-link>
         </li>
         <li class="nav-item">
-          <li v-if="this.$store.state.user && this.$store.state.user.type=='Admin'" class="nav-item active"> 
+          <li v-if="this.$store.state.user" class="nav-item active"> 
           <router-link class="nav-link" active-class="active" to="/profile">Profile</router-link>
+        </li>
+        <li class="nav-item">
+          <li v-if="this.$store.state.user && this.$store.state.user.type=='Operator'" class="nav-item active"> 
+          <router-link class="nav-link" active-class="active" to="/createcredit">Create Credit Movement</router-link>
         </li>
         <li v-if="this.$store.state.user == null || this.$store.state.user.type=='Admin'" class="nav-item"> 
           <router-link class="nav-link" active-class="active" to="/register">Register</router-link>
@@ -32,6 +36,10 @@
           <li v-if="this.$store.state.user && this.$store.state.user.type=='Platform User'" class="nav-item active"> 
           <router-link class="nav-link" active-class="active" to="/wallet">Wallet</router-link>
           <!--<a class="nav-link disabled" href="#">Disabled</a> -->
+        </li>
+        <li class="nav-item">
+          <li v-if="this.$store.state.user && this.$store.state.user.type=='Platform User'" class="nav-item active"> 
+          <router-link class="nav-link" active-class="active" to="/createdebit">Create Debit Movement</router-link>
         </li>
         <li class="nav-item">
           <li v-if="this.$store.state.user" class="nav-item active"> 

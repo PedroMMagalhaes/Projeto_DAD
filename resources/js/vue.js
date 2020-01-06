@@ -20,6 +20,8 @@ import LoginComponent from './components/users/login.vue';
 import LogoutComponent from './components/users/logout.vue';
 import WalletComponent from './components/wallets/wallet.vue';
 import RegisterComponent from './components/users/register.vue';
+import createCredit from './components/operator/createcredit.vue';
+import createDebit from './components/users/createdebit.vue';
 import NavBarComponent from './components/nav.vue';
 
 //Pagina Inicial
@@ -35,6 +37,8 @@ const logout = Vue.component('logout', LogoutComponent);
 const wallet = Vue.component('wallet', WalletComponent);
 const initial = Vue.component('initial', InitialPageComponent);
 const register = Vue.component('register', RegisterComponent);
+const createcredit = Vue.component('createcredit', createCredit);
+const createdebit = Vue.component('createdebit', createDebit);
 const navbar = Vue.component('navbar', NavBarComponent);
 
 
@@ -47,6 +51,8 @@ const routes = [
   { path: '/wallet', component: wallet , name:'wallet'},
   { path: '/initialpage', component: initial, name: 'initialpage' },
   { path: '/register', component: register, name: 'register' },
+  { path: '/createcredit', component: createcredit, name: 'createcredit' },
+  { path: '/createdebit', component: createdebit, name: 'createdebit' },
 
 
 ];
