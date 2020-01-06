@@ -2098,6 +2098,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 
+var ibanregex = /^[A-Z]{2}(?:[ ]?[0-9]){18,20}$/g;
 /* harmony default export */ __webpack_exports__["default"] = ({
   validations: {
     email: {
@@ -2108,7 +2109,11 @@ __webpack_require__.r(__webpack_exports__);
       numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["numeric"]
     },
     description: {},
-    iban: {}
+    iban: {
+      check: function check(iban) {
+        return ibanregex.test(iban);
+      }
+    }
   },
   data: function data() {
     return {
@@ -2328,6 +2333,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 
+var ibanregex = /^[A-Z]{2}(?:[ ]?[0-9]){18,20}$/g;
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["user"],
   validations: {
@@ -2339,7 +2345,11 @@ __webpack_require__.r(__webpack_exports__);
       numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["numeric"]
     },
     description: {},
-    iban: {},
+    iban: {
+      check: function check(iban) {
+        return ibanregex.test(iban);
+      }
+    },
     sourcedescription: {},
     mbRef: {},
     mbEnt: {}
@@ -41455,8 +41465,8 @@ var render = function() {
                     _vm._v(" "),
                     _vm.$v.iban.$dirty
                       ? [
-                          !_vm.$v.email.required
-                            ? _c("p", [_vm._v("Field required")])
+                          !_vm.$v.iban.check
+                            ? _c("p", [_vm._v("Field data incompatible")])
                             : _vm._e()
                         ]
                       : _vm._e()
@@ -41862,8 +41872,8 @@ var render = function() {
                     _vm._v(" "),
                     _vm.$v.iban.$dirty
                       ? [
-                          !_vm.$v.email.required
-                            ? _c("p", [_vm._v("Field required")])
+                          !_vm.$v.iban.check
+                            ? _c("p", [_vm._v("Field data incompatible")])
                             : _vm._e()
                         ]
                       : _vm._e()
@@ -63624,7 +63634,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuelidate__WEBPACK_IMPORTED_MODUL
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(new vue_socket_io__WEBPACK_IMPORTED_MODULE_6___default.a({
   debug: true,
-  connection: "http://127.0.0.1:8080"
+  connection: "http://167.71.128.31:8080"
 }));
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_toasted__WEBPACK_IMPORTED_MODULE_7___default.a, {

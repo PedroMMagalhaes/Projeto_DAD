@@ -99,7 +99,7 @@
             placeholder="iban"
             />
           <template v-if="$v.iban.$dirty">
-            <p v-if="!$v.email.required">Field required</p>
+            <p v-if="!$v.iban.check">Field data incompatible</p>
           </template>
           </div>
 
@@ -152,12 +152,19 @@ import {
   text
 } from "vuelidate/lib/validators";
 import moment from "moment";
+const ibanregex = /^[A-Z]{2}(?:[ ]?[0-9]){18,20}$/g;
 
 export default { props: ["user"],validations: {
     email: { required, email },
     value: {  numeric },
     description: {  },
-    iban: {  },
+    iban: { 
+      check(iban){
+        return (
+        ibanregex.test(iban)
+        );
+      }
+     },
     sourcedescription:{},
     mbRef:{},
     mbEnt:{},
