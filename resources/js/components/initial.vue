@@ -12,7 +12,7 @@
       <h2>Total Wallets : {{ numWallets }}</h2>
       <br />
       <br />
-      <div class="form-group">
+      <div v-if="!this.$store.state.user" class="form-group">
         <a class="btn btn-primary" v-on:click.prevent="login">Login</a>
         <a class="btn btn-primary" v-on:click.prevent="register">Register</a>
       </div>
